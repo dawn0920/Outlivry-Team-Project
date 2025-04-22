@@ -1,8 +1,6 @@
 package org.example.outlivryteamproject.common;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -17,8 +15,11 @@ public class BaseEntity {
 
     @CreatedDate // 생성시 자동입력
     @Column(updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime creatTime;
 
     @LastModifiedDate
+    @Column
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime modifiedTime;
 }

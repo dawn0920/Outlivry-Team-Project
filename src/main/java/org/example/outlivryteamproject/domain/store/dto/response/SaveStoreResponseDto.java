@@ -7,7 +7,7 @@ import org.example.outlivryteamproject.domain.store.entity.Store;
 
 @Getter
 @RequiredArgsConstructor
-public class StoreResponseDto {
+public class SaveStoreResponseDto {
 
     private Long storeId;
     private User userId;
@@ -26,7 +26,7 @@ public class StoreResponseDto {
     private LocalDateTime modifiedTime;
     private boolean storeDeleted;
 
-    public StoreResponseDto(Store store) {
+    public SaveStoreResponseDto(Store store) {
         this.storeId = store.getStoreId();
         this.userId = store.getUserId();
         this.storeName = store.getStoreName();

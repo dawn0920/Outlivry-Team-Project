@@ -10,14 +10,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.example.outlivryteamproject.common.BaseEntity;
-import org.example.outlivryteamproject.domain.store.dto.request.StoreRequsetDto;
+import org.example.outlivryteamproject.domain.store.dto.request.SaveStoreRequsetDto;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Getter
 @Entity
 @Table(name = "stores")
+@NoArgsConstructor
 @SQLDelete(sql = "UPDATE users SET store_deleted = true WHERE id = ?") // delete 기능을 store_deleted = true 바꿈
 @Where(clause = "store_deleted = false") // store_deleted = false 만 entity로 전달함 -> store_deleted = true는 숨김
 public class Store extends BaseEntity {
@@ -64,7 +66,7 @@ public class Store extends BaseEntity {
     @Column(name = "closed_days")
     private String closedDays;
 
-    public Store(StoreRequsetDto requsetDto) {
+    public Store(SaveStoreRequsetDto requsetDto) {
         this.storeName = requsetDto.getStoreName();
         this.stroePictureUrl = requsetDto.getStroePictureUrl();
         this.phone = requsetDto.getPhone();

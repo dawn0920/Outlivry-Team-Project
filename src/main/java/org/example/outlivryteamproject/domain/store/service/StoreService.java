@@ -1,8 +1,12 @@
 package org.example.outlivryteamproject.domain.store.service;
 
-import org.example.outlivryteamproject.domain.store.dto.request.StoreRequsetDto;
-import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
+import org.example.outlivryteamproject.domain.store.dto.request.SaveStoreRequsetDto;
+import org.example.outlivryteamproject.domain.store.dto.response.SaveStoreResponseDto;
+import org.springframework.data.domain.Page;
 
 public interface StoreService {
-    StoreResponseDto save(StoreRequsetDto requsetDto);
+
+    SaveStoreResponseDto saveStore(SaveStoreRequsetDto requsetDto);
+
+    Page<SaveStoreResponseDto> getStoreList(int page, int size, String storeName);
 }

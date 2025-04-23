@@ -23,10 +23,12 @@ public class Cart extends BaseEntity {
     @Column(nullable = false)
     private Integer quantity = 1;
 
-    //유저 추가하기
+    @ManyToOne
+    @JoinColumn(name = "user_Id")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "menuId")
+    @JoinColumn(name = "menu_Id")
     private Menu menu;
 
     public Cart() {

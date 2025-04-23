@@ -1,5 +1,6 @@
 package org.example.outlivryteamproject.domain.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
@@ -23,7 +24,7 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<CreateReviewResponseDto> createReview(
             @PathVariable Long storeId,
-            @RequestBody CreateReviewRequestDto requestDto
+            @Valid @RequestBody CreateReviewRequestDto requestDto
     ) {
         CreateReviewResponseDto createdReview = reviewService.save(requestDto);
 
@@ -44,7 +45,7 @@ public class ReviewController {
     public ResponseEntity<Page<FindReviewResponseDto>> findByStars(
             @PathVariable Long storeId,
             @RequestParam(defaultValue = "1") int page,
-            @RequestBody FindByStarsRequestDto requestDto
+            @Valid @RequestBody FindByStarsRequestDto requestDto
     ) {
         Page<FindReviewResponseDto> reviews = reviewService.findByStars(page, requestDto);
 
@@ -55,7 +56,7 @@ public class ReviewController {
     public ResponseEntity<UpdateReviewResponseDto> updateReview(
             @PathVariable Long storeId,
             @PathVariable Long reviewId,
-            @RequestBody UpdateReviewRequestDto requestDto
+            @Valid @RequestBody UpdateReviewRequestDto requestDto
     ) {
         UpdateReviewResponseDto updatedReview = reviewService.update(reviewId, requestDto);
 

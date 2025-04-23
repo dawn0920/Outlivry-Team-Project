@@ -25,17 +25,4 @@ public class MenuRequestDto {
     @Min(1)
     @Max(2)
     private Integer status;
-
-    public MenuRequestDto(String menuName, Integer price, String image) {
-        this.menuName = menuName;
-        this.price = price;
-        this.image = image;
-    }
-
-    public MenuRequestDto(String menuName, Integer price, String image, Integer status) {
-        this.menuName = menuName;
-        this.price = price;
-        this.image = image;
-        this.status = status;
-    }
 }

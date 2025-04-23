@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    default Menu findMenuByIdOrElseThrow(Long id){
-        return findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "게시글을 찾을 수 없습니다."));
+    Optional<Menu> findByMenuIdAndStatusNot(Long id, Integer status);
+    default Menu findMenuByIdOrElseThrow(Long id) {
+        return findByMenuIdAndStatusNot(id, 0)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "메뉴를 찾을 수 없습니다."));
     }
 }

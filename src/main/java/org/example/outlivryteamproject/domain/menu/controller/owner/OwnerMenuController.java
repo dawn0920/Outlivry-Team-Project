@@ -8,8 +8,10 @@ import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseD
 import org.example.outlivryteamproject.domain.menu.service.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("owner/stores")
@@ -58,5 +60,4 @@ public class OwnerMenuController {
     // 메뉴 삭제
 
 
-    // 메뉴 상태 변경
 }

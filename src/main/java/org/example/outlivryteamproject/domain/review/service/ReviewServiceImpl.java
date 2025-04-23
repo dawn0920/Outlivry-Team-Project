@@ -9,6 +9,8 @@ import org.example.outlivryteamproject.domain.review.dto.responseDto.FindReviewR
 import org.example.outlivryteamproject.domain.review.dto.responseDto.UpdateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.entity.Review;
 import org.example.outlivryteamproject.domain.review.repository.ReviewRepository;
+import org.example.outlivryteamproject.domain.store.entity.Store;
+import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,34 +22,41 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final StoreRepository storeRepository;
 
     @Override
     @Transactional
-    public CreateReviewResponseDto save(CreateReviewRequestDto requestDto) {
+    public CreateReviewResponseDto save(Long storeId, CreateReviewRequestDto requestDto) {
 
-        Review review = new Review(requestDto);
+        Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
+
+        Review review = new Review(findedStore, requestDto);
         Review savedReview = reviewRepository.save(review);
 
         return new CreateReviewResponseDto(savedReview);
     }
 
     @Override
-    public Page<FindReviewResponseDto> findAll(int page) {
+    public Page<FindReviewResponseDto> findAll(Long storeId, int page) {
+
+        Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
 
         int adjustedPage = (page > 0) ? page - 1 : 0;
         PageRequest pageable = PageRequest.of(adjustedPage, 10, Sort.by("creatTime").descending());
-        Page<Review> reviews = reviewRepository.findAll(pageable);
+        Page<Review> reviews = reviewRepository.findByStore(findedStore, pageable);
 
         return reviews.map(FindReviewResponseDto::new);
     }
 
     @Override
-    public Page<FindReviewResponseDto> findByStars(int page, FindByStarsRequestDto requestDto) {
+    public Page<FindReviewResponseDto> findByStars(Long storeId, int page, FindByStarsRequestDto requestDto) {
+
+        Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
 
         int adjustPage = (page > 0) ? page - 1 : 0;
         PageRequest pageable = PageRequest.of(adjustPage, 10, Sort.by("creatTime").descending());
 
-        Page<Review> reviews = reviewRepository.findByStarsBetween(requestDto.getStart(), requestDto.getEnd(), pageable);
+        Page<Review> reviews = reviewRepository.findByStoreAndStarsBetween(findedStore, requestDto.getStart(), requestDto.getEnd(), pageable);
 
         return reviews.map(FindReviewResponseDto::new);
 

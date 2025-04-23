@@ -26,7 +26,7 @@ public class ReviewController {
             @PathVariable Long storeId,
             @Valid @RequestBody CreateReviewRequestDto requestDto
     ) {
-        CreateReviewResponseDto createdReview = reviewService.save(requestDto);
+        CreateReviewResponseDto createdReview = reviewService.save(storeId, requestDto);
 
         return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
     }
@@ -36,7 +36,7 @@ public class ReviewController {
             @PathVariable Long storeId,
             @RequestParam(defaultValue = "1") int page
     ) {
-        Page<FindReviewResponseDto> reviews = reviewService.findAll(page);
+        Page<FindReviewResponseDto> reviews = reviewService.findAll(storeId, page);
 
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
@@ -47,7 +47,7 @@ public class ReviewController {
             @RequestParam(defaultValue = "1") int page,
             @Valid @RequestBody FindByStarsRequestDto requestDto
     ) {
-        Page<FindReviewResponseDto> reviews = reviewService.findByStars(page, requestDto);
+        Page<FindReviewResponseDto> reviews = reviewService.findByStars(storeId, page, requestDto);
 
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }

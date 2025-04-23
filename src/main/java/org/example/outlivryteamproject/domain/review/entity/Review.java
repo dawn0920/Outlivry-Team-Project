@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
+import org.example.outlivryteamproject.domain.store.entity.Store;
 
 @Entity
 @Getter
@@ -21,11 +22,16 @@ public class Review extends BaseEntity {
     @Column(nullable = false)
     private Integer stars;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
     public Review() {
 
     }
 
-    public Review(CreateReviewRequestDto requestDto) {
+    public Review(Store store, CreateReviewRequestDto requestDto) {
+        this.store = store;
         this.contents = requestDto.getContents();
         this.stars = requestDto.getStars();
     }

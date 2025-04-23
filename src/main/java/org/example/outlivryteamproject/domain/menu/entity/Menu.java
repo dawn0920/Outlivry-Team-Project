@@ -7,11 +7,15 @@ import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "Menu")
 @Getter
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE menu SET status = 0 WHERE id = ?")
+@Where(clause = "status <> 0")
 public class Menu extends BaseEntity {
 
     @Id

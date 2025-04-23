@@ -76,7 +76,7 @@ public class MenuServiceImpl implements MenuService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        findMenuById.setStatus(0);
+        menuRepository.delete(findMenuById);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class MenuServiceImpl implements MenuService {
 
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
 
-        List<Menu> menus = menuRepository.findAllByStoreAndStatusNot(store, 0);
+        List<Menu> menus = menuRepository.findAllByStore(store);
 
         return menus.stream()
                 .map(MenuResponseDto::new)

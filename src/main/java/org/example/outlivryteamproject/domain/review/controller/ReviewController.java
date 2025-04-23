@@ -1,0 +1,40 @@
+package org.example.outlivryteamproject.domain.review.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
+import org.example.outlivryteamproject.domain.review.dto.responseDto.CreateReviewResponseDto;
+import org.example.outlivryteamproject.domain.review.dto.responseDto.FindResponseDto;
+import org.example.outlivryteamproject.domain.review.service.ReviewServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/store/{storeId}/reviews")
+@RequiredArgsConstructor
+public class ReviewController {
+
+    private final ReviewServiceImpl reviewService;
+
+    @PostMapping
+    public ResponseEntity<CreateReviewResponseDto> createReview(
+            @PathVariable Long storeId,
+            @RequestBody CreateReviewRequestDto requestDto) {
+
+        CreateReviewResponseDto createdReview = reviewService.save(requestDto);
+
+        return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<FindResponseDto>> findAll(
+            @PathVariable Long storeId,
+            @RequestParam(defaultValue = "1") int page) {
+
+        Page<FindResponseDto> reviews = reviewService.findAll(page);
+
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+}

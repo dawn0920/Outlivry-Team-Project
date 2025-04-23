@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class SaveStoreRequsetDto {
+public class StoreRequsetDto {
 
     @NotBlank
     private final String storeName; // 가게 이름

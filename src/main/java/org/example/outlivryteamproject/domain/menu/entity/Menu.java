@@ -32,7 +32,7 @@ public class Menu extends BaseEntity {
 
     @Setter
     @ManyToOne
-    @JoinColumn(name = "storeId")
+    @JoinColumn(name = "store_id")
     private Store store;
 
     public Menu(MenuRequestDto menuRequestDto) {

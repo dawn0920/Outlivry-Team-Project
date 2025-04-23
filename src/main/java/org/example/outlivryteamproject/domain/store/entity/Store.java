@@ -8,11 +8,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.outlivryteamproject.common.BaseEntity;
-import org.example.outlivryteamproject.domain.store.dto.request.SaveStoreRequsetDto;
+import org.example.outlivryteamproject.domain.menu.entity.Menu;
+import org.example.outlivryteamproject.domain.store.dto.request.StoreRequsetDto;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -31,7 +35,10 @@ public class Store extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    private User user;
+
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
+    private List<Menu> menuList = new ArrayList<>();
 
     @Column(name = "store_name", nullable = false, unique = true)
     private String storeName;
@@ -66,7 +73,7 @@ public class Store extends BaseEntity {
     @Column(name = "closed_days")
     private String closedDays;
 
-    public Store(SaveStoreRequsetDto requsetDto) {
+    public Store(StoreRequsetDto requsetDto) {
         this.storeName = requsetDto.getStoreName();
         this.stroePictureUrl = requsetDto.getStroePictureUrl();
         this.phone = requsetDto.getPhone();

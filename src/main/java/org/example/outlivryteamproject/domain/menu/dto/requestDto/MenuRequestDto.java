@@ -20,9 +20,18 @@ public class MenuRequestDto {
 
     private String image;
 
+    private Integer status;
+
     public MenuRequestDto(String menuName, Integer price, String image) {
         this.menuName = menuName;
         this.price = price;
         this.image = image;
+    }
+
+    public MenuRequestDto(String menuName, Integer price, String image, Integer status) {
+        this.menuName = menuName;
+        this.price = price;
+        this.image = image;
+        this.status = status;
     }
 }

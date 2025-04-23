@@ -33,6 +33,29 @@ public class MenuServiceImpl implements MenuService {
         return new MenuResponseDto(saveMenu);
     }
 
+    @Override
+    public MenuResponseDto modifiedMenu(MenuRequestDto menuRequestDto, Long menuId) {
+
+        Stores store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
+
+        Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
+
+        if(menuRequestDto.getMenuName() != null){
+            findMenuById.setMenuName(menuRequestDto.getMenuName());
+        }
+        if(menuRequestDto.getPrice() != null){
+            findMenuById.setPrice(menuRequestDto.getPrice());
+        }
+        if(menuRequestDto.getImage() != null){
+            findMenuById.setImage(menuRequestDto.getImage());
+        }
+        if(menuRequestDto.getStatus() != null){
+            findMenuById.setStatus(menuRequestDto.getStatus());
+        }
+
+        return new MenuResponseDto(findMenuById);
+    }
+
     // 주인인지 확인하는 함수
     private Stores matchesOwner(Long userId, Long storeId){
         Stores store = StoreRepository.findById(storeId);

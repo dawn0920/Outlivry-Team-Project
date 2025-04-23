@@ -5,4 +5,6 @@ import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseD
 
 public interface MenuService {
     MenuResponseDto createMenu(MenuRequestDto menuRequestDto);
+
+    MenuResponseDto modifiedMenu(MenuRequestDto menuRequestDto, Long menuId);
 }

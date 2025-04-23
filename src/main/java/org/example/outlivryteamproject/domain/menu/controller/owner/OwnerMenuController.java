@@ -37,6 +37,22 @@ public class OwnerMenuController {
 
 
     // 메뉴 수정
+    @PatchMapping("/{storeId}/menu/{menuId}")
+    public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(@PathVariable Long storeId, @PathVariable Long menuId, @RequestBody MenuRequestDto menuRequestDto){
+
+        // 로그인 정보 가져오기
+        Long userId = 55L;
+
+        // 로그인 정보, storeId 넣어서 createMenuRequestDto 구성
+        menuRequestDto.setStoreId(storeId);
+        menuRequestDto.setUserId(userId);
+
+        // createMenu 매서드 실행
+        MenuResponseDto menuResponseDto = menuService.modifiedMenu(menuRequestDto, menuId);
+
+
+        return new ResponseEntity<>(new ApiResponse<>("수정 완료", menuResponseDto), HttpStatus.OK);
+    }
 
 
     // 메뉴 삭제

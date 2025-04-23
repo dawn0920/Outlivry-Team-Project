@@ -17,12 +17,16 @@ public class Menu extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long menuId;
 
+    @Setter
     private String menuName;
 
+    @Setter
     private Integer price;
 
+    @Setter
     private String image;
 
+    @Setter
     private Integer status;
 
     @Setter

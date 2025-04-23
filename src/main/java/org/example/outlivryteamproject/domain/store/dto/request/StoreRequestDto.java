@@ -30,9 +30,5 @@ public class StoreRequestDto {
     @NotBlank
     private final Long deliveryTip; // 가게 배달료
 
-    private final String deliveryAddress; // 가게 배달지역
-
     private final String operationHours;  // 가게 운영시간
-
-    private final String closedDays; // 가게 휴무일
 }

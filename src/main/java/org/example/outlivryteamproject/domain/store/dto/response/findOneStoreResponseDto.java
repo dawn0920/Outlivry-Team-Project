@@ -23,9 +23,7 @@ public class findOneStoreResponseDto {
     private String category;
     private Long minDeliveryPrice;
     private Long deliveryTip;
-    private String deliveryAddress;
     private String operationHours;
-    private String closedDays;
     private LocalDateTime creatTime;
     private LocalDateTime modifiedTime;
     private boolean storeDeleted;
@@ -42,9 +40,7 @@ public class findOneStoreResponseDto {
         this.category = store.getCategory();
         this.minDeliveryPrice = store.getMinDeliveryPrice();
         this.deliveryTip = store.getDeliveryTip();
-        this.deliveryAddress = store.getDeliveryAddress();
         this.operationHours = store.getOperationHours();
-        this.closedDays = store.getClosedDays();
         this.creatTime = store.getCreatTime();
         this.modifiedTime = store.getModifiedTime();
         this.storeDeleted = store.storeDeleted();

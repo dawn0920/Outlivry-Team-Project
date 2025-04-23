@@ -66,14 +66,9 @@ public class Store extends BaseEntity {
     @Column(name = "delivery_tip", nullable = false)
     private Long deliveryTip;
 
-    @Column(name = "delivery_address")
-    private String deliveryAddress;
-
     @Column(name = "operation_hours")
     private String operationHours;
 
-    @Column(name = "closed_days")
-    private String closedDays;
 
     public Store(StoreRequestDto requsetDto) {
         this.storeName = requsetDto.getStoreName();
@@ -84,8 +79,6 @@ public class Store extends BaseEntity {
         this.category = requsetDto.getCategory();
         this.minDeliveryPrice = requsetDto.getMinDeliveryPrice();
         this.deliveryTip = requsetDto.getDeliveryTip();
-        this.deliveryAddress = requsetDto.getDeliveryAddress();
         this.operationHours = requsetDto.getOperationHours();
-        this.closedDays = requsetDto.getClosedDays();
     }
 }

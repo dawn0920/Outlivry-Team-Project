@@ -24,9 +24,6 @@ public class updateStoreRequestDto {
 
     private final Long newDeliveryTip; // 가게 배달료
 
-    private final String newDeliveryAddress; // 가게 배달지역
-
     private final String newOperationHours;  // 가게 운영시간
 
-    private final String newClosedDays; // 가게 휴무일
 }

@@ -7,11 +7,15 @@ import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "Menu")
 @Getter
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE menu SET status = 0 WHERE id = ?")
+@Where(clause = "status <> 0")
 public class Menu extends BaseEntity {
 
     @Id
@@ -25,7 +29,7 @@ public class Menu extends BaseEntity {
     private Integer price;
 
     @Setter
-    private String image;
+    private String imageUrl;
 
     @Setter
     private Integer status;
@@ -35,10 +39,10 @@ public class Menu extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    public Menu(MenuRequestDto menuRequestDto) {
+    public Menu(MenuRequestDto menuRequestDto, String imageUrl) {
         this.menuName = menuRequestDto.getMenuName();
         this.price = menuRequestDto.getPrice();
-        this.image = menuRequestDto.getImage();
+        this.imageUrl = imageUrl;
         if (menuRequestDto.getStatus() == null){
             this.status = 1;
         }else{

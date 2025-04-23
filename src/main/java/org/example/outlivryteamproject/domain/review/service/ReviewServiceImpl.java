@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
+    @Transactional
     public CreateReviewResponseDto save(CreateReviewRequestDto requestDto) {
 
         Review review = new Review(requestDto);
@@ -52,6 +54,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public UpdateReviewResponseDto update(Long reviewId, UpdateReviewRequestDto requestDto) {
 
         Review findedReview = reviewRepository.findByIdOrElseThrow(reviewId);
@@ -60,5 +63,12 @@ public class ReviewServiceImpl implements ReviewService {
         Review savedReview = reviewRepository.save(findedReview);
 
         return new UpdateReviewResponseDto(savedReview);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long reviewId) {
+        Review review = reviewRepository.findByIdOrElseThrow(reviewId);
+        reviewRepository.delete(review);
     }
 }

@@ -17,4 +17,6 @@ public interface ReviewService {
     Page<FindReviewResponseDto> findByStars(int page, FindByStarsRequestDto requestDto);
 
     UpdateReviewResponseDto update(Long reviewId, UpdateReviewRequestDto requestDto);
+
+    void delete(Long reviewId);
 }

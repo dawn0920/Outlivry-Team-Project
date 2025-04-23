@@ -19,7 +19,7 @@ public class UpdateReviewResponseDto {
     private final LocalDateTime modifiedTime;
 
     public UpdateReviewResponseDto(Review review) {
-        this.id = review.getId();
+        this.id = review.getReviewId();
         this.contents = review.getContents();
         this.stars = review.getStars();
         this.creatTime = review.getCreatTime();

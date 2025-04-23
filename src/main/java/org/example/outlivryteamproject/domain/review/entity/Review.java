@@ -9,12 +9,12 @@ import org.example.outlivryteamproject.domain.store.entity.Store;
 
 @Entity
 @Getter
-@Table(name = "reviews")
+@Table(name = "review")
 public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reviewId;
 
     @Column(nullable = false)
     private String contents;

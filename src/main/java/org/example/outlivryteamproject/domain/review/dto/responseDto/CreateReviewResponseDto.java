@@ -17,7 +17,7 @@ public class CreateReviewResponseDto {
     private final LocalDateTime creatTime;
 
     public CreateReviewResponseDto(Review review) {
-        this.id = review.getId();
+        this.id = review.getReviewId();
         this.contents = review.getContents();
         this.stars = review.getStars();
         this.creatTime = review.getCreatTime();

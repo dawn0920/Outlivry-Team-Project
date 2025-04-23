@@ -19,7 +19,7 @@ public class FindReviewResponseDto {
     private final LocalDateTime modifiedTime;
 
     public FindReviewResponseDto(Review review) {
-        this.id = review.getId();
+        this.id = review.getReviewId();
         this.contents = review.getContents();
         this.stars = review.getStars();
         this.creatTime = review.getCreatTime();

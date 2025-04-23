@@ -66,7 +66,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public UpdateReviewResponseDto update(Long reviewId, UpdateReviewRequestDto requestDto) {
 
-        Review findedReview = reviewRepository.findByIdOrElseThrow(reviewId);
+        Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
         findedReview.update(requestDto);
 
         Review savedReview = reviewRepository.save(findedReview);
@@ -77,7 +77,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void delete(Long reviewId) {
-        Review review = reviewRepository.findByIdOrElseThrow(reviewId);
+        Review review = reviewRepository.findByReviewIdOrElseThrow(reviewId);
         reviewRepository.delete(review);
     }
 }

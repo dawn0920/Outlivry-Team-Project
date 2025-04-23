@@ -76,6 +76,14 @@ public class MenuServiceImpl implements MenuService {
         return null;
     }
 
+    @Override
+    public MenuResponseDto findMenuById(Long menuId) {
+
+        Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
+
+        return new MenuResponseDto(findMenuById);
+    }
+
     // 주인인지 확인하는 함수
     private Stores matchesOwner(Long userId, Long storeId){
         Stores store = StoreRepository.findById(storeId);

@@ -2,8 +2,9 @@ package org.example.outlivryteamproject.domain.review.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
+import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.CreateReviewResponseDto;
-import org.example.outlivryteamproject.domain.review.dto.responseDto.FindResponseDto;
+import org.example.outlivryteamproject.domain.review.dto.responseDto.FindReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.service.ReviewServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -20,21 +21,31 @@ public class ReviewController {
     @PostMapping
     public ResponseEntity<CreateReviewResponseDto> createReview(
             @PathVariable Long storeId,
-            @RequestBody CreateReviewRequestDto requestDto) {
-
+            @RequestBody CreateReviewRequestDto requestDto
+    ) {
         CreateReviewResponseDto createdReview = reviewService.save(requestDto);
 
         return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<Page<FindResponseDto>> findAll(
+    public ResponseEntity<Page<FindReviewResponseDto>> findAll(
             @PathVariable Long storeId,
-            @RequestParam(defaultValue = "1") int page) {
-
-        Page<FindResponseDto> reviews = reviewService.findAll(page);
+            @RequestParam(defaultValue = "1") int page
+    ) {
+        Page<FindReviewResponseDto> reviews = reviewService.findAll(page);
 
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
+    @GetMapping("/stars")
+    public ResponseEntity<Page<FindReviewResponseDto>> findByStars(
+            @PathVariable Long storeId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestBody FindByStarsRequestDto requestDto
+    ) {
+        Page<FindReviewResponseDto> reviews = reviewService.findByStars(page, requestDto);
+
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
 }

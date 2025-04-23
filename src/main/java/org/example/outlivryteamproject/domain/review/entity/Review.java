@@ -31,8 +31,21 @@ public class Review extends BaseEntity {
     }
 
     public void update(UpdateReviewRequestDto requestDto) {
-        this.contents = requestDto.getContents();
-        this.stars = requestDto.getStars();
+        if (requestDto.getContents() == null && requestDto.getStars() == null) {
+            throw new NullPointerException("내용과 별점 중 최소 하나는 수정해야합니다.");
+        }
+
+        if (requestDto.getContents().isBlank()) {
+            throw new IllegalArgumentException("내용을 입력해주세요.");
+        }
+
+        if (requestDto.getContents() != null && !requestDto.getContents().isBlank()) {
+            this.contents = requestDto.getContents();
+        }
+
+        if (requestDto.getStars() != null) {
+            this.stars = requestDto.getStars();
+        }
     }
 }
 

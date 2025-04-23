@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
+import org.example.outlivryteamproject.domain.store.entity.Store;
 
 @Entity
 @Table(name = "Menu")

@@ -5,6 +5,8 @@ import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.menu.repository.MenuRepository;
+import org.example.outlivryteamproject.domain.store.entity.Store;
+import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,7 +90,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuResponseDto> findAllMenusByStore(Long storeId) {
 
-        Store store = StoreRepository.findByStoreIdOrElseThrow(storeId);
+        Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
 
         List<Menu> menus = menuRepository.findAllByStoreAndStatusNot(store, 0);
 
@@ -99,9 +101,9 @@ public class MenuServiceImpl implements MenuService {
 
     // 주인인지 확인하는 함수
     private Store matchesOwner(Long userId, Long storeId){
-        Store store = StoreRepository.findByStoreIdOrElseThrow(storeId);
+        Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
 
-        Long storeOwnerId = store.getUser().getUserId();
+        Long storeOwnerId = store.getUserId().getUserId();
 
         if(!storeOwnerId.equals(userId)){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);

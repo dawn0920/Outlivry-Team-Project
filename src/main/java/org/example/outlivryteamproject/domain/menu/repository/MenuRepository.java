@@ -1,6 +1,7 @@
 package org.example.outlivryteamproject.domain.menu.repository;
 
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
+import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

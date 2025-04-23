@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @AllArgsConstructor
@@ -20,7 +21,7 @@ public class MenuRequestDto {
 
     private Integer price;
 
-    private String image;
+    private MultipartFile image;
 
     @Min(1)
     @Max(2)

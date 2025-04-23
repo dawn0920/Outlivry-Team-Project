@@ -29,7 +29,7 @@ public class Menu extends BaseEntity {
     private Integer price;
 
     @Setter
-    private String image;
+    private String imageUrl;
 
     @Setter
     private Integer status;
@@ -39,10 +39,10 @@ public class Menu extends BaseEntity {
     @JoinColumn(name = "storeId")
     private Store store;
 
-    public Menu(MenuRequestDto menuRequestDto) {
+    public Menu(MenuRequestDto menuRequestDto, String imageUrl) {
         this.menuName = menuRequestDto.getMenuName();
         this.price = menuRequestDto.getPrice();
-        this.image = menuRequestDto.getImage();
+        this.imageUrl = imageUrl;
         if (menuRequestDto.getStatus() == null){
             this.status = 1;
         }else{

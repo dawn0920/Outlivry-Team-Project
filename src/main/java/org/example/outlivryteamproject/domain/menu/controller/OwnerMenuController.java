@@ -1,4 +1,4 @@
-package org.example.outlivryteamproject.domain.menu.controller.owner;
+package org.example.outlivryteamproject.domain.menu.controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -58,6 +58,15 @@ public class OwnerMenuController {
 
 
     // 메뉴 삭제
+    @DeleteMapping("/{storeId}/menu/{menuId}")
+    public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(@PathVariable Long storeId, @PathVariable Long menuId){
 
+        // 로그인 정보 가져오기
+        Long userId = 55L;
 
+        // createMenu 매서드 실행
+        MenuResponseDto menuResponseDto = menuService.deleteMenu(userId, storeId, menuId);
+
+        return new ResponseEntity<>(new ApiResponse<>("삭제 완료", menuResponseDto), HttpStatus.OK);
+    }
 }

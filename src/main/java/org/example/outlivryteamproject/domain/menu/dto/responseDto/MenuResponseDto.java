@@ -15,7 +15,7 @@ public class MenuResponseDto {
 
     private Integer price;
 
-    private String image;
+    private String imageUrl;
 
     private LocalDateTime createdDate;
 
@@ -28,7 +28,7 @@ public class MenuResponseDto {
         this.storeId = menu.getStore().getStoreId();
         this.menuName = menu.getMenuName();
         this.price = menu.getPrice();
-        this.image = menu.getImage();
+        this.imageUrl = menu.getImageUrl();
         this.createdDate = menu.getCreatTime();
         this.modifiedDate = menu.getModifiedTime();
         this.status = menu.getStatus();

@@ -1,13 +1,17 @@
 package org.example.outlivryteamproject.domain.store.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
+import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 
 @Getter
 @RequiredArgsConstructor
-public class StoreResponseDto {
+public class findOneStoreResponseDto {
 
     private Long storeId;
     private User userId;
@@ -23,8 +27,9 @@ public class StoreResponseDto {
     private LocalDateTime creatTime;
     private LocalDateTime modifiedTime;
     private boolean storeDeleted;
+    private List<MenuResponseDto> menuList;
 
-    public StoreResponseDto(Store store) {
+    public findOneStoreResponseDto(Store store) {
         this.storeId = store.getStoreId();
         this.userId = store.getUserId();
         this.storeName = store.getStoreName();
@@ -39,5 +44,6 @@ public class StoreResponseDto {
         this.creatTime = store.getCreatTime();
         this.modifiedTime = store.getModifiedTime();
         this.storeDeleted = store.storeDeleted();
+        this.menuList = store.getMenuList().stream().map(MenuResponseDto::new).collect(Collectors.toList());
     }
 }

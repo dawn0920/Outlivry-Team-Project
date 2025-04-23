@@ -1,5 +1,8 @@
 package org.example.outlivryteamproject.domain.menu.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
@@ -10,9 +13,12 @@ import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +29,10 @@ public class MenuServiceImpl implements MenuService {
 
     private final StoreRepository storeRepository;
 
+    private final AmazonS3 amazonS3Client;
+
+    private final String bucketName = "janghwal-image-bucket-1";
+
 
     @Override
     @Transactional
@@ -30,7 +40,9 @@ public class MenuServiceImpl implements MenuService {
 
         Store store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
 
-        Menu menu = new Menu(menuRequestDto);
+        String imageUrl = uploadImage(menuRequestDto.getImage());
+
+        Menu menu = new Menu(menuRequestDto, imageUrl);
         menu.setStore(store);
 
         Menu saveMenu = menuRepository.save(menu);
@@ -56,7 +68,8 @@ public class MenuServiceImpl implements MenuService {
             findMenuById.setPrice(menuRequestDto.getPrice());
         }
         if(menuRequestDto.getImage() != null){
-            findMenuById.setImage(menuRequestDto.getImage());
+            String imageUrl = uploadImage(menuRequestDto.getImage());
+            findMenuById.setImageUrl(imageUrl);
         }
         if(menuRequestDto.getStatus() != null){
             findMenuById.setStatus(menuRequestDto.getStatus());
@@ -76,7 +89,7 @@ public class MenuServiceImpl implements MenuService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
 
-        findMenuById.setStatus(0);
+        menuRepository.delete(findMenuById);
     }
 
     @Override
@@ -92,7 +105,7 @@ public class MenuServiceImpl implements MenuService {
 
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
 
-        List<Menu> menus = menuRepository.findAllByStoreAndStatusNot(store, 0);
+        List<Menu> menus = menuRepository.findAllByStore(store);
 
         return menus.stream()
                 .map(MenuResponseDto::new)
@@ -112,4 +125,24 @@ public class MenuServiceImpl implements MenuService {
         return store;
     }
 
+    public String uploadImage(MultipartFile file) {
+        try {
+            // S3에 업로드할 파일 이름 생성 (예: UUID와 시간정보로 중복 방지)
+            String fileName = UUID.randomUUID() + "-" + System.currentTimeMillis() + "-" + file.getOriginalFilename();
+
+            // S3 업로드 설정
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+
+            // S3에 파일 업로드
+            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata));
+
+            // S3에서 파일의 URL을 반환 (버킷 + 파일 이름)
+            return amazonS3Client.getUrl(bucketName, fileName).toString();
+
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.", e);
+        }
+    }
 }

@@ -1,15 +1,20 @@
 package org.example.outlivryteamproject.domain.store.service;
 
-import org.example.outlivryteamproject.domain.store.dto.request.StoreRequsetDto;
+import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
+import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.dto.response.findOneStoreResponseDto;
 import org.springframework.data.domain.Page;
 
 public interface StoreService {
 
-    StoreResponseDto saveStore(StoreRequsetDto requsetDto);
+    StoreResponseDto saveStore(StoreRequestDto requsetDto);
 
-    Page<StoreResponseDto> getStoreList(int page, int size, String storeName);
+    Page<StoreResponseDto> findStoreList(int page, int size, String storeName);
 
-    findOneStoreResponseDto getOneStore(Long storeId);
+    findOneStoreResponseDto findOneStore(Long storeId);
+
+    StoreResponseDto updateStore(Long storeId, updateStoreRequestDto requsetDto);
+
+    void deleteStore(Long storeId);
 }

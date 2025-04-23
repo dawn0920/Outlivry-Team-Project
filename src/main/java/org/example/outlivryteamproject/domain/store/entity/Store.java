@@ -14,12 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
-import org.example.outlivryteamproject.domain.store.dto.request.StoreRequsetDto;
+import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "stores")
@@ -73,7 +75,7 @@ public class Store extends BaseEntity {
     @Column(name = "closed_days")
     private String closedDays;
 
-    public Store(StoreRequsetDto requsetDto) {
+    public Store(StoreRequestDto requsetDto) {
         this.storeName = requsetDto.getStoreName();
         this.stroePictureUrl = requsetDto.getStroePictureUrl();
         this.phone = requsetDto.getPhone();

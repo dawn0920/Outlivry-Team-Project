@@ -2,14 +2,17 @@ package org.example.outlivryteamproject.domain.store.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.outlivryteamproject.domain.store.dto.request.StoreRequsetDto;
+import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
+import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.dto.response.findOneStoreResponseDto;
 import org.example.outlivryteamproject.domain.store.service.StoreService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +27,7 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    /**
+    /**  사장님만 생성 할 수 있도록 수정 필요
      * 가게 생성 메소드
      *
      * @param requsetDto 가게 생성 요청 정보를 담은 StoreRequsetDto 객체
@@ -32,9 +35,9 @@ public class StoreController {
      */
     @PostMapping
     public ResponseEntity<StoreResponseDto> saveStore (
-        @RequestBody @Valid StoreRequsetDto requsetDto
+        @RequestBody @Valid StoreRequestDto requsetDto
     ){
-        return new ResponseEntity<>(storeService.saveStore(requsetDto), HttpStatus.OK);
+        return new ResponseEntity<>(storeService.saveStore(requsetDto), HttpStatus.CREATED);
     }
 
     /**
@@ -51,7 +54,7 @@ public class StoreController {
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(required = false) String storeName
     ) {
-        return new ResponseEntity<>(storeService.getStoreList(page,size,storeName),HttpStatus.OK);
+        return new ResponseEntity<>(storeService.findStoreList(page,size,storeName),HttpStatus.OK);
     }
 
     /**
@@ -62,6 +65,33 @@ public class StoreController {
      */
     @GetMapping("/{storeId}")
     public ResponseEntity<findOneStoreResponseDto> findOneStore(@PathVariable Long storeId) {
-        return new ResponseEntity<>(storeService.getOneStore(storeId),HttpStatus.OK);
+        return new ResponseEntity<>(storeService.findOneStore(storeId),HttpStatus.OK);
+    }
+
+    /**  추후 사장님 본인만 가능하도록 수정 필요 + 비밀번호 요구
+     * 가게 수정 메소드
+     *
+     * @param storeId 가게 id를 조회
+     * @param requsetDto 새로운 가게 정보 담은 updateStoreRequestDto 객체 - null 값 허용
+     * @return 바뀐 가게 정보가 담겨 있는 StoreResponseDto 객체 - null 값으로 들어온 정보는 수정 x
+     */
+    @PatchMapping("/{storeId}")
+    public ResponseEntity<StoreResponseDto> updateStore (
+        @PathVariable Long storeId,
+        @RequestBody @Valid updateStoreRequestDto requsetDto
+    ) {
+        return new ResponseEntity<>(storeService.updateStore(storeId, requsetDto),HttpStatus.OK);
+    }
+
+    /** 사장님 본인만 삭제 가능하도록 수정 필요 + 비밀번호 요구
+     * 가게 삭제 메소드 - soft delete 사용
+     *
+     * @param storeId 가게 id를 조회
+     * @return 없음 - 상태만 표시
+     */
+    @DeleteMapping("/{storeId}")
+    public ResponseEntity<Void> deleteStore (@PathVariable Long storeId) {
+        storeService.deleteStore(storeId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

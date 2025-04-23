@@ -50,5 +50,4 @@ public class findOneStoreResponseDto {
         this.storeDeleted = store.storeDeleted();
         this.menuList = store.getMenuList().stream().map(MenuResponseDto::new).collect(Collectors.toList());
     }
-
 }

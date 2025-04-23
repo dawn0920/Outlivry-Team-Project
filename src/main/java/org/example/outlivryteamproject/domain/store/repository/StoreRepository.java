@@ -15,14 +15,21 @@ import org.springframework.web.server.ResponseStatusException;
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
+    // 가게 이름으로 조회
     @EntityGraph(attributePaths = "menuList")
     Page<Store> findByStoreNameContaining(String storeName, Pageable pageable);
 
-    @Query("SELECT s FROM Store s LEFT JOIN FETCH s.menuList WHERE s.storeId = :id")
-    Optional<Store> findByStoreIdwithMenu(@Param("id") Long StoreId);
-
+    // 가게 조회
     default Store findByStoreIdOrElseThrow(Long StoreId) {
-        return findByStoreIdwithMenu(StoreId).orElseThrow(
+        return findById(StoreId).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    @Query("SELECT s FROM Store s LEFT JOIN FETCH s.menuList WHERE s.storeId = :id")
+    Optional<Store> findByStoreIdWithMenuList(@Param("id") Long StoreId);
+
+    default Store findByStoreIdWithMenuListOrElseThrow(Long StoreId) {
+        return findByStoreIdWithMenuList(StoreId).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 }

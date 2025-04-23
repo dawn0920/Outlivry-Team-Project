@@ -7,7 +7,6 @@ import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.service.StoreOwnerService;
-import org.example.outlivryteamproject.domain.store.service.StoreService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

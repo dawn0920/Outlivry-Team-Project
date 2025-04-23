@@ -65,8 +65,8 @@ public class OwnerMenuController {
         Long userId = 55L;
 
         // createMenu 매서드 실행
-        MenuResponseDto menuResponseDto = menuService.deleteMenu(userId, storeId, menuId);
+        menuService.deleteMenu(userId, storeId, menuId);
 
-        return new ResponseEntity<>(new ApiResponse<>("삭제 완료", menuResponseDto), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("삭제 완료"), HttpStatus.OK);
     }
 }

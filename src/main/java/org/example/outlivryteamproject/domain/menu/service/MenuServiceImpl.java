@@ -23,7 +23,7 @@ public class MenuServiceImpl implements MenuService {
     @Transactional
     public MenuResponseDto createMenu(MenuRequestDto menuRequestDto) {
 
-        Stores store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
+        Store store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
 
         Menu menu = new Menu(menuRequestDto);
         menu.setStore(store);
@@ -36,7 +36,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public MenuResponseDto modifiedMenu(MenuRequestDto menuRequestDto, Long menuId) {
 
-        Stores store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
+        Store store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
 
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
@@ -61,9 +61,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto deleteMenu(Long userId, Long storeId, Long menuId) {
+    public void deleteMenu(Long userId, Long storeId, Long menuId) {
 
-        Stores store = matchesOwner(userId, storeId);
+        Store store = matchesOwner(userId, storeId);
 
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
@@ -72,8 +72,6 @@ public class MenuServiceImpl implements MenuService {
         }
 
         findMenuById.setStatus(0);
-
-        return null;
     }
 
     @Override
@@ -85,8 +83,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     // 주인인지 확인하는 함수
-    private Stores matchesOwner(Long userId, Long storeId){
-        Stores store = StoreRepository.findById(storeId);
+    private Store matchesOwner(Long userId, Long storeId){
+        Store store = StoreRepository.findByStoreIdOrElseThrow(storeId);
 
         Long storeOwnerId = store.getUser().getUserId();
 

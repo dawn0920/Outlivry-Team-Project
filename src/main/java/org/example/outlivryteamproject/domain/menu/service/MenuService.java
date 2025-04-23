@@ -8,7 +8,7 @@ public interface MenuService {
 
     MenuResponseDto modifiedMenu(MenuRequestDto menuRequestDto, Long menuId);
 
-    MenuResponseDto deleteMenu(Long userId, Long storeId, Long menuId);
+    void deleteMenu(Long userId, Long storeId, Long menuId);
 
     MenuResponseDto findMenuById(Long menuId);
 }

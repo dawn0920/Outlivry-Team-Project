@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
+import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 
 @Entity
 @Getter
@@ -28,4 +29,10 @@ public class Review extends BaseEntity {
         this.contents = requestDto.getContents();
         this.stars = requestDto.getStars();
     }
+
+    public void update(UpdateReviewRequestDto requestDto) {
+        this.contents = requestDto.getContents();
+        this.stars = requestDto.getStars();
+    }
 }
+

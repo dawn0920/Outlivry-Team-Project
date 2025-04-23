@@ -6,7 +6,7 @@ import org.example.outlivryteamproject.domain.review.entity.Review;
 import java.time.LocalDateTime;
 
 @Getter
-public class FindReviewResponseDto {
+public class UpdateReviewResponseDto {
 
     private final Long id;
 
@@ -18,7 +18,7 @@ public class FindReviewResponseDto {
 
     private final LocalDateTime modifiedTime;
 
-    public FindReviewResponseDto(Review review) {
+    public UpdateReviewResponseDto(Review review) {
         this.id = review.getId();
         this.contents = review.getContents();
         this.stars = review.getStars();

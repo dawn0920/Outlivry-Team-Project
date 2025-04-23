@@ -3,8 +3,10 @@ package org.example.outlivryteamproject.domain.review.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
+import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.CreateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.FindReviewResponseDto;
+import org.example.outlivryteamproject.domain.review.dto.responseDto.UpdateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.service.ReviewServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -47,5 +49,16 @@ public class ReviewController {
         Page<FindReviewResponseDto> reviews = reviewService.findByStars(page, requestDto);
 
         return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{reviewId}")
+    public ResponseEntity<UpdateReviewResponseDto> updateReview(
+            @PathVariable Long storeId,
+            @PathVariable Long reviewId,
+            @RequestBody UpdateReviewRequestDto requestDto
+    ) {
+        UpdateReviewResponseDto updatedReview = reviewService.update(reviewId, requestDto);
+
+        return new ResponseEntity<>(updatedReview, HttpStatus.OK);
     }
 }

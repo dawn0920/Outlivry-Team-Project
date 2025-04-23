@@ -3,8 +3,10 @@ package org.example.outlivryteamproject.domain.review.service;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
+import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.CreateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.FindReviewResponseDto;
+import org.example.outlivryteamproject.domain.review.dto.responseDto.UpdateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.entity.Review;
 import org.example.outlivryteamproject.domain.review.repository.ReviewRepository;
 import org.springframework.data.domain.Page;
@@ -47,5 +49,16 @@ public class ReviewServiceImpl implements ReviewService {
 
         return reviews.map(FindReviewResponseDto::new);
 
+    }
+
+    @Override
+    public UpdateReviewResponseDto update(Long reviewId, UpdateReviewRequestDto requestDto) {
+
+        Review findedReview = reviewRepository.findByIdOrElseThrow(reviewId);
+        findedReview.update(requestDto);
+
+        Review savedReview = reviewRepository.save(findedReview);
+
+        return new UpdateReviewResponseDto(savedReview);
     }
 }

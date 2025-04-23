@@ -40,6 +40,10 @@ public class MenuServiceImpl implements MenuService {
 
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
+        if(store != findMenuById.getStore()){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+        }
+
         if(menuRequestDto.getMenuName() != null){
             findMenuById.setMenuName(menuRequestDto.getMenuName());
         }

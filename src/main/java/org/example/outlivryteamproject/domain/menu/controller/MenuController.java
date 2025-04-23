@@ -12,16 +12,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/stores/menu")
+@RequestMapping("/stores")
 public class MenuController {
 
     private final MenuService menuService;
 
     // 메뉴 단건 조회
-    @GetMapping("/{menuId}")
+    @GetMapping("/menu/{menuId}")
     public ResponseEntity<ApiResponse<MenuResponseDto>> findMenuById(@PathVariable Long menuId){
 
         MenuResponseDto findMenuById = menuService.findMenuById(menuId);
@@ -30,4 +32,12 @@ public class MenuController {
     }
 
     // 메뉴 가게별 조회
+    @GetMapping("/{storeId}/menu")
+    public ResponseEntity<ApiResponse<List<MenuResponseDto>>> findAllMenusByStore(Long storeId){
+
+        List<MenuResponseDto> findMenuList = menuService.findAllMenusByStore(storeId);
+
+        return new ResponseEntity<>( new ApiResponse<>("조회 성공", findMenuList), HttpStatus.OK);
+
+    }
 }

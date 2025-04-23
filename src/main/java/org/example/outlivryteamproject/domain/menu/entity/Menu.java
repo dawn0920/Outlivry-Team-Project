@@ -38,6 +38,10 @@ public class Menu extends BaseEntity {
         this.menuName = menuRequestDto.getMenuName();
         this.price = menuRequestDto.getPrice();
         this.image = menuRequestDto.getImage();
-        this.status = 1;
+        if (menuRequestDto.getStatus() == null){
+            this.status = 1;
+        }else{
+            this.status = menuRequestDto.getStatus();
+        }
     }
 }

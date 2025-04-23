@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MenuServiceImpl implements MenuService {
@@ -80,6 +83,18 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         return new MenuResponseDto(findMenuById);
+    }
+
+    @Override
+    public List<MenuResponseDto> findAllMenusByStore(Long storeId) {
+
+        Store store = StoreRepository.findByStoreIdOrElseThrow(storeId);
+
+        List<Menu> menus = menuRepository.findAllByStoreAndStatusNot(store, 0);
+
+        return menus.stream()
+                .map(MenuResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     // 주인인지 확인하는 함수

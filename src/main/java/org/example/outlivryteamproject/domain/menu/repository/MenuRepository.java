@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
+    List<Menu> findAllByStoreAndStatusNot(Store store, Integer status);
     Optional<Menu> findByMenuIdAndStatusNot(Long id, Integer status);
     default Menu findMenuByIdOrElseThrow(Long id) {
         return findByMenuIdAndStatusNot(id, 0)

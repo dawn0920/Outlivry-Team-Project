@@ -3,6 +3,8 @@ package org.example.outlivryteamproject.domain.menu.service;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 
+import java.util.List;
+
 public interface MenuService {
     MenuResponseDto createMenu(MenuRequestDto menuRequestDto);
 
@@ -11,4 +13,6 @@ public interface MenuService {
     void deleteMenu(Long userId, Long storeId, Long menuId);
 
     MenuResponseDto findMenuById(Long menuId);
+
+    List<MenuResponseDto> findAllMenusByStore(Long storeId);
 }

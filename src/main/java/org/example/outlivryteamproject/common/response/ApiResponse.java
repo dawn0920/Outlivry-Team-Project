@@ -1,7 +1,11 @@
 package org.example.outlivryteamproject.common.response;
 
+import lombok.Getter;
+
+@Getter
 public class ApiResponse<T> {
     private String message;
+
     private T contents;
 
     public ApiResponse(String message, T contents) {
@@ -11,13 +15,5 @@ public class ApiResponse<T> {
 
     public ApiResponse(String message) {
         this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public T getContents() {
-        return contents;
     }
 }

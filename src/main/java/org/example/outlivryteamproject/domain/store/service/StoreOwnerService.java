@@ -6,10 +6,9 @@ import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDt
 
 public interface StoreOwnerService {
 
-    StoreResponseDto saveStore(StoreRequestDto requsetDto);
+    StoreResponseDto saveStore(StoreRequestDto requsetDto, Long userId);
 
-    StoreResponseDto updateStore(Long storeId, updateStoreRequestDto requsetDto);
+    StoreResponseDto updateStore(Long storeId, updateStoreRequestDto requsetDto,Long userId);
 
-    void deleteStore(Long storeId);
-
+    void deleteStore(Long storeId, Long userId);
 }

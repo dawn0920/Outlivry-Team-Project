@@ -4,15 +4,16 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.store.entity.Store;
+import org.example.outlivryteamproject.domain.user.entity.User;
 
 @Getter
 @RequiredArgsConstructor
 public class StoreResponseDto {
 
     private Long storeId;
-    private User userId;
+    private User user;
     private String storeName;
-    private String stroePictureUrl;
+    private String storePictureUrl;
     private String phone;
     private String address;
     private String content;
@@ -22,13 +23,13 @@ public class StoreResponseDto {
     private String operationHours;
     private LocalDateTime creatTime;
     private LocalDateTime modifiedTime;
-    private boolean storeDeleted;
+    private boolean isDeleted;
 
     public StoreResponseDto(Store store) {
         this.storeId = store.getStoreId();
-        this.userId = store.getUserId();
+        this.user = store.getUser();
         this.storeName = store.getStoreName();
-        this.stroePictureUrl = store.getStroePictureUrl();
+        this.storePictureUrl = store.getStorePictureUrl();
         this.phone = store.getPhone();
         this.address = store.getAddress();
         this.content = store.getContent();
@@ -38,6 +39,6 @@ public class StoreResponseDto {
         this.operationHours = store.getOperationHours();
         this.creatTime = store.getCreatTime();
         this.modifiedTime = store.getModifiedTime();
-        this.storeDeleted = store.storeDeleted();
+        this.isDeleted = store.isDeleted();
     }
 }

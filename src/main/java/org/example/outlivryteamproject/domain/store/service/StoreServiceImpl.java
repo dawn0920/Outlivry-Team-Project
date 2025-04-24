@@ -2,13 +2,12 @@ package org.example.outlivryteamproject.domain.store.service;
 
 
 import lombok.RequiredArgsConstructor;
-import org.example.outlivryteamproject.common.UpdateUtils;
-import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
-import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.dto.response.findOneStoreResponseDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +41,11 @@ public class StoreServiceImpl implements StoreService{
 
     @Override
     public findOneStoreResponseDto findOneStore(Long storeId) {
+
+        if(storeId == null) {
+            throw new CustomException(ExceptionCode.STORE_NOT_FOUND);
+        }
+
         Store store = storeRepository.findByStoreIdWithMenuListOrElseThrow(storeId);
 
         return new findOneStoreResponseDto(store);

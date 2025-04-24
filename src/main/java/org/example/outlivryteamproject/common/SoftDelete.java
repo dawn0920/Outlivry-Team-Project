@@ -16,4 +16,8 @@ public abstract class SoftDelete {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
+
+    public void softDelete() {
+        this.isDeleted = true;
+    }
 }

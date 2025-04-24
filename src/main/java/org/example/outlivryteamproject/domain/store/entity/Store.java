@@ -69,7 +69,7 @@ public class Store extends BaseEntity {
     @Column(name = "open_time")
     private String openTime;
 
-    @Column(name = "open_time")
+    @Column(name = "close_time")
     private String closeTime;
 
 

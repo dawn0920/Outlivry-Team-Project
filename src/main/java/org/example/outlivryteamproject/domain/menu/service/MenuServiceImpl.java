@@ -58,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         if(store != findMenuById.getStore()){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         if(menuRequestDto.getMenuName() != null){
@@ -71,8 +71,11 @@ public class MenuServiceImpl implements MenuService {
             String imageUrl = uploadImage(menuRequestDto.getImage());
             findMenuById.setImageUrl(imageUrl);
         }
-        if(menuRequestDto.getStatus() != null){
-            findMenuById.setStatus(menuRequestDto.getStatus());
+        if(menuRequestDto.getIsDepleted() != null){
+            findMenuById.setIsDepleted(menuRequestDto.getIsDepleted());
+        }
+        if(menuRequestDto.getIsDeleted() != null){
+            findMenuById.setDeleted(menuRequestDto.getIsDeleted());
         }
 
         return new MenuResponseDto(findMenuById);
@@ -86,7 +89,7 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         if(store != findMenuById.getStore()){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         menuRepository.delete(findMenuById);
@@ -116,16 +119,16 @@ public class MenuServiceImpl implements MenuService {
     private Store matchesOwner(Long userId, Long storeId){
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
 
-        Long storeOwnerId = store.getUser().getUserId();
+        Long storeOwnerId = store.getUser().getId();
 
         if(!storeOwnerId.equals(userId)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         return store;
     }
 
-    public String uploadImage(MultipartFile file) {
+    private String uploadImage(MultipartFile file) {
         try {
             // S3에 업로드할 파일 이름 생성 (예: UUID와 시간정보로 중복 방지)
             String fileName = UUID.randomUUID() + "-" + System.currentTimeMillis() + "-" + file.getOriginalFilename();
@@ -136,6 +139,7 @@ public class MenuServiceImpl implements MenuService {
             metadata.setContentLength(file.getSize());
 
             // S3에 파일 업로드
+            // file.getInputStream() 바이트 코드
             amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata));
 
             // S3에서 파일의 URL을 반환 (버킷 + 파일 이름)

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.entity.Store;
+import org.example.outlivryteamproject.domain.user.entity.User;
 
 @Getter
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class findOneStoreResponseDto {
 
     public findOneStoreResponseDto(Store store) {
         this.storeId = store.getStoreId();
-        this.userId = store.getUserId();
+        this.userId = store.getUser();
         this.storeName = store.getStoreName();
         this.stroePictureUrl = store.getStroePictureUrl();
         this.phone = store.getPhone();
@@ -43,7 +44,7 @@ public class findOneStoreResponseDto {
         this.operationHours = store.getOperationHours();
         this.creatTime = store.getCreatTime();
         this.modifiedTime = store.getModifiedTime();
-        this.storeDeleted = store.storeDeleted();
+        this.storeDeleted = store.isDeleted();
         this.menuList = store.getMenuList().stream().map(MenuResponseDto::new).collect(Collectors.toList());
     }
 }

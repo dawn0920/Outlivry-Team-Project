@@ -63,7 +63,8 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
         UpdateUtils.updateString(requsetDto.getNewCategory(),store::setCategory);
         UpdateUtils.updateLong(requsetDto.getNewMinDeliveryPrice(), store::setMinDeliveryPrice);
         UpdateUtils.updateLong(requsetDto.getNewDeliveryTip(), store::setDeliveryTip);
-        UpdateUtils.updateString(requsetDto.getNewOperationHours(), store::setOperationHours);
+        UpdateUtils.updateString(requsetDto.getNewOpenTime(), store::setOpenTime);
+        UpdateUtils.updateString(requsetDto.getNewCloseTime(), store::setCloseTime);
 
         return new StoreResponseDto(store);
     }

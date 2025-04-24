@@ -66,8 +66,11 @@ public class Store extends BaseEntity {
     @Column(name = "delivery_tip", nullable = false)
     private Long deliveryTip;
 
-    @Column(name = "operation_hours")
-    private String operationHours;
+    @Column(name = "open_time")
+    private String openTime;
+
+    @Column(name = "open_time")
+    private String closeTime;
 
 
     public Store(StoreRequestDto requsetDto, User user) {
@@ -80,6 +83,7 @@ public class Store extends BaseEntity {
         this.category = requsetDto.getCategory();
         this.minDeliveryPrice = requsetDto.getMinDeliveryPrice();
         this.deliveryTip = requsetDto.getDeliveryTip();
-        this.operationHours = requsetDto.getOperationHours();
+        this.openTime = requsetDto.getOpenTime();
+        this.closeTime = requsetDto.getCloseTime();
     }
 }

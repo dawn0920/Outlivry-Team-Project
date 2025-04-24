@@ -10,6 +10,7 @@ import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.menu.repository.MenuRepository;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
+import org.example.outlivryteamproject.domain.user.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,7 +117,7 @@ public class MenuServiceImpl implements MenuService {
     private Store matchesOwner(Long userId, Long storeId){
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
 
-        Long storeOwnerId = store.getUserId().getUserId();
+        Long storeOwnerId = store.getUser().getId();
 
         if(!storeOwnerId.equals(userId)){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
@@ -136,6 +137,7 @@ public class MenuServiceImpl implements MenuService {
             metadata.setContentLength(file.getSize());
 
             // S3에 파일 업로드
+            // file.getInputStream() 바이트 코드
             amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata));
 
             // S3에서 파일의 URL을 반환 (버킷 + 파일 이름)

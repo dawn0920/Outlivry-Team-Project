@@ -23,7 +23,10 @@ public class OwnerMenuController {
 
     // 메뉴 등록
     @PostMapping("/{storeId}/menu")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> createMenu(@PathVariable Long storeId, @ModelAttribute MenuRequestDto menuRequestDto){
+    public ResponseEntity<ApiResponse<MenuResponseDto>> createMenu(
+            @PathVariable Long storeId,
+            @ModelAttribute MenuRequestDto menuRequestDto
+    ){
 
         // 로그인 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -43,7 +46,11 @@ public class OwnerMenuController {
 
     // 메뉴 수정
     @PatchMapping("/{storeId}/menu/{menuId}")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(@PathVariable Long storeId, @PathVariable Long menuId, @ModelAttribute MenuRequestDto menuRequestDto){
+    public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(
+            @PathVariable Long storeId,
+            @PathVariable Long menuId,
+            @ModelAttribute MenuRequestDto menuRequestDto
+    ){
 
         // 로그인 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,7 +70,10 @@ public class OwnerMenuController {
 
     // 메뉴 삭제
     @DeleteMapping("/{storeId}/menu/{menuId}")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(@PathVariable Long storeId, @PathVariable Long menuId){
+    public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(
+            @PathVariable Long storeId,
+            @PathVariable Long menuId
+    ){
 
         // 로그인 정보 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

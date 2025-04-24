@@ -1,13 +1,15 @@
 package org.example.outlivryteamproject.domain.cart.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.outlivryteamproject.domain.cart.dto.responseDto.FindCartByUserIdResponseDto;
+import org.example.outlivryteamproject.common.response.ApiResponse;
+import org.example.outlivryteamproject.domain.cart.dto.responseDto.FindCartResponseDto;
 import org.example.outlivryteamproject.domain.cart.dto.responseDto.SaveCartResponseDto;
 import org.example.outlivryteamproject.domain.cart.service.CartServiceImpl;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/carts")
@@ -27,10 +29,11 @@ public class CartController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Page<FindCartByUserIdResponseDto>> findByUserId(
-            @PathVariable Long userId,
-            @RequestParam(defaultValue = "1") int page
+    public ResponseEntity<ApiResponse<List<FindCartResponseDto>>> findByUserId(
+            @PathVariable Long userId
     ) {
-        cartService.findCart(userId, page)
+        List<FindCartResponseDto> carts = cartService.findCart(userId);
+
+        return new ResponseEntity<>(new ApiResponse<>("조회성공", carts), HttpStatus.OK);
     }
 }

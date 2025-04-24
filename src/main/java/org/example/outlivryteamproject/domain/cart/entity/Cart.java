@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
+import org.example.outlivryteamproject.domain.user.entity.User;
 
 @Entity
 @Table(name = "cart")
@@ -35,9 +36,10 @@ public class Cart extends BaseEntity {
 
     }
 
-    public Cart(Long userId, Menu menu) {
+    public Cart(User user, Menu menu) {
         this.menuName = menu.getMenuName();
         this.price = menu.getPrice();
+        this.user = user;
         this.menu = menu;
     }
 }

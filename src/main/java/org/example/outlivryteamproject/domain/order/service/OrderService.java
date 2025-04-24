@@ -7,4 +7,8 @@ public interface OrderService {
     OrderResponseDto createOrder(Long userId);
 
     OrderResponseDto findByOrderId(Long orderId);
+
+    void receivedOrder(Long orderId);
+
+    void deliveryOrder(Long orderId);
 }

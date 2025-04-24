@@ -49,4 +49,22 @@ public class OrderServiceImpl implements OrderService{
 
         return new OrderResponseDto(findedOrder);
     }
+
+    @Override
+    @Transactional
+    public void receivedOrder(Long orderId) {
+
+        Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
+        findedOrder.changeReceived();
+
+    }
+
+    @Override
+    @Transactional
+    public void deliveryOrder(Long orderId) {
+
+        Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
+        findedOrder.changeDelivery();
+
+    }
 }

@@ -1,6 +1,7 @@
 package org.example.outlivryteamproject.domain.order.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.example.outlivryteamproject.common.response.ApiResponse;
 import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderResponseDto;
 import org.example.outlivryteamproject.domain.order.service.OrderServiceImpl;
@@ -31,5 +32,17 @@ public class OrderController {
         return new ResponseEntity<>(new ApiResponse<>("주문 조회", findedOrder), HttpStatus.OK);
     }
 
+    @PatchMapping("/{orderId}/received")
+    public ResponseEntity<ApiResponse<Void>> receivedOrder(@PathVariable Long orderId) {
 
+        orderService.receivedOrder(orderId);
+
+        return new ResponseEntity<>(new ApiResponse<>("주문을 수락했습니다."), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{orderId}/delivery")
+    public ResponseEntity<ApiResponse<Void>> deliveryOrder(@PathVariable Long orderId) {
+
+        orderService.deliveryOrder(orderId);
+    }
 }

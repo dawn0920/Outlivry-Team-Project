@@ -1,6 +1,8 @@
 package org.example.outlivryteamproject.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.domain.order.entity.Order;
+import org.example.outlivryteamproject.domain.order.repository.OrderRepository;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
@@ -19,8 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
@@ -28,6 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     @Transactional
@@ -35,6 +36,12 @@ public class ReviewServiceImpl implements ReviewService {
 
         User findedUser = userRepository.findById(userId);
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
+        Order findedOrder = orderRepository.findByUserIdOrElseThrow(findedUser);
+
+        //주문이 완료되지 않았을경우 예외처리
+        if (!findedOrder.isDelivery()) {
+            throw new IllegalArgumentException("완료되지 않은 주문입니다");
+        }
 
         Review review = new Review(findedUser, findedStore, requestDto);
         Review savedReview = reviewRepository.save(review);

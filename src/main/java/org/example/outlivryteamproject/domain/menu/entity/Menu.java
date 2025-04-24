@@ -15,7 +15,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @NoArgsConstructor
 @SQLDelete(sql = "UPDATE menu SET status = 0 WHERE id = ?")
-@Where(clause = "status <> 0")
+@Where(clause = "status <> 0" )
 public class Menu extends BaseEntity {
 
     @Id

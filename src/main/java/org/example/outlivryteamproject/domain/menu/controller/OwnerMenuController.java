@@ -24,7 +24,7 @@ public class OwnerMenuController {
     private final JwtUtil jwtUtil;
 
     // 메뉴 등록
-    @PostMapping("/{storeId}/menu")
+    @PostMapping("/{storeId}/menus")
     public ResponseEntity<ApiResponse<MenuResponseDto>> createMenu(
             @PathVariable Long storeId,
             @ModelAttribute MenuRequestDto menuRequestDto,
@@ -49,7 +49,7 @@ public class OwnerMenuController {
 
 
     // 메뉴 수정
-    @PatchMapping("/{storeId}/menu/{menuId}")
+    @PatchMapping("/{storeId}/menus/{menuId}")
     public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(
             @PathVariable Long storeId,
             @PathVariable Long menuId,
@@ -76,7 +76,7 @@ public class OwnerMenuController {
 
 
     // 메뉴 삭제
-    @DeleteMapping("/{storeId}/menu/{menuId}")
+    @DeleteMapping("/{storeId}/menus/{menuId}")
     public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(
             @PathVariable Long storeId,
             @PathVariable Long menuId,

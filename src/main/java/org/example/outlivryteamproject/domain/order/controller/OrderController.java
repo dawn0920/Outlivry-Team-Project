@@ -18,6 +18,13 @@ public class OrderController {
     private final OrderServiceImpl orderService;
     private final TokenUserId tokenUserId;
 
+    /**
+     * 주문하기
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param requestDto 요청사항
+     * @return ResponseEntity
+     */
     @PostMapping
     public ResponseEntity<ApiResponse<OrderResponseDto>> createOrder(
             @RequestHeader("Authorization") String authHeader,
@@ -29,6 +36,13 @@ public class OrderController {
         return new ResponseEntity<>(new ApiResponse<>("주문에 성공하였습니다.", createOrder), HttpStatus.CREATED);
     }
 
+    /**
+     * 주문 조회
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param orderId 주문 정보
+     * @return ResponseEntity
+     */
     @GetMapping("/{orderId}")
     public ResponseEntity<ApiResponse<OrderResponseDto>> findOrderById(
             @RequestHeader("Authorization") String authHeader,
@@ -40,6 +54,13 @@ public class OrderController {
         return new ResponseEntity<>(new ApiResponse<>("주문을 조회합니다.", findedOrder), HttpStatus.OK);
     }
 
+    /**
+     * 주문 수락 여부
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param orderId 주문 정보
+     * @return ResponseEntity
+     */
     @PatchMapping("/{orderId}/received")
     public ResponseEntity<ApiResponse<Void>> receivedOrder(
             @RequestHeader("Authorization") String authHeader,
@@ -52,6 +73,13 @@ public class OrderController {
         return new ResponseEntity<>(new ApiResponse<>("주문을 수락했습니다."), HttpStatus.OK);
     }
 
+    /**
+     * 배달 여부
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param orderId
+     * @return ResponseEntity
+     */
     @PatchMapping("/{orderId}/delivery")
     public ResponseEntity<ApiResponse<Void>> deliveryOrder(
             @RequestHeader("Authorization") String authHeader,
@@ -63,6 +91,13 @@ public class OrderController {
         return new ResponseEntity<>(new ApiResponse<>("배달이 완료되었습니다."), HttpStatus.OK);
     }
 
+    /**
+     * 주문 삭제
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param orderId 주문 정보
+     * @return ResponseEntity
+     */
     @DeleteMapping("/{orderId}")
     public ResponseEntity<ApiResponse<Void>> deleteOrder(
             @RequestHeader("Authorization") String authHeader,

@@ -7,8 +7,6 @@ import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.user.entity.User;
 
-import java.util.Optional;
-
 @Entity
 @Table(name = "cart")
 @Getter

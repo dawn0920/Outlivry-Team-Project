@@ -20,6 +20,13 @@ public class CartController {
     private final CartServiceImpl cartService;
     private final TokenUserId tokenUserId;
 
+    /**
+     * 장바구니 생성
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param menuId 추가할 메뉴
+     * @return ResponseEntity
+     */
     @PostMapping("/menus/{menuId}")
     public ResponseEntity<ApiResponse<SaveCartResponseDto>> saveCart(
             @RequestHeader("Authorization") String authHeader,
@@ -31,6 +38,12 @@ public class CartController {
         return new ResponseEntity<>(new ApiResponse<>("장바구니에 추가했습니다",savedCart), HttpStatus.CREATED);
     }
 
+    /**
+     * 장바구니 조회
+     *
+     * @param authHeader 로그인 유저 정보
+     * @return ResponseEntity
+     */
     @GetMapping
     public ResponseEntity<ApiResponse<List<FindCartResponseDto>>> findByUserId(
             @RequestHeader("Authorization") String authHeader
@@ -41,14 +54,31 @@ public class CartController {
         return new ResponseEntity<>(new ApiResponse<>("조회성공", carts), HttpStatus.OK);
     }
 
+    /**
+     * 특정 장바구니 삭제
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param cartId 삭제하려는 장바구니
+     * @return ResponseEntity
+     */
     @DeleteMapping("/{cartId}")
-    public ResponseEntity<ApiResponse<Void>> removeCartItem(@PathVariable Long cartId) {
+    public ResponseEntity<ApiResponse<Void>> removeCartItem(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable Long cartId
+    ) {
 
-        cartService.removeCartItem(cartId);
+        Long userId = tokenUserId.getTokenUserId(authHeader);
+        cartService.removeCartItem(userId, cartId);
 
         return new ResponseEntity<>(new ApiResponse<>("해당 물건을 삭제했습니다"), HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * 전체 메뉴 삭제
+     *
+     * @param authHeader 로그인 유저 정보
+     * @return ResponseEntity
+     */
     @DeleteMapping
     public ResponseEntity<ApiResponse<Void>> removeAllCart(@RequestHeader("Authorization") String authHeader) {
 

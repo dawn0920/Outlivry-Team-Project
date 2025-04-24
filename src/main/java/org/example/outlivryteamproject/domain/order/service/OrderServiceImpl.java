@@ -32,10 +32,12 @@ public class OrderServiceImpl implements OrderService{
         User user = userRepository.findByIdOrElseThrow(userId);
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
+        //장바구니가 비었을 시 예외처리
         if (carts.isEmpty()) {
             throw new RuntimeException("장바구니가 비어있습니다");
         }
 
+        //총금액 계산
         Integer totalPrice = carts.stream()
                 .mapToInt(cart -> cart.getPrice() * cart.getQuantity())
                 .sum();
@@ -52,8 +54,12 @@ public class OrderServiceImpl implements OrderService{
     public OrderResponseDto findByOrderId(Long userId, Long orderId) {
 
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
+        Long orderUserId = findedOrder.getUser().getId();
+        Long ownerId = findedOrder.getStore().getUser().getId();
 
-        if (!findedOrder.getUser().getId().equals(userId)) {
+
+        //로그인한 유저가 주문한 유저나 해당 가게의 사장이 아닐경우 예외처리
+        if (!userId.equals(orderUserId) && !userId.equals(ownerId)) {
             throw new IllegalArgumentException("접근할 수 없습니다");
         }
 
@@ -104,7 +110,7 @@ public class OrderServiceImpl implements OrderService{
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
         if (!findedUser.equals(findedOrder.getUser())) {
-            throw new IllegalArgumentException("작성자만 삭제할 수 있습니다.");
+            throw new IllegalArgumentException("주문자만 삭제할 수 있습니다.");
         }
 
         orderRepository.delete(findedOrder);

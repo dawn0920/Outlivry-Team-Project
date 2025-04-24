@@ -11,7 +11,7 @@ public interface CartService {
 
     List<FindCartResponseDto> findCart(Long userId);
 
-    void removeCartItem(Long cartId);
+    void removeCartItem(Long userId, Long cartId);
 
     void removeCart(Long userId);
 }

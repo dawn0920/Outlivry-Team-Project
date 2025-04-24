@@ -24,6 +24,14 @@ public class ReviewController {
     private final ReviewServiceImpl reviewService;
     private final TokenUserId tokenUserId;
 
+    /**
+     * 리뷰 작성
+     *
+     * @param storeId 작성하는 가게
+     * @param authHeader 로그인 유저 정보
+     * @param requestDto 리뷰
+     * @return ResponseEntity
+     */
     @PostMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
             @PathVariable Long storeId,
@@ -37,6 +45,13 @@ public class ReviewController {
         return new ResponseEntity<>(new ApiResponse<>("리뷰를 작성했습니다.", createdReview), HttpStatus.CREATED);
     }
 
+    /**
+     * 리뷰 조회
+     *
+     * @param storeId 특정 가게 정보
+     * @param page 페이지
+     * @return ResponseEntity
+     */
     @GetMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<Page<FindReviewResponseDto>>> findAll(
             @PathVariable Long storeId,
@@ -47,6 +62,14 @@ public class ReviewController {
         return new ResponseEntity<>(new ApiResponse<>("리뷰를 조회합니다.",reviews), HttpStatus.OK);
     }
 
+    /**
+     * 별점순으로 리뷰 조회
+     *
+     * @param storeId 특정 가게 정보
+     * @param page 페이지
+     * @param requestDto 시작별점, 끝별점
+     * @return ResponseEntity
+     */
     @GetMapping("/stores/{storeId}/stars")
     public ResponseEntity<ApiResponse<Page<FindReviewResponseDto>>> findByStars(
             @PathVariable Long storeId,
@@ -58,6 +81,14 @@ public class ReviewController {
         return new ResponseEntity<>(new ApiResponse<>("별점으로 리뷰를 조회합니다.",reviews), HttpStatus.OK);
     }
 
+    /**
+     * 리뷰 수정
+     *
+     * @param reviewId 작성된 리뷰 정보
+     * @param authHeader 로그인 유저 정보
+     * @param requestDto 수정 내용
+     * @return ResponseEntity
+     */
     @PatchMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<UpdateReviewResponseDto>> updateReview(
             @PathVariable Long reviewId,
@@ -70,6 +101,13 @@ public class ReviewController {
         return new ResponseEntity<>(new ApiResponse<>("리뷰를 수정했습니다.",updatedReview), HttpStatus.OK);
     }
 
+    /**
+     * 리뷰 삭제
+     *
+     * @param authHeader 로그인 유저 정보
+     * @param reviewId 작성된 리뷰 정보
+     * @return ResponseEntity
+     */
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<Void>> deleteReview(
             @RequestHeader("Authorization") String authHeader,

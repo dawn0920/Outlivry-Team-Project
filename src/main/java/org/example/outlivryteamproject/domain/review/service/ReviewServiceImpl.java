@@ -101,7 +101,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
 
         if (!findedReview.getUser().equals(findedUser)) {
-            throw new IllegalArgumentException("작성한 사람만 수정할 수 있습니다");
+            throw new IllegalArgumentException("작성한 사람만 삭제할 수 있습니다");
         }
 
         reviewRepository.delete(findedReview);

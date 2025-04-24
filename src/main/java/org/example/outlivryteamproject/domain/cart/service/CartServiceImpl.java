@@ -75,15 +75,20 @@ public class CartServiceImpl implements CartService{
 
     @Override
     @Transactional
-    public void removeCartItem(Long cartId) {
+    public void removeCartItem(Long userId, Long cartId) {
+        User findedUser = userRepository.findByIdOrElseThrow(userId);
         Cart cart = cartRepository.findCartByCartIdOrElseThrow(cartId);
+
+        // 로그인한 유저와 장바구니를 생성한 유저가 같은지 확인
+        if (!cart.getUser().equals(findedUser)) {
+            throw new IllegalArgumentException("자신의 장바구니만 삭제할 수 있습니다.");
+        }
         cartRepository.delete(cart);
     }
 
     @Override
     @Transactional
     public void removeCart(Long userId) {
-
         List<Cart> carts = cartRepository.findCartByUserId(userId);
         cartRepository.deleteAll(carts);
     }

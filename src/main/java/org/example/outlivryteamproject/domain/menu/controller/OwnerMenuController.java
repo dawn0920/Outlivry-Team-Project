@@ -26,7 +26,7 @@ public class OwnerMenuController {
     // 메뉴 등록
     @PostMapping("/{storeId}/menus")
     public ResponseEntity<ApiResponse<MenuResponseDto>> createMenu(
-            @PathVariable Long storeId,
+            @PathVariable("storeId") Long storeId,
             @ModelAttribute MenuRequestDto menuRequestDto,
             @RequestHeader("Authorization") String authHeader
     ){
@@ -36,12 +36,8 @@ public class OwnerMenuController {
         Claims claims = jwtUtil.extractClaims(token);
         Long userId = Long.parseLong(claims.getSubject());
 
-        // 로그인 정보, storeId 넣어서 MenuRequestDto 구성
-        menuRequestDto.setStoreId(storeId);
-        menuRequestDto.setUserId(userId);
-
         // createMenu 매서드 실행
-        MenuResponseDto menuResponseDto = menuService.createMenu(menuRequestDto);
+        MenuResponseDto menuResponseDto = menuService.createMenu(storeId, userId, menuRequestDto);
 
 
         return new ResponseEntity<>( new ApiResponse<>("등록 성공", menuResponseDto), HttpStatus.CREATED);
@@ -51,8 +47,8 @@ public class OwnerMenuController {
     // 메뉴 수정
     @PatchMapping("/{storeId}/menus/{menuId}")
     public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(
-            @PathVariable Long storeId,
-            @PathVariable Long menuId,
+            @PathVariable("storeId") Long storeId,
+            @PathVariable("menuId") Long menuId,
             @ModelAttribute MenuRequestDto menuRequestDto,
             @RequestHeader("Authorization") String authHeader
     ){
@@ -63,12 +59,8 @@ public class OwnerMenuController {
         Long userId = Long.parseLong(claims.getSubject());
 
 
-        // 로그인 정보, storeId 넣어서 createMenuRequestDto 구성
-        menuRequestDto.setStoreId(storeId);
-        menuRequestDto.setUserId(userId);
-
         // createMenu 매서드 실행
-        MenuResponseDto menuResponseDto = menuService.modifiedMenu(menuRequestDto, menuId);
+        MenuResponseDto menuResponseDto = menuService.modifiedMenu(storeId, userId, menuRequestDto, menuId);
 
 
         return new ResponseEntity<>(new ApiResponse<>("수정 완료", menuResponseDto), HttpStatus.OK);
@@ -78,8 +70,8 @@ public class OwnerMenuController {
     // 메뉴 삭제
     @DeleteMapping("/{storeId}/menus/{menuId}")
     public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(
-            @PathVariable Long storeId,
-            @PathVariable Long menuId,
+            @PathVariable("storeId") Long storeId,
+            @PathVariable("menuId") Long menuId,
             @RequestHeader("Authorization") String authHeader
     ){
 

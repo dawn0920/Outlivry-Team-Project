@@ -47,7 +47,7 @@ public class Store extends BaseEntity {
     private String storeName;
 
     @Column(name = "store_picture_url")
-    private String stroePictureUrl;
+    private String storePictureUrl;
 
     @Column(name = "phone", nullable = false)
     private String phone;
@@ -71,9 +71,10 @@ public class Store extends BaseEntity {
     private String operationHours;
 
 
-    public Store(StoreRequestDto requsetDto) {
+    public Store(StoreRequestDto requsetDto, User user) {
+        this.user = user;
         this.storeName = requsetDto.getStoreName();
-        this.stroePictureUrl = requsetDto.getStroePictureUrl();
+        this.storePictureUrl = requsetDto.getStorePictureUrl();
         this.phone = requsetDto.getPhone();
         this.address = requsetDto.getAddress();
         this.content = requsetDto.getContent();

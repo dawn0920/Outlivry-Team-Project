@@ -15,9 +15,9 @@ import org.example.outlivryteamproject.domain.user.entity.User;
 public class findOneStoreResponseDto {
 
     private Long storeId;
-    private User userId;
+    private User user;
     private String storeName;
-    private String stroePictureUrl;
+    private String storePictureUrl;
     private String phone;
     private String address;
     private String content;
@@ -27,14 +27,14 @@ public class findOneStoreResponseDto {
     private String operationHours;
     private LocalDateTime creatTime;
     private LocalDateTime modifiedTime;
-    private boolean storeDeleted;
+    private boolean isDeleted;
     private List<MenuResponseDto> menuList;
 
     public findOneStoreResponseDto(Store store) {
         this.storeId = store.getStoreId();
-        this.userId = store.getUser();
+        this.user = store.getUser();
         this.storeName = store.getStoreName();
-        this.stroePictureUrl = store.getStroePictureUrl();
+        this.storePictureUrl = store.getStorePictureUrl();
         this.phone = store.getPhone();
         this.address = store.getAddress();
         this.content = store.getContent();
@@ -44,7 +44,7 @@ public class findOneStoreResponseDto {
         this.operationHours = store.getOperationHours();
         this.creatTime = store.getCreatTime();
         this.modifiedTime = store.getModifiedTime();
-        this.storeDeleted = store.isDeleted();
+        this.isDeleted = store.isDeleted();
         this.menuList = store.getMenuList().stream().map(MenuResponseDto::new).collect(Collectors.toList());
     }
 }

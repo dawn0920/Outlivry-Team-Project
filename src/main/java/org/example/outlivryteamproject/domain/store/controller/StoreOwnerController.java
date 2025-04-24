@@ -1,6 +1,7 @@
 package org.example.outlivryteamproject.domain.store.controller;
 
 
+import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.example.outlivryteamproject.config.JwtUtil;
 
 @RestController
 @RequestMapping("/owners/stores")
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StoreOwnerController {
 
     private final StoreOwnerService storeOwnerService;
+    private final JwtUtil jwtUtil;
 
     /**  사장님만 생성 할 수 있도록 수정 필요
      * 가게 생성 메소드
@@ -32,9 +36,12 @@ public class StoreOwnerController {
      */
     @PostMapping
     public ResponseEntity<StoreResponseDto> saveStore (
-        @RequestBody @Valid StoreRequestDto requsetDto
+        @RequestBody @Valid StoreRequestDto requsetDto,
+        @RequestHeader("Authorization") String authHeader
     ){
-        return new ResponseEntity<>(storeOwnerService.saveStore(requsetDto), HttpStatus.CREATED);
+        Long userId = getJwtTokenUserId(authHeader);
+
+        return new ResponseEntity<>(storeOwnerService.saveStore(requsetDto,userId), HttpStatus.CREATED);
     }
 
     /**  추후 사장님 본인만 가능하도록 수정 필요 + 비밀번호 요구
@@ -47,9 +54,12 @@ public class StoreOwnerController {
     @PatchMapping("/{storeId}")
     public ResponseEntity<StoreResponseDto> updateStore (
         @PathVariable Long storeId,
-        @RequestBody @Valid updateStoreRequestDto requsetDto
+        @RequestBody @Valid updateStoreRequestDto requsetDto,
+        @RequestHeader("Authorization") String authHeader
     ) {
-        return new ResponseEntity<>(storeOwnerService.updateStore(storeId, requsetDto),HttpStatus.OK);
+        Long userId = getJwtTokenUserId(authHeader);
+
+        return new ResponseEntity<>(storeOwnerService.updateStore(storeId, requsetDto,userId),HttpStatus.OK);
     }
 
     /** 사장님 본인만 삭제 가능하도록 수정 필요 + 비밀번호 요구
@@ -59,8 +69,23 @@ public class StoreOwnerController {
      * @return 없음 - 상태만 표시
      */
     @DeleteMapping("/{storeId}")
-    public ResponseEntity<Void> deleteStore (@PathVariable Long storeId) {
-        storeOwnerService.deleteStore(storeId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    public ResponseEntity<Void> deleteStore (
+        @PathVariable Long storeId,
+        @RequestHeader("Authorization") String authHeader
+    ) {
+        Long userId = getJwtTokenUserId(authHeader);
+
+        storeOwnerService.deleteStore(storeId, userId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    public Long getJwtTokenUserId(String authHeader) {
+
+        String token = jwtUtil.substringToken(authHeader);
+        Claims claims = jwtUtil.extractClaims(token);
+        Long userId = Long.parseLong(claims.getSubject());
+
+        return userId;
     }
 }

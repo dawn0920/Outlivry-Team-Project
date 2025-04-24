@@ -3,6 +3,8 @@ package org.example.outlivryteamproject.domain.user.repository;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.example.outlivryteamproject.domain.user.entity.User;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User save(User newUser);
 
     Optional<User> findByEmail(String email);
+
+    // user DB에 저장된 userId로 조회
+    default User findByIdOrElseThrow(Long userId) {
+        return findById(userId).orElseThrow(
+            () -> new CustomException(ExceptionCode.USER_NOT_FOUND));
+    }
 }

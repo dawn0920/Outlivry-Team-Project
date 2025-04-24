@@ -73,17 +73,17 @@ public class Store extends BaseEntity {
     private String closeTime;
 
 
-    public Store(StoreRequestDto requsetDto, User user) {
+    public Store(StoreRequestDto requestDto, User user) {
         this.user = user;
-        this.storeName = requsetDto.getStoreName();
-        this.storePictureUrl = requsetDto.getStorePictureUrl();
-        this.phone = requsetDto.getPhone();
-        this.address = requsetDto.getAddress();
-        this.content = requsetDto.getContent();
-        this.category = requsetDto.getCategory();
-        this.minDeliveryPrice = requsetDto.getMinDeliveryPrice();
-        this.deliveryTip = requsetDto.getDeliveryTip();
-        this.openTime = requsetDto.getOpenTime();
-        this.closeTime = requsetDto.getCloseTime();
+        this.storeName = requestDto.getStoreName();
+        this.storePictureUrl = requestDto.getStorePictureUrl();
+        this.phone = requestDto.getPhone();
+        this.address = requestDto.getAddress();
+        this.content = requestDto.getContent();
+        this.category = requestDto.getCategory();
+        this.minDeliveryPrice = requestDto.getMinDeliveryPrice();
+        this.deliveryTip = requestDto.getDeliveryTip();
+        this.openTime = requestDto.getOpenTime();
+        this.closeTime = requestDto.getCloseTime();
     }
 }

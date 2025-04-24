@@ -10,7 +10,6 @@ import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.menu.repository.MenuRepository;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
-import org.example.outlivryteamproject.domain.user.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,7 +58,7 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         if(store != findMenuById.getStore()){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         if(menuRequestDto.getMenuName() != null){
@@ -72,8 +71,11 @@ public class MenuServiceImpl implements MenuService {
             String imageUrl = uploadImage(menuRequestDto.getImage());
             findMenuById.setImageUrl(imageUrl);
         }
-        if(menuRequestDto.getStatus() != null){
-            findMenuById.setStatus(menuRequestDto.getStatus());
+        if(menuRequestDto.getIsDepleted() != null){
+            findMenuById.setIsDepleted(menuRequestDto.getIsDepleted());
+        }
+        if(menuRequestDto.getIsDeleted() != null){
+            findMenuById.setDeleted(menuRequestDto.getIsDeleted());
         }
 
         return new MenuResponseDto(findMenuById);
@@ -87,7 +89,7 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         if(store != findMenuById.getStore()){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         menuRepository.delete(findMenuById);
@@ -120,13 +122,13 @@ public class MenuServiceImpl implements MenuService {
         Long storeOwnerId = store.getUser().getId();
 
         if(!storeOwnerId.equals(userId)){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
         return store;
     }
 
-    public String uploadImage(MultipartFile file) {
+    private String uploadImage(MultipartFile file) {
         try {
             // S3에 업로드할 파일 이름 생성 (예: UUID와 시간정보로 중복 방지)
             String fileName = UUID.randomUUID() + "-" + System.currentTimeMillis() + "-" + file.getOriginalFilename();

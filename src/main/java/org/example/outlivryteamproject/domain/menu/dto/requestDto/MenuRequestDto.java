@@ -3,8 +3,6 @@ package org.example.outlivryteamproject.domain.menu.dto.requestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Max;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
@@ -24,6 +22,8 @@ public class MenuRequestDto {
     private MultipartFile image;
 
     private Boolean status;
+
+    private Boolean isDepleted;
 
     private Boolean isDeleted;
 }

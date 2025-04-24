@@ -32,7 +32,7 @@ public class Menu extends BaseEntity {
     private String imageUrl;
 
     @Setter
-    private boolean status;
+    private Boolean isDepleted;
 
     @Setter
     @ManyToOne
@@ -43,10 +43,14 @@ public class Menu extends BaseEntity {
         this.menuName = menuRequestDto.getMenuName();
         this.price = menuRequestDto.getPrice();
         this.imageUrl = imageUrl;
-        if (menuRequestDto.getIsDeleted() == null){
-            this.isDeleted() = 1;
-        }else{
-            this.status = menuRequestDto.getStatus();
+        this.setDeleted(false);
+        this.isDepleted = false;
+
+        if (menuRequestDto.getIsDeleted() != null){
+            this.setDeleted(menuRequestDto.getIsDeleted());
+        }
+        if (menuRequestDto.getIsDepleted() != null){
+            this.setDeleted(menuRequestDto.getIsDepleted());
         }
     }
 }

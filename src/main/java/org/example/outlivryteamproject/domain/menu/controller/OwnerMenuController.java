@@ -2,7 +2,6 @@ package org.example.outlivryteamproject.domain.menu.controller;
 
 
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.response.ApiResponse;
 import org.example.outlivryteamproject.config.JwtUtil;
@@ -37,7 +36,7 @@ public class OwnerMenuController {
         Claims claims = jwtUtil.extractClaims(token);
         Long userId = Long.parseLong(claims.getSubject());
 
-        // 로그인 정보, storeId 넣어서 createMenuRequestDto 구성
+        // 로그인 정보, storeId 넣어서 MenuRequestDto 구성
         menuRequestDto.setStoreId(storeId);
         menuRequestDto.setUserId(userId);
 

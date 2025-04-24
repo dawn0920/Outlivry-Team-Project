@@ -14,8 +14,8 @@ import org.hibernate.annotations.Where;
 @Table(name = "Menu")
 @Getter
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE menu SET status = 0 WHERE id = ?")
-@Where(clause = "status <> 0")
+@SQLDelete(sql = "UPDATE menu SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class Menu extends BaseEntity {
 
     @Id
@@ -32,7 +32,7 @@ public class Menu extends BaseEntity {
     private String imageUrl;
 
     @Setter
-    private Integer status;
+    private boolean status;
 
     @Setter
     @ManyToOne
@@ -43,8 +43,8 @@ public class Menu extends BaseEntity {
         this.menuName = menuRequestDto.getMenuName();
         this.price = menuRequestDto.getPrice();
         this.imageUrl = imageUrl;
-        if (menuRequestDto.getStatus() == null){
-            this.status = 1;
+        if (menuRequestDto.getIsDeleted() == null){
+            this.isDeleted() = 1;
         }else{
             this.status = menuRequestDto.getStatus();
         }

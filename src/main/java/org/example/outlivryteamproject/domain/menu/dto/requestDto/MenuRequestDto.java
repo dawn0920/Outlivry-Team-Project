@@ -23,7 +23,7 @@ public class MenuRequestDto {
 
     private MultipartFile image;
 
-    @Min(1)
-    @Max(2)
-    private Integer status;
+    private Boolean status;
+
+    private Boolean isDeleted;
 }

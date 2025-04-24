@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class BaseEntity extends StoreDelete{
+public class BaseEntity extends SoftDelete {
 
     @CreatedDate // 생성시 자동입력
     @Column(updatable = false)

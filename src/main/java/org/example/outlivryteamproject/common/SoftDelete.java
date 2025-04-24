@@ -25,4 +25,8 @@ public abstract class SoftDelete {
         } this.isDeleted = true;
     }
 
+    public void softDelete() {
+        this.isDeleted = true;
+    }
+
 }

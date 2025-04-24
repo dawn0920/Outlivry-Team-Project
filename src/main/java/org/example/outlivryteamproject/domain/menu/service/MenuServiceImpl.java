@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.common.S3ImageUploader;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
@@ -29,9 +30,7 @@ public class MenuServiceImpl implements MenuService {
 
     private final StoreRepository storeRepository;
 
-    private final AmazonS3 amazonS3Client;
-
-    private final String bucketName = "janghwal-image-bucket-1";
+    private final S3ImageUploader s3ImageUploader;
 
 
     @Override
@@ -40,7 +39,7 @@ public class MenuServiceImpl implements MenuService {
 
         Store store = matchesOwner(userId, storeId);
 
-        String imageUrl = uploadImage(menuRequestDto.getImage());
+        String imageUrl = s3ImageUploader.uploadImage(menuRequestDto.getImage());
 
         Menu menu = new Menu(menuRequestDto, imageUrl);
         menu.setStore(store);
@@ -68,7 +67,7 @@ public class MenuServiceImpl implements MenuService {
             findMenuById.setPrice(menuRequestDto.getPrice());
         }
         if(menuRequestDto.getImage() != null){
-            String imageUrl = uploadImage(menuRequestDto.getImage());
+            String imageUrl = s3ImageUploader.uploadImage(menuRequestDto.getImage());
             findMenuById.setImageUrl(imageUrl);
         }
         if(menuRequestDto.getIsDepleted() != null){
@@ -126,27 +125,5 @@ public class MenuServiceImpl implements MenuService {
         }
 
         return store;
-    }
-
-    private String uploadImage(MultipartFile file) {
-        try {
-            // S3에 업로드할 파일 이름 생성 (예: UUID와 시간정보로 중복 방지)
-            String fileName = UUID.randomUUID() + "-" + System.currentTimeMillis() + "-" + file.getOriginalFilename();
-
-            // S3 업로드 설정
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType(file.getContentType());
-            metadata.setContentLength(file.getSize());
-
-            // S3에 파일 업로드
-            // file.getInputStream() 바이트 코드
-            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, file.getInputStream(), metadata));
-
-            // S3에서 파일의 URL을 반환 (버킷 + 파일 이름)
-            return amazonS3Client.getUrl(bucketName, fileName).toString();
-
-        } catch (IOException e) {
-            throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.", e);
-        }
     }
 }

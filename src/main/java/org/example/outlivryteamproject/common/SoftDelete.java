@@ -8,17 +8,13 @@ import lombok.Setter;
 @Setter
 @Getter
 @MappedSuperclass
-public abstract class StoreDelete {
+public abstract class SoftDelete {
 
-    // storedeletd를 baseEntity를 상속하여 전역에 storedeletd 생성,
+    // isDeletd를 baseEntity를 상속하여, baseEntity 상속 받은 entity에 isDeletd 생성,
     // @SQLDelete와 @Where을 이용해서 소프트 딜리트 사용
     // 사용법은 store Entity 참고
 
-    @Column(name = "store_deleted")
-    private boolean storeDeleted;
-
-    public boolean storeDeleted() {
-        return storeDeleted;
-    }
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
 }

@@ -27,8 +27,8 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "stores")
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE users SET store_deleted = true WHERE id = ?") // delete 기능을 store_deleted = true 바꿈
-@Where(clause = "store_deleted = false") // store_deleted = false 만 entity로 전달함 -> store_deleted = true는 숨김
+@SQLDelete(sql = "UPDATE users SET is_deleted = true WHERE id = ?") // delete 기능을 is_deleted = true 바꿈
+@Where(clause = "is_deleted = false") // is_deleted = false 만 entity로 전달함 -> is_deleted = true는 숨김
 public class Store extends BaseEntity {
 
     @Id

@@ -1,15 +1,15 @@
 package org.example.outlivryteamproject.domain.menu.controller;
 
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.response.ApiResponse;
+import org.example.outlivryteamproject.config.JwtUtil;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 import org.example.outlivryteamproject.domain.menu.service.MenuService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,15 +21,22 @@ public class OwnerMenuController {
 
     private final MenuService menuService;
 
+    private final JwtUtil jwtUtil;
+
     // 메뉴 등록
     @PostMapping("/{storeId}/menu")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> createMenu(@PathVariable Long storeId, @ModelAttribute MenuRequestDto menuRequestDto){
+    public ResponseEntity<ApiResponse<MenuResponseDto>> createMenu(
+            @PathVariable Long storeId,
+            @ModelAttribute MenuRequestDto menuRequestDto,
+            @RequestHeader("Authorization") String authHeader
+    ){
 
         // 로그인 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = Long.parseLong(authentication.getName());
+        String token = jwtUtil.substringToken(authHeader);
+        Claims claims = jwtUtil.extractClaims(token);
+        Long userId = Long.parseLong(claims.getSubject());
 
-        // 로그인 정보, storeId 넣어서 createMenuRequestDto 구성
+        // 로그인 정보, storeId 넣어서 MenuRequestDto 구성
         menuRequestDto.setStoreId(storeId);
         menuRequestDto.setUserId(userId);
 
@@ -43,11 +50,18 @@ public class OwnerMenuController {
 
     // 메뉴 수정
     @PatchMapping("/{storeId}/menu/{menuId}")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(@PathVariable Long storeId, @PathVariable Long menuId, @ModelAttribute MenuRequestDto menuRequestDto){
+    public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(
+            @PathVariable Long storeId,
+            @PathVariable Long menuId,
+            @ModelAttribute MenuRequestDto menuRequestDto,
+            @RequestHeader("Authorization") String authHeader
+    ){
 
         // 로그인 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = Long.parseLong(authentication.getName());
+        String token = jwtUtil.substringToken(authHeader);
+        Claims claims = jwtUtil.extractClaims(token);
+        Long userId = Long.parseLong(claims.getSubject());
+
 
         // 로그인 정보, storeId 넣어서 createMenuRequestDto 구성
         menuRequestDto.setStoreId(storeId);
@@ -63,11 +77,17 @@ public class OwnerMenuController {
 
     // 메뉴 삭제
     @DeleteMapping("/{storeId}/menu/{menuId}")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(@PathVariable Long storeId, @PathVariable Long menuId){
+    public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(
+            @PathVariable Long storeId,
+            @PathVariable Long menuId,
+            @RequestHeader("Authorization") String authHeader
+    ){
 
         // 로그인 정보 가져오기
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = Long.parseLong(authentication.getName());
+        String token = jwtUtil.substringToken(authHeader);
+        Claims claims = jwtUtil.extractClaims(token);
+        Long userId = Long.parseLong(claims.getSubject());
+
 
         // createMenu 매서드 실행
         menuService.deleteMenu(userId, storeId, menuId);

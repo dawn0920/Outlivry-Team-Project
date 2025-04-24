@@ -1,4 +1,4 @@
-package org.example.outlivryteamproject.domain.menu.config;
+package org.example.outlivryteamproject.config;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

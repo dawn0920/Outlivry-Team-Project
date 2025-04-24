@@ -7,6 +7,7 @@ import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestD
 import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderResponseDto;
 import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.order.repository.OrderRepository;
+import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.example.outlivryteamproject.domain.user.entity.User;
 import org.example.outlivryteamproject.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
+    private final StoreRepository storeRepository;
 
     @Override
     @Transactional

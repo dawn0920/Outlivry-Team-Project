@@ -11,26 +11,32 @@ import org.example.outlivryteamproject.domain.review.entity.Review;
 import org.example.outlivryteamproject.domain.review.repository.ReviewRepository;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
+import org.example.outlivryteamproject.domain.user.entity.User;
+import org.example.outlivryteamproject.domain.user.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final UserRepository userRepository;
     private final StoreRepository storeRepository;
 
     @Override
     @Transactional
-    public CreateReviewResponseDto save(Long storeId, CreateReviewRequestDto requestDto) {
+    public CreateReviewResponseDto save(Long userId, Long storeId, CreateReviewRequestDto requestDto) {
 
+        User findedUser = userRepository.findById(userId);
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
 
-        Review review = new Review(findedStore, requestDto);
+        Review review = new Review(findedUser, findedStore, requestDto);
         Review savedReview = reviewRepository.save(review);
 
         return new CreateReviewResponseDto(savedReview);
@@ -64,9 +70,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public UpdateReviewResponseDto update(Long reviewId, UpdateReviewRequestDto requestDto) {
+    public UpdateReviewResponseDto update(Long userId, Long reviewId, UpdateReviewRequestDto requestDto) {
 
+        User findedUser = userRepository.findById(userId);
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
+
+        if (!findedReview.getUser().equals(findedUser)) {
+            throw new IllegalArgumentException("작성한 사람만 수정할 수 있습니다");
+        }
+
         findedReview.update(requestDto);
 
         Review savedReview = reviewRepository.save(findedReview);
@@ -76,8 +88,15 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void delete(Long reviewId) {
-        Review review = reviewRepository.findByReviewIdOrElseThrow(reviewId);
-        reviewRepository.delete(review);
+    public void delete(Long userId, Long reviewId) {
+
+        User findedUser = userRepository.findById(userId);
+        Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
+
+        if (!findedReview.getUser().equals(findedUser)) {
+            throw new IllegalArgumentException("작성한 사람만 수정할 수 있습니다");
+        }
+
+        reviewRepository.delete(findedReview);
     }
 }

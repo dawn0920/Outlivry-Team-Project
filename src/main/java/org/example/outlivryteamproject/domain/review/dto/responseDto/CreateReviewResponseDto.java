@@ -10,6 +10,8 @@ public class CreateReviewResponseDto {
 
     private final Long id;
 
+    private final String userNickname;
+
     private final String contents;
 
     private final Integer stars;
@@ -18,6 +20,7 @@ public class CreateReviewResponseDto {
 
     public CreateReviewResponseDto(Review review) {
         this.id = review.getReviewId();
+        this.userNickname = review.getUser().getNickname();
         this.contents = review.getContents();
         this.stars = review.getStars();
         this.creatTime = review.getCreatTime();

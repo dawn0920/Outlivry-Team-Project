@@ -10,13 +10,13 @@ import org.springframework.data.domain.Page;
 
 public interface ReviewService {
 
-    CreateReviewResponseDto save(Long storeId, CreateReviewRequestDto requestDto);
+    CreateReviewResponseDto save(Long userId, Long storeId, CreateReviewRequestDto requestDto);
 
     Page<FindReviewResponseDto> findAll(Long storeId, int page);
 
     Page<FindReviewResponseDto> findByStars(Long storeId, int page, FindByStarsRequestDto requestDto);
 
-    UpdateReviewResponseDto update(Long reviewId, UpdateReviewRequestDto requestDto);
+    UpdateReviewResponseDto update(Long userId, Long reviewId, UpdateReviewRequestDto requestDto);
 
-    void delete(Long reviewId);
+    void delete(Long userId, Long reviewId);
 }

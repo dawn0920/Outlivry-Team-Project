@@ -2,6 +2,7 @@ package org.example.outlivryteamproject.domain.review.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.common.TokenUserId;
 import org.example.outlivryteamproject.common.response.ApiResponse;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
@@ -21,13 +22,17 @@ import org.springframework.web.bind.annotation.*;
 public class ReviewController {
 
     private final ReviewServiceImpl reviewService;
+    private final TokenUserId tokenUserId;
 
     @PostMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
             @PathVariable Long storeId,
+            @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody CreateReviewRequestDto requestDto
     ) {
-        CreateReviewResponseDto createdReview = reviewService.save(storeId, requestDto);
+        Long userId = tokenUserId.getTokenUserId(authHeader);
+
+        CreateReviewResponseDto createdReview = reviewService.save(userId, storeId, requestDto);
 
         return new ResponseEntity<>(new ApiResponse<>("리뷰를 작성했습니다.", createdReview), HttpStatus.CREATED);
     }
@@ -56,18 +61,22 @@ public class ReviewController {
     @PatchMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<UpdateReviewResponseDto>> updateReview(
             @PathVariable Long reviewId,
+            @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody UpdateReviewRequestDto requestDto
     ) {
-        UpdateReviewResponseDto updatedReview = reviewService.update(reviewId, requestDto);
+        Long userId = tokenUserId.getTokenUserId(authHeader);
+        UpdateReviewResponseDto updatedReview = reviewService.update(userId, reviewId, requestDto);
 
         return new ResponseEntity<>(new ApiResponse<>("리뷰를 수정했습니다.",updatedReview), HttpStatus.OK);
     }
 
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<Void>> deleteReview(
+            @RequestHeader("Authorization") String authHeader,
             @PathVariable Long reviewId
     ) {
-        reviewService.delete(reviewId);
+        Long userId = tokenUserId.getTokenUserId(authHeader);
+        reviewService.delete(userId, reviewId);
 
         return new ResponseEntity<>(new ApiResponse<>("리뷰를 삭제했습니다."),HttpStatus.NO_CONTENT);
     }

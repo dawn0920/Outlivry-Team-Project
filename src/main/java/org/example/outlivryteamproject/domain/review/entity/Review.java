@@ -6,6 +6,7 @@ import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
+import org.example.outlivryteamproject.domain.user.entity.User;
 
 @Entity
 @Getter
@@ -26,11 +27,16 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Review() {
 
     }
 
-    public Review(Store store, CreateReviewRequestDto requestDto) {
+    public Review(User user, Store store, CreateReviewRequestDto requestDto) {
+        this.user = user;
         this.store = store;
         this.contents = requestDto.getContents();
         this.stars = requestDto.getStars();

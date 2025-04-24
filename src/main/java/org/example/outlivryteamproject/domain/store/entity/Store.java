@@ -68,21 +68,21 @@ public class Store extends BaseEntity {
     @Column(name = "open_time")
     private String openTime;
 
-    @Column(name = "open_time")
+    @Column(name = "close_time")
     private String closeTime;
 
 
-    public Store(StoreRequestDto requsetDto, User user, String storePictureUrl) {
+    public Store(StoreRequestDto requestDto, User user, String storePictureUrl) {
         this.user = user;
-        this.storeName = requsetDto.getStoreName();
+        this.storeName = requestDto.getStoreName();
         this.storePictureUrl = storePictureUrl;
-        this.phone = requsetDto.getPhone();
-        this.address = requsetDto.getAddress();
-        this.content = requsetDto.getContent();
-        this.category = requsetDto.getCategory();
-        this.minDeliveryPrice = requsetDto.getMinDeliveryPrice();
-        this.deliveryTip = requsetDto.getDeliveryTip();
-        this.openTime = requsetDto.getOpenTime();
-        this.closeTime = requsetDto.getCloseTime();
+        this.phone = requestDto.getPhone();
+        this.address = requestDto.getAddress();
+        this.content = requestDto.getContent();
+        this.category = requestDto.getCategory();
+        this.minDeliveryPrice = requestDto.getMinDeliveryPrice();
+        this.deliveryTip = requestDto.getDeliveryTip();
+        this.openTime = requestDto.getOpenTime();
+        this.closeTime = requestDto.getCloseTime();
     }
 }

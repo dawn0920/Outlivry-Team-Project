@@ -23,35 +23,35 @@ public class StoreOwnerController {
     /**  사장님만 생성 할 수 있도록 수정 필요
      * 가게 생성 메소드
      *
-     * @param requsetDto 가게 생성 요청 정보를 담은 StoreRequsetDto 객체
+     * @param requestDto 가게 생성 요청 정보를 담은 StoreRequestDto 객체
      * @return 생성된 가게 정보가 담겨 있는 StoreResponseDto 객체
      */
     @PostMapping
     public ResponseEntity<StoreResponseDto> saveStore (
-        @ModelAttribute @Valid StoreRequestDto requsetDto,
+        @ModelAttribute @Valid StoreRequestDto requestDto,
         @RequestHeader("Authorization") String authHeader
     ){
         Long userId = tokenUserId.getTokenUserId(authHeader);
 
-        return new ResponseEntity<>(storeOwnerService.saveStore(requsetDto,userId), HttpStatus.CREATED);
+        return new ResponseEntity<>(storeOwnerService.saveStore(requestDto,userId), HttpStatus.CREATED);
     }
 
     /**  추후 사장님 본인만 가능하도록 수정 필요 + 비밀번호 요구
      * 가게 수정 메소드
      *
      * @param storeId 가게 id를 조회
-     * @param requsetDto 새로운 가게 정보 담은 updateStoreRequestDto 객체 - null 값 허용
+     * @param requestDto 새로운 가게 정보 담은 updateStoreRequestDto 객체 - null 값 허용
      * @return 바뀐 가게 정보가 담겨 있는 StoreResponseDto 객체 - null 값으로 들어온 정보는 수정 x
      */
     @PatchMapping("/{storeId}")
     public ResponseEntity<StoreResponseDto> updateStore (
         @PathVariable Long storeId,
-        @ModelAttribute @Valid updateStoreRequestDto requsetDto,
+        @ModelAttribute @Valid updateStoreRequestDto requestDto,
         @RequestHeader("Authorization") String authHeader
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
 
-        return new ResponseEntity<>(storeOwnerService.updateStore(storeId, requsetDto,userId),HttpStatus.OK);
+        return new ResponseEntity<>(storeOwnerService.updateStore(storeId, requestDto,userId),HttpStatus.OK);
     }
 
     /** 사장님 본인만 삭제 가능하도록 수정 필요 + 비밀번호 요구

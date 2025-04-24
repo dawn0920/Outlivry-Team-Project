@@ -18,6 +18,7 @@ public class UpdateUtils {
         }
     }
 
+    // 애 안쓰면 마지막에 배포 전 뺄것!
     public static void updateBoolean(Boolean value, Consumer<Boolean> setter) {
         if(value != null) {
             setter.accept(value);

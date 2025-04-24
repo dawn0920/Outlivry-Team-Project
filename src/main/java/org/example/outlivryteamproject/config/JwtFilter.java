@@ -66,7 +66,7 @@ public class JwtFilter implements Filter {
             httpServletRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
             httpServletRequest.setAttribute("userRole", claims.get("userRole"));
 
-            if (url.startsWith("/owner")) {
+            if (url.startsWith("/owners")) {
                 if (!UserRole.OWNER.equals(userRole)) {
                     httpServletResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "사장님 권한이 없습니다.");
                     return;

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
+import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.user.entity.User;
 

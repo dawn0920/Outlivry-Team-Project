@@ -25,7 +25,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
 
     @Override
     @Transactional
-    public StoreResponseDto saveStore(StoreRequestDto requsetDto, Long userId) {
+    public StoreResponseDto saveStore(StoreRequestDto requestDto, Long userId) {
 
         // userId로 검색한 store 수가 3개 이상이면 생성 제한-------------------
         long storeCount = storeRepository.countByUserId(userId);
@@ -37,7 +37,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
 
         User user = userRepository.findByIdOrElseThrow(userId);
 
-        Store store = new Store(requsetDto, user);
+        Store store = new Store(requestDto, user);
         Store savedStore = storeRepository.save(store);
 
         return new StoreResponseDto(savedStore);
@@ -45,7 +45,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
 
     @Override
     @Transactional
-    public StoreResponseDto updateStore(Long storeId, updateStoreRequestDto requsetDto, Long userId) {
+    public StoreResponseDto updateStore(Long storeId, updateStoreRequestDto requestDto, Long userId) {
 
         User user = userRepository.findByIdOrElseThrow(userId);
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
@@ -55,16 +55,16 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
         }
 
         // 새로운 값이 있다면 수정, 없다면 기존값 유지
-        UpdateUtils.updateString(requsetDto.getNewStoreName(),store::setStoreName);
-        UpdateUtils.updateString(requsetDto.getNewStorePictureUrl(),store::setStorePictureUrl);
-        UpdateUtils.updateString(requsetDto.getNewPhone(),store::setPhone);
-        UpdateUtils.updateString(requsetDto.getNewAddress(),store::setAddress);
-        UpdateUtils.updateString(requsetDto.getNewContent(),store::setContent);
-        UpdateUtils.updateString(requsetDto.getNewCategory(),store::setCategory);
-        UpdateUtils.updateLong(requsetDto.getNewMinDeliveryPrice(), store::setMinDeliveryPrice);
-        UpdateUtils.updateLong(requsetDto.getNewDeliveryTip(), store::setDeliveryTip);
-        UpdateUtils.updateString(requsetDto.getNewOpenTime(), store::setOpenTime);
-        UpdateUtils.updateString(requsetDto.getNewCloseTime(), store::setCloseTime);
+        UpdateUtils.updateString(requestDto.getNewStoreName(),store::setStoreName);
+        UpdateUtils.updateString(requestDto.getNewStorePictureUrl(),store::setStorePictureUrl);
+        UpdateUtils.updateString(requestDto.getNewPhone(),store::setPhone);
+        UpdateUtils.updateString(requestDto.getNewAddress(),store::setAddress);
+        UpdateUtils.updateString(requestDto.getNewContent(),store::setContent);
+        UpdateUtils.updateString(requestDto.getNewCategory(),store::setCategory);
+        UpdateUtils.updateLong(requestDto.getNewMinDeliveryPrice(), store::setMinDeliveryPrice);
+        UpdateUtils.updateLong(requestDto.getNewDeliveryTip(), store::setDeliveryTip);
+        UpdateUtils.updateString(requestDto.getNewOpenTime(), store::setOpenTime);
+        UpdateUtils.updateString(requestDto.getNewCloseTime(), store::setCloseTime);
 
         return new StoreResponseDto(store);
     }

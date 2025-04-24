@@ -12,7 +12,12 @@ public enum ExceptionCode implements ErrorCode{
 
     // auth - 로그인
     ACCOUNT_NOT_FOUND(HttpStatus.UNAUTHORIZED, "가입되지 않은 유저입니다."),
-    PASSWORD_MISMATCH(HttpStatus.UNAUTHORIZED, "잘봇된 비밀번호입니다.")
+    PASSWORD_MISMATCH(HttpStatus.UNAUTHORIZED, "잘봇된 비밀번호입니다."),
+
+    // user
+    USER_NOT_FOUND(HttpStatus.UNAUTHORIZED, "해당 유저를 찾을 수 없습니다."),
+    DUPLICATE_PASSWORD(HttpStatus.BAD_REQUEST, "새 비밀번호는 기존 비밀번호와 같을 수 없습니다."),
+    ALREADY_DELETE(HttpStatus.CONFLICT, "삭제된 유저입니다.")
     ;
 
 

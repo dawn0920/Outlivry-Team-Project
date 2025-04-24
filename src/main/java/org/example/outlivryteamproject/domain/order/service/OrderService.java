@@ -5,4 +5,6 @@ import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderRespons
 public interface OrderService {
 
     OrderResponseDto createOrder(Long userId);
+
+    OrderResponseDto findByOrderId(Long orderId);
 }

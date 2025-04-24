@@ -6,10 +6,7 @@ import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderRespons
 import org.example.outlivryteamproject.domain.order.service.OrderServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -25,4 +22,14 @@ public class OrderController {
 
         return new ResponseEntity<>(new ApiResponse<>("주문에 성공하였습니다.", createOrder), HttpStatus.CREATED);
     }
+
+    @GetMapping("/{orderId}")
+    public ResponseEntity<ApiResponse<OrderResponseDto>> findOrderById(@PathVariable Long orderId) {
+
+        OrderResponseDto findedOrder = orderService.findByOrderId(orderId);
+
+        return new ResponseEntity<>(new ApiResponse<>("주문 조회", findedOrder), HttpStatus.OK);
+    }
+
+
 }

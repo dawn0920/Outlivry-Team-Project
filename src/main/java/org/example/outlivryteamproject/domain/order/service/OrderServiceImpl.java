@@ -41,4 +41,12 @@ public class OrderServiceImpl implements OrderService{
 
         return new OrderResponseDto(savedOrder);
     }
+
+    @Override
+    public OrderResponseDto findByOrderId(Long orderId) {
+
+        Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
+
+        return new OrderResponseDto(findedOrder);
+    }
 }

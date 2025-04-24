@@ -3,6 +3,7 @@ package org.example.outlivryteamproject.domain.order.service;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
 import org.example.outlivryteamproject.domain.cart.repository.CartRepository;
+import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestDto;
 import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderResponseDto;
 import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.order.repository.OrderRepository;
@@ -23,7 +24,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public OrderResponseDto createOrder(Long userId) {
+    public OrderResponseDto createOrder(Long userId, OrderRequestDto requestDto) {
 
         User user = userRepository.findById(userId);
         List<Cart> carts = cartRepository.findCartByUserId(userId);
@@ -36,8 +37,10 @@ public class OrderServiceImpl implements OrderService{
                 .mapToInt(cart -> cart.getPrice() * cart.getQuantity())
                 .sum();
 
-        Order order = new Order(user, carts, totalPrice);
+        Order order = new Order(user, carts, totalPrice, requestDto);
         Order savedOrder = orderRepository.save(order);
+
+        cartRepository.deleteAllByUserId(userId);
 
         return new OrderResponseDto(savedOrder);
     }

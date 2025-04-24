@@ -13,8 +13,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
     Long user(User user);
 
     default Cart findCartByCartIdOrElseThrow(Long cartId) {
-        findById(cartId).orElseThrow(() ->
+        return findById(cartId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 상품입니다.")
         );
     }
+
+    void deleteAllByUserId(Long userId);
 }

@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
+import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestDto;
 import org.example.outlivryteamproject.domain.user.entity.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -29,19 +31,26 @@ public class Order extends BaseEntity {
     private Integer totalPrice;
 
     @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
     private boolean received;
 
     @Column(nullable = false)
     private boolean delivery;
 
+    private String request;
+
     public Order() {
 
     }
 
-    public Order(User user, List<Cart> carts, Integer totalPrice) {
+    public Order(User user, List<Cart> carts, Integer totalPrice, OrderRequestDto requestDto) {
         this.user = user;
         this.carts = carts;
         this.totalPrice = totalPrice;
+        this.address = user.getAddress();
+        this.request = (requestDto.getRequest() != null) ? requestDto.getRequest() : "";
     }
 
     public void changeReceived() {

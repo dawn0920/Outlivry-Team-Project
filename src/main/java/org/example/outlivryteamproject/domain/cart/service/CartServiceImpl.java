@@ -38,16 +38,29 @@ public class CartServiceImpl implements CartService{
             Store menuStore = findedMenu.getStore();
 
             if (!cartStore.equals(menuStore)) {
+                carts.clear();
                 cartRepository.deleteAll(carts);
             }
         }
 
-        //나중에 pull 받으면 수정해줘야함
-        Optional<User> findedUser = userRepository.findById(userId);
-        Cart cart = new Cart(findedUser, findedMenu);
-        Cart savedCart = cartRepository.save(cart);
+        //장바구니에 같은 품목이 담겨있다면 수량 증가
+        Optional<Cart> presentCart = carts.stream()
+                .filter(cart -> cart.getMenu().equals(findedMenu))
+                .findFirst();
 
-        return new SaveCartResponseDto(savedCart);
+        if (presentCart.isPresent()) {
+            Cart cart = presentCart.get();
+            cart.increaseQuantity();
+
+            return new SaveCartResponseDto(cart);
+
+        } else {
+            User findedUser = userRepository.findById(userId);
+            Cart cart = new Cart(findedUser, findedMenu);
+            Cart savedCart = cartRepository.save(cart);
+
+            return new SaveCartResponseDto(savedCart);
+        }
     }
 
     @Override

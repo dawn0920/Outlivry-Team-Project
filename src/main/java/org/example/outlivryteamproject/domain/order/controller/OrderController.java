@@ -2,6 +2,7 @@ package org.example.outlivryteamproject.domain.order.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.response.ApiResponse;
+import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestDto;
 import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderResponseDto;
 import org.example.outlivryteamproject.domain.order.service.OrderServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,11 @@ public class OrderController {
     private final OrderServiceImpl orderService;
 
     @PostMapping("/users/{userId}")
-    public ResponseEntity<ApiResponse<OrderResponseDto>> createOrder(@PathVariable Long userId) {
-
-        OrderResponseDto createOrder = orderService.createOrder(userId);
+    public ResponseEntity<ApiResponse<OrderResponseDto>> createOrder(
+            @PathVariable Long userId,
+            @RequestBody OrderRequestDto requestDto
+    ) {
+        OrderResponseDto createOrder = orderService.createOrder(userId, requestDto);
 
         return new ResponseEntity<>(new ApiResponse<>("주문에 성공하였습니다.", createOrder), HttpStatus.CREATED);
     }

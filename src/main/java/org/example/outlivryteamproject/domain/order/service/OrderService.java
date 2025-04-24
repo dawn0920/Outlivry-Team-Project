@@ -1,10 +1,11 @@
 package org.example.outlivryteamproject.domain.order.service;
 
+import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestDto;
 import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderResponseDto;
 
 public interface OrderService {
 
-    OrderResponseDto createOrder(Long userId);
+    OrderResponseDto createOrder(Long userId, OrderRequestDto requestDto);
 
     OrderResponseDto findByOrderId(Long orderId);
 

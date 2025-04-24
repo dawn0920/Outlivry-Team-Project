@@ -6,6 +6,8 @@ import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.user.entity.User;
 
+import java.util.Optional;
+
 @Entity
 @Table(name = "cart")
 @Getter
@@ -41,5 +43,9 @@ public class Cart extends BaseEntity {
         this.price = menu.getPrice();
         this.user = user;
         this.menu = menu;
+    }
+
+    public void increaseQuantity() {
+        this.quantity++;
     }
 }

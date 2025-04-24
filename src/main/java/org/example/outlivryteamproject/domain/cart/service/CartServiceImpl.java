@@ -55,7 +55,7 @@ public class CartServiceImpl implements CartService{
             return new SaveCartResponseDto(cart);
 
         } else {
-            User findedUser = userRepository.findById(userId);
+            User findedUser = userRepository.findByIdOrElseThrow(userId);
             Cart cart = new Cart(findedUser, findedMenu);
             Cart savedCart = cartRepository.save(cart);
 

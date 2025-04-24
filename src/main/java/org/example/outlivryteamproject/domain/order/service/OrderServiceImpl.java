@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService{
     @Transactional
     public OrderResponseDto createOrder(Long userId, OrderRequestDto requestDto) {
 
-        User user = userRepository.findById(userId);
+        User user = userRepository.findByIdOrElseThrow(userId);
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
         if (carts.isEmpty()) {

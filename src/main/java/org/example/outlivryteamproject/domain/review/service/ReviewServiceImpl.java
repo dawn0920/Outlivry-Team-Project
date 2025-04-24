@@ -34,7 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public CreateReviewResponseDto save(Long userId, Long storeId, CreateReviewRequestDto requestDto) {
 
-        User findedUser = userRepository.findById(userId);
+        User findedUser = userRepository.findByIdOrElseThrow(userId);
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
         Order findedOrder = orderRepository.findByUserIdOrElseThrow(findedUser);
 
@@ -79,7 +79,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public UpdateReviewResponseDto update(Long userId, Long reviewId, UpdateReviewRequestDto requestDto) {
 
-        User findedUser = userRepository.findById(userId);
+        User findedUser = userRepository.findByIdOrElseThrow(userId);
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
 
         if (!findedReview.getUser().equals(findedUser)) {
@@ -97,7 +97,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public void delete(Long userId, Long reviewId) {
 
-        User findedUser = userRepository.findById(userId);
+        User findedUser = userRepository.findByIdOrElseThrow(userId);
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
 
         if (!findedReview.getUser().equals(findedUser)) {

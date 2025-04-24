@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
+import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.user.entity.User;
 
 import java.util.Optional;
@@ -33,6 +34,10 @@ public class Cart extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "menu_Id")
     private Menu menu;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 
     public Cart() {
 

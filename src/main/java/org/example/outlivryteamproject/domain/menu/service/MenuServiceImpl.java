@@ -36,9 +36,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    public MenuResponseDto createMenu(MenuRequestDto menuRequestDto) {
+    public MenuResponseDto createMenu(Long storeId, Long userId, MenuRequestDto menuRequestDto) {
 
-        Store store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
+        Store store = matchesOwner(userId, storeId);
 
         String imageUrl = uploadImage(menuRequestDto.getImage());
 
@@ -51,9 +51,9 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto modifiedMenu(MenuRequestDto menuRequestDto, Long menuId) {
+    public MenuResponseDto modifiedMenu(Long storeId, Long userId, MenuRequestDto menuRequestDto, Long menuId) {
 
-        Store store = matchesOwner(menuRequestDto.getUserId(), menuRequestDto.getStoreId());
+        Store store = matchesOwner(userId, storeId);
 
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 

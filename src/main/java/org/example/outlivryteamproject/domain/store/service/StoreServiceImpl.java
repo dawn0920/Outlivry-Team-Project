@@ -50,6 +50,4 @@ public class StoreServiceImpl implements StoreService{
 
         return new findOneStoreResponseDto(store);
     }
-
-
 }

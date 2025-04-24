@@ -36,5 +36,7 @@ public class StoreRequestDto {
     @Min(0)
     private final Long deliveryTip; // 가게 배달료
 
-    private final String operationHours;  // 가게 운영시간
+    private final String openTime;
+
+    private final String closeTime;
 }

@@ -30,7 +30,7 @@ public class AuthService {
     public SignupResponse usersignup(SignupRequest signupRequest) {
 
         UserRole userRole = UserRole.USER;
-        if(userRepository.existsByEmail(signupRequest.getEmail())) {
+        if(userRepository.findAllByEmailIncludingDeleted(signupRequest.getEmail()).isPresent()) {
             throw new CustomException(ExceptionCode.EMAIL_ALREADY_EXISTS);
         }
 
@@ -57,7 +57,7 @@ public class AuthService {
     public SignupResponse ownersignup(SignupRequest signupRequest) {
 
         UserRole userRole = UserRole.OWNER;
-        if(userRepository.existsByEmail(signupRequest.getEmail())) {
+        if(userRepository.findAllByEmailIncludingDeleted(signupRequest.getEmail()).isPresent()) {
             throw new CustomException(ExceptionCode.EMAIL_ALREADY_EXISTS);
         }
 

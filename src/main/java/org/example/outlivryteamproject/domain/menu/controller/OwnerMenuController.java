@@ -3,8 +3,8 @@ package org.example.outlivryteamproject.domain.menu.controller;
 
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.common.TokenUserId;
 import org.example.outlivryteamproject.common.response.ApiResponse;
-import org.example.outlivryteamproject.config.JwtUtil;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 import org.example.outlivryteamproject.domain.menu.service.MenuService;
@@ -21,7 +21,7 @@ public class OwnerMenuController {
 
     private final MenuService menuService;
 
-    private final JwtUtil jwtUtil;
+    private final TokenUserId tokenUserId;
 
     // 메뉴 등록
     @PostMapping("/{storeId}/menus")
@@ -32,9 +32,8 @@ public class OwnerMenuController {
     ){
 
         // 로그인 정보 가져오기
-        String token = jwtUtil.substringToken(authHeader);
-        Claims claims = jwtUtil.extractClaims(token);
-        Long userId = Long.parseLong(claims.getSubject());
+
+        Long userId = tokenUserId.getTokenUserId(authHeader);
 
         // createMenu 매서드 실행
         MenuResponseDto menuResponseDto = menuService.createMenu(storeId, userId, menuRequestDto);
@@ -54,9 +53,7 @@ public class OwnerMenuController {
     ){
 
         // 로그인 정보 가져오기
-        String token = jwtUtil.substringToken(authHeader);
-        Claims claims = jwtUtil.extractClaims(token);
-        Long userId = Long.parseLong(claims.getSubject());
+        Long userId = tokenUserId.getTokenUserId(authHeader);
 
 
         // createMenu 매서드 실행
@@ -76,9 +73,7 @@ public class OwnerMenuController {
     ){
 
         // 로그인 정보 가져오기
-        String token = jwtUtil.substringToken(authHeader);
-        Claims claims = jwtUtil.extractClaims(token);
-        Long userId = Long.parseLong(claims.getSubject());
+        Long userId = tokenUserId.getTokenUserId(authHeader);
 
 
         // createMenu 매서드 실행

@@ -116,7 +116,7 @@ public class MenuServiceImpl implements MenuService {
     private Store matchesOwner(Long userId, Long storeId){
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
 
-        Long storeOwnerId = store.getUser().getUserId();
+        Long storeOwnerId = store.getUser().getId();
 
         if(!storeOwnerId.equals(userId)){
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);

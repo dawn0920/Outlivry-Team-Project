@@ -4,13 +4,17 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import org.example.outlivryteamproject.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    boolean existsByEmail(@NotBlank @Email String email);
+
+    @Query(value = "SELECT * FROM users WHERE email = :email AND is_deleted = true", nativeQuery = true)
+    Optional<User> findAllByEmailIncludingDeleted(@Param("email") String email);
 
     User save(User newUser);
 

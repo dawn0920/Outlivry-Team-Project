@@ -10,4 +10,6 @@ public interface CartService {
     SaveCartResponseDto save(Long userId, Long menuId);
 
     List<FindCartResponseDto> findCart(Long userId);
+
+    void removeCartItem(Long cartId);
 }

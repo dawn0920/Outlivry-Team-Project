@@ -59,4 +59,11 @@ public class CartServiceImpl implements CartService{
                 map(FindCartResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    public void removeCartItem(Long cartId) {
+        Cart cart = cartRepository.findCartByCartIdOrElseThrow(cartId);
+        cartRepository.delete(cart);
+    }
 }

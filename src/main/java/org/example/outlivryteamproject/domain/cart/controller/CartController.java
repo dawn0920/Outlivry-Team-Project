@@ -18,7 +18,7 @@ public class CartController {
 
     private final CartServiceImpl cartService;
 
-    @PostMapping("/user/{userId}/menu/{menuId}")
+    @PostMapping("/users/{userId}/menus/{menuId}")
     public ResponseEntity<ApiResponse<SaveCartResponseDto>> saveCart(
             @PathVariable Long userId,
             @PathVariable Long menuId
@@ -28,7 +28,7 @@ public class CartController {
         return new ResponseEntity<>(new ApiResponse<>("장바구니에 추가했습니다",savedCart), HttpStatus.CREATED);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/{userId}")
     public ResponseEntity<ApiResponse<List<FindCartResponseDto>>> findByUserId(
             @PathVariable Long userId
     ) {
@@ -45,7 +45,7 @@ public class CartController {
         return new ResponseEntity<>(new ApiResponse<>("해당 물건을 삭제했습니다"), HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/user/{userId}")
+    @DeleteMapping("/users/{userId}")
     public ResponseEntity<ApiResponse<Void>> removeAllCart(@PathVariable Long userId) {
 
         cartService.removeCart(userId);

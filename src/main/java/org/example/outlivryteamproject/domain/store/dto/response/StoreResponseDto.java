@@ -20,7 +20,8 @@ public class StoreResponseDto {
     private String category;
     private Long minDeliveryPrice;
     private Long deliveryTip;
-    private String operationHours;
+    private String openTime;
+    private String closeTime;
     private LocalDateTime creatTime;
     private LocalDateTime modifiedTime;
     private boolean isDeleted;
@@ -36,7 +37,8 @@ public class StoreResponseDto {
         this.category = store.getCategory();
         this.minDeliveryPrice = store.getMinDeliveryPrice();
         this.deliveryTip = store.getDeliveryTip();
-        this.operationHours = store.getOperationHours();
+        this.openTime = store.getOpenTime();
+        this.closeTime = store.getCloseTime();
         this.creatTime = store.getCreatTime();
         this.modifiedTime = store.getModifiedTime();
         this.isDeleted = store.isDeleted();

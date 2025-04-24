@@ -1,7 +1,6 @@
 package org.example.outlivryteamproject.domain.store.controller;
 
 
-import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.example.outlivryteamproject.config.JwtUtil;
+import org.example.outlivryteamproject.common.TokenUserId;
 
 @RestController
 @RequestMapping("/owners/stores")
@@ -26,7 +25,7 @@ import org.example.outlivryteamproject.config.JwtUtil;
 public class StoreOwnerController {
 
     private final StoreOwnerService storeOwnerService;
-    private final JwtUtil jwtUtil;
+    private final TokenUserId tokenUserId;
 
     /**  사장님만 생성 할 수 있도록 수정 필요
      * 가게 생성 메소드
@@ -39,7 +38,7 @@ public class StoreOwnerController {
         @RequestBody @Valid StoreRequestDto requsetDto,
         @RequestHeader("Authorization") String authHeader
     ){
-        Long userId = getJwtTokenUserId(authHeader);
+        Long userId = tokenUserId.getTokenUserId(authHeader);
 
         return new ResponseEntity<>(storeOwnerService.saveStore(requsetDto,userId), HttpStatus.CREATED);
     }
@@ -57,7 +56,7 @@ public class StoreOwnerController {
         @RequestBody @Valid updateStoreRequestDto requsetDto,
         @RequestHeader("Authorization") String authHeader
     ) {
-        Long userId = getJwtTokenUserId(authHeader);
+        Long userId = tokenUserId.getTokenUserId(authHeader);
 
         return new ResponseEntity<>(storeOwnerService.updateStore(storeId, requsetDto,userId),HttpStatus.OK);
     }
@@ -73,19 +72,10 @@ public class StoreOwnerController {
         @PathVariable Long storeId,
         @RequestHeader("Authorization") String authHeader
     ) {
-        Long userId = getJwtTokenUserId(authHeader);
+        Long userId = tokenUserId.getTokenUserId(authHeader);
 
         storeOwnerService.deleteStore(storeId, userId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    public Long getJwtTokenUserId(String authHeader) {
-
-        String token = jwtUtil.substringToken(authHeader);
-        Claims claims = jwtUtil.extractClaims(token);
-        Long userId = Long.parseLong(claims.getSubject());
-
-        return userId;
     }
 }

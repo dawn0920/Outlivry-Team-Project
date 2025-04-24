@@ -3,6 +3,7 @@ package org.example.outlivryteamproject.domain.store.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.UpdateUtils;
+import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
@@ -77,6 +78,9 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
             throw new CustomException(ExceptionCode.NOT_EQUALS_OWNER);
         }
 
-        storeRepository.delete(store);
+        store.softDelete();
+        for(Menu menu : store.getMenuList()) {
+            menu.softDelete();
+        }
     }
 }

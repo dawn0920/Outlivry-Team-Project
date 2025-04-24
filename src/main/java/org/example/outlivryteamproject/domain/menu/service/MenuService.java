@@ -6,9 +6,9 @@ import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseD
 import java.util.List;
 
 public interface MenuService {
-    MenuResponseDto createMenu(MenuRequestDto menuRequestDto);
+    MenuResponseDto createMenu(Long storeId, Long userId, MenuRequestDto menuRequestDto);
 
-    MenuResponseDto modifiedMenu(MenuRequestDto menuRequestDto, Long menuId);
+    MenuResponseDto modifiedMenu(Long storeId, Long userId, MenuRequestDto menuRequestDto, Long menuId);
 
     void deleteMenu(Long userId, Long storeId, Long menuId);
 

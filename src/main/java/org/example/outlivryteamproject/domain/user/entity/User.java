@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.user.enums.UserRole;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
@@ -16,6 +18,8 @@ import org.example.outlivryteamproject.domain.user.enums.UserRole;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE user SET is_deleted = true WHERE id = ?")
+@Where(clause = "is_deleted = false")
 public class User extends BaseEntity {
 
     @Id
@@ -47,8 +51,8 @@ public class User extends BaseEntity {
     private UserRole userRole;
 
     // 삭제시 1(true)  기본값 0(flase)
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted = false;
+//    @Column(name = "is_deleted", nullable = false)
+//    private boolean isDeleted = false;
 
     public User(String email, String password, String name, String phone, String birth, UserRole userRole) {
         this.email = email;
@@ -58,4 +62,16 @@ public class User extends BaseEntity {
         this.birth = birth;
         this.userRole = userRole;
     }
+
+    public void update(String nickname, String name, String phone, String address) {
+        this.nickname = nickname;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
+
 }

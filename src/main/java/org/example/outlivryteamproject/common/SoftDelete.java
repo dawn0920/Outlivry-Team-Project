@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 
 @Setter
 @Getter
@@ -17,7 +19,14 @@ public abstract class SoftDelete {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
+    public void delete() {
+        if(this.isDeleted) {
+            throw new CustomException(ExceptionCode.ALREADY_DELETE);
+        } this.isDeleted = true;
+    }
+
     public void softDelete() {
         this.isDeleted = true;
     }
+
 }

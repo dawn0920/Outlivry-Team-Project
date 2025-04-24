@@ -44,4 +44,12 @@ public class CartController {
 
         return new ResponseEntity<>(new ApiResponse<>("해당 물건을 삭제했습니다"), HttpStatus.NO_CONTENT);
     }
+
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<ApiResponse<Void>> removeAllCart(@PathVariable Long userId) {
+
+        cartService.removeCart(userId);
+
+        return new ResponseEntity<>(new ApiResponse<>("장바구니를 비웠습니다."), HttpStatus.NO_CONTENT);
+    }
 }

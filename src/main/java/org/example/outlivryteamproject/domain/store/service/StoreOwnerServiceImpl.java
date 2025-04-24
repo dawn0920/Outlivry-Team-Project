@@ -2,6 +2,7 @@ package org.example.outlivryteamproject.domain.store.service;
 
 
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.common.S3ImageUploader;
 import org.example.outlivryteamproject.common.UpdateUtils;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
@@ -23,6 +24,8 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
     private final StoreRepository storeRepository;
     private final UserRepository userRepository;
 
+    private final S3ImageUploader s3ImageUploader;
+
     @Override
     @Transactional
     public StoreResponseDto saveStore(StoreRequestDto requsetDto, Long userId) {
@@ -37,7 +40,9 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
 
         User user = userRepository.findByIdOrElseThrow(userId);
 
-        Store store = new Store(requsetDto, user);
+        String storePictureUrl = s3ImageUploader.uploadImage(requsetDto.getStorePicture());
+
+        Store store = new Store(requsetDto, user, storePictureUrl);
         Store savedStore = storeRepository.save(store);
 
         return new StoreResponseDto(savedStore);
@@ -55,8 +60,9 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
         }
 
         // 새로운 값이 있다면 수정, 없다면 기존값 유지
+        String storePictureUrl = s3ImageUploader.uploadImage(requsetDto.getStorePicture());
         UpdateUtils.updateString(requsetDto.getNewStoreName(),store::setStoreName);
-        UpdateUtils.updateString(requsetDto.getNewStorePictureUrl(),store::setStorePictureUrl);
+        UpdateUtils.updateString(storePictureUrl,store::setStorePictureUrl);
         UpdateUtils.updateString(requsetDto.getNewPhone(),store::setPhone);
         UpdateUtils.updateString(requsetDto.getNewAddress(),store::setAddress);
         UpdateUtils.updateString(requsetDto.getNewContent(),store::setContent);

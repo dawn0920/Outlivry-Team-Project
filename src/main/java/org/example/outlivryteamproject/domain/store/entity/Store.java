@@ -19,7 +19,6 @@ import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
 import org.example.outlivryteamproject.domain.user.entity.User;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Setter
@@ -73,10 +72,10 @@ public class Store extends BaseEntity {
     private String closeTime;
 
 
-    public Store(StoreRequestDto requsetDto, User user) {
+    public Store(StoreRequestDto requsetDto, User user, String storePictureUrl) {
         this.user = user;
         this.storeName = requsetDto.getStoreName();
-        this.storePictureUrl = requsetDto.getStorePictureUrl();
+        this.storePictureUrl = storePictureUrl;
         this.phone = requsetDto.getPhone();
         this.address = requsetDto.getAddress();
         this.content = requsetDto.getContent();

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class StoreRequestDto {
     @NotBlank
     private final String storeName; // 가게 이름
 
-    private final String storePictureUrl; // 가게 사진
+    private final MultipartFile storePicture; // 가게 사진
 
     @NotBlank
     private final String phone; // 가게 번호

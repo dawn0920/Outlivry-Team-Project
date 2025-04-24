@@ -67,4 +67,13 @@ public class OrderServiceImpl implements OrderService{
         findedOrder.changeDelivery();
 
     }
+
+    @Override
+    @Transactional
+    public void deleteOrder(Long orderId) {
+
+        Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
+        orderRepository.delete(findedOrder);
+
+    }
 }

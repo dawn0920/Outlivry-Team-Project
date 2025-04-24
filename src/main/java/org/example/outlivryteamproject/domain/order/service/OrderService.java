@@ -11,4 +11,6 @@ public interface OrderService {
     void receivedOrder(Long orderId);
 
     void deliveryOrder(Long orderId);
+
+    void deleteOrder(Long orderId);
 }

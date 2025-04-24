@@ -7,11 +7,11 @@ public interface OrderService {
 
     OrderResponseDto createOrder(Long userId, OrderRequestDto requestDto);
 
-    OrderResponseDto findByOrderId(Long orderId);
+    OrderResponseDto findByOrderId(Long userId, Long orderId);
 
-    void receivedOrder(Long orderId);
+    void receivedOrder(Long userId, Long orderId);
 
-    void deliveryOrder(Long orderId);
+    void deliveryOrder(Long userId, Long orderId);
 
-    void deleteOrder(Long orderId);
+    void deleteOrder(Long userId, Long orderId);
 }

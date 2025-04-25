@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.store.entity.Store;
-import org.example.outlivryteamproject.domain.user.entity.User;
 
 @Getter
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class StoreResponseDto {
     private Long deliveryTip;
     private LocalTime openTime;
     private LocalTime closeTime;
-    private LocalDateTime creatTime;
+    private LocalDateTime createTime;
     private LocalDateTime modifiedTime;
     private boolean isDeleted;
 
@@ -41,7 +40,7 @@ public class StoreResponseDto {
         this.deliveryTip = store.getDeliveryTip();
         this.openTime = store.getOpenTime();
         this.closeTime = store.getCloseTime();
-        this.creatTime = store.getCreatTime();
+        this.createTime = store.getCreateTime();
         this.modifiedTime = store.getModifiedTime();
         this.isDeleted = store.isDeleted();
     }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("owner/stores")
+@RequestMapping("/owner/stores")
 public class OwnerMenuController {
 
     private final MenuService menuService;

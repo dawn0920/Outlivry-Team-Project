@@ -83,6 +83,7 @@ public class CartServiceImpl implements CartService{
         if (!cart.getUser().equals(findedUser)) {
             throw new IllegalArgumentException("자신의 장바구니만 삭제할 수 있습니다.");
         }
+
         cartRepository.delete(cart);
     }
 

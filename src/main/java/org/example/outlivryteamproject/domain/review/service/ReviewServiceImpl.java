@@ -36,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
-        Order findedOrder = orderRepository.findByUserIdOrElseThrow(findedUser);
+        Order findedOrder = orderRepository.findByUserOrElseThrow(findedUser);
 
         //주문이 완료되지 않았을경우 예외처리
         if (!findedOrder.isDelivery()) {

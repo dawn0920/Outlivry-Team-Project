@@ -7,6 +7,7 @@ import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestD
 import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderResponseDto;
 import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.order.repository.OrderRepository;
+import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.example.outlivryteamproject.domain.user.entity.User;
 import org.example.outlivryteamproject.domain.user.enums.UserRole;
@@ -14,6 +15,8 @@ import org.example.outlivryteamproject.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -27,7 +30,19 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public OrderResponseDto createOrder(Long userId, OrderRequestDto requestDto) {
+    public OrderResponseDto createOrder(Long storeId, Long userId, OrderRequestDto requestDto) {
+
+        Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
+        LocalTime now = LocalTime.now();
+
+        //영업중인지 확인하기
+        if (store.getOpenTime().isBefore(now)) {
+            throw new RuntimeException("영업 시간 전입니다.");
+        }
+
+        if (store.getCloseTime().isAfter(now)) {
+            throw new RuntimeException("영업이 종료되었습니다.");
+        }
 
         User user = userRepository.findByIdOrElseThrow(userId);
         List<Cart> carts = cartRepository.findCartByUserId(userId);
@@ -110,7 +125,7 @@ public class OrderServiceImpl implements OrderService{
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
         if (!findedUser.equals(findedOrder.getUser())) {
-            throw new IllegalArgumentException("주문자만 삭제할 수 있습니다.");
+            throw new IllegalArgumentException("주문자만 취소할 수 있습니다.");
         }
 
         orderRepository.delete(findedOrder);

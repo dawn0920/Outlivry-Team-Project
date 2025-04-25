@@ -16,7 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Optional<Order> findByUser(User user);
 
-    default Order findByUserIdOrElseThrow(User user) {
+    default Order findByUserOrElseThrow(User user) {
         return findByUser(user).orElseThrow(() ->
                 new NoSuchElementException("해당 주문이 존재하지 않습니다."));
     }

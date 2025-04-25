@@ -25,13 +25,14 @@ public class OrderController {
      * @param requestDto 요청사항
      * @return ResponseEntity
      */
-    @PostMapping
+    @PostMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<OrderResponseDto>> createOrder(
+            @PathVariable Long storeId,
             @RequestHeader("Authorization") String authHeader,
             @RequestBody OrderRequestDto requestDto
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
-        OrderResponseDto createOrder = orderService.createOrder(userId, requestDto);
+        OrderResponseDto createOrder = orderService.createOrder(storeId, userId, requestDto);
 
         return new ResponseEntity<>(new ApiResponse<>("주문에 성공하였습니다.", createOrder), HttpStatus.CREATED);
     }

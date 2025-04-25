@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.user.enums.LoginType;
+
 import org.example.outlivryteamproject.domain.user.enums.UserRole;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;

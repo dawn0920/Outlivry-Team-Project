@@ -98,12 +98,12 @@ public class UserService {
         }
 
         user.isdelete();
-        for (Store store : user.getStores()) {
-            store.isdelete();
-            for (Menu menu : store.getMenuList()) {
-                menu.isdelete();
-            }
-        }
+//        for (Store store : user.getStores()) {
+//            store.isdelete();
+//            for (Menu menu : store.getMenuList()) {
+//                menu.isdelete();
+//            }
+//        }
 
         userRepository.save(user);
     }

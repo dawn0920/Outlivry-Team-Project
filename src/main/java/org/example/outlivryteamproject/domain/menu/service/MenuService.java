@@ -15,4 +15,6 @@ public interface MenuService {
     MenuResponseDto findMenuById(Long menuId);
 
     List<MenuResponseDto> findAllMenusByStore(Long storeId);
+
+    void changeMenuStatus(Long storeId, Long userId, Long menuId);
 }

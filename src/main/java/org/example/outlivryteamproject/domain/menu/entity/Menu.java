@@ -14,7 +14,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "Menu")
 @Getter
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE menu SET is_deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE menu SET is_deleted = true WHERE menu_id = ?")
 @Where(clause = "is_deleted = false")
 public class Menu extends BaseEntity {
 
@@ -46,11 +46,11 @@ public class Menu extends BaseEntity {
         this.setDeleted(false);
         this.isDepleted = false;
 
-        if (menuRequestDto.getIsDeleted() != null){
-            this.setDeleted(menuRequestDto.getIsDeleted());
-        }
-        if (menuRequestDto.getIsDepleted() != null){
-            this.setDeleted(menuRequestDto.getIsDepleted());
-        }
+//        if (menuRequestDto.getIsDeleted() != null){
+//            this.setDeleted(menuRequestDto.getIsDeleted());
+//        }
+//        if (menuRequestDto.getIsDepleted() != null){
+//            this.setDeleted(menuRequestDto.getIsDepleted());
+//        }
     }
 }

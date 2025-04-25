@@ -1,16 +1,18 @@
 package org.example.outlivryteamproject.domain.user.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
+import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.user.enums.UserRole;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -50,9 +52,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    // 삭제시 1(true)  기본값 0(flase)
-//    @Column(name = "is_deleted", nullable = false)
-//    private boolean isDeleted = false;
+    // cascade = CascadeType.ALL USER 삭제시 같이 store도 처리 수정
+    // orphanRemoval = true (user 에서 store를 제거시 DB에서도 삭제)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Store> stores = new ArrayList<>();
+
 
     public User(String email, String password, String name, String phone, String birth, UserRole userRole) {
         this.email = email;

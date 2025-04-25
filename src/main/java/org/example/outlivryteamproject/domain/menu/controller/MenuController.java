@@ -24,7 +24,7 @@ public class MenuController {
 
     // 메뉴 단건 조회
     @GetMapping("/menus/{menuId}")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> findMenuById(@PathVariable Long menuId){
+    public ResponseEntity<ApiResponse<MenuResponseDto>> findMenuById(@PathVariable("menuId") Long menuId){
 
         MenuResponseDto findMenuById = menuService.findMenuById(menuId);
 
@@ -33,7 +33,7 @@ public class MenuController {
 
     // 메뉴 가게별 조회
     @GetMapping("/{storeId}/menus")
-    public ResponseEntity<ApiResponse<List<MenuResponseDto>>> findAllMenusByStore(Long storeId){
+    public ResponseEntity<ApiResponse<List<MenuResponseDto>>> findAllMenusByStore(@PathVariable("storeId") Long storeId){
 
         List<MenuResponseDto> findMenuList = menuService.findAllMenusByStore(storeId);
 

@@ -53,7 +53,7 @@ public class Order extends BaseEntity {
     public Order(User user, List<Cart> carts, Integer totalPrice, OrderRequestDto requestDto) {
         this.user = user;
         this.orderItems = carts.stream()
-                .map(OrderItem::new)
+                .map(cart -> new OrderItem(cart, this))
                 .toList();
         this.store = carts.get(0).getMenu().getStore();
         this.totalPrice = totalPrice;

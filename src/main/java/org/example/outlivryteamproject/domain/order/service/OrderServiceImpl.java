@@ -55,6 +55,7 @@ public class OrderServiceImpl implements OrderService{
                 .sum();
 
         Order order = new Order(user, carts, totalPrice, requestDto);
+
         Order savedOrder = orderRepository.save(order);
 
         cartRepository.deleteAllByUserId(userId);
@@ -63,6 +64,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
+    @Transactional
     public OrderResponseDto findByOrderId(Long userId, Long orderId) {
 
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);

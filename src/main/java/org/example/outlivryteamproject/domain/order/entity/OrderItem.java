@@ -2,8 +2,8 @@ package org.example.outlivryteamproject.domain.order.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
-import org.example.outlivryteamproject.domain.menu.entity.Menu;
 
 @Entity
 @Table (name = "orderItem")
@@ -13,6 +13,10 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderItemId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orders_id")
+    private Order order;
 
     @Column(nullable = false)
     private String menuName;
@@ -27,9 +31,10 @@ public class OrderItem {
 
     }
 
-    public OrderItem(Cart cart) {
+    public OrderItem(Cart cart, Order order) {
         this.menuName = cart.getMenuName();
         this.price = cart.getPrice();
         this.quantity = cart.getQuantity();
+        this.order = order;
     }
 }

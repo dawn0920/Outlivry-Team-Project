@@ -97,13 +97,13 @@ public class UserService {
             throw new CustomException(ExceptionCode.PASSWORD_MISMATCH);
         }
 
-        user.isDelete();
-        for (Store store : user.getStores()) {
-            store.isDelete();
-            for (Menu menu : store.getMenuList()) {
-                menu.isDelete();
-            }
-        }
+        user.isdelete();
+//        for (Store store : user.getStores()) {
+//            store.isdelete();
+//            for (Menu menu : store.getMenuList()) {
+//                menu.isdelete();
+//            }
+//        }
 
         userRepository.save(user);
     }

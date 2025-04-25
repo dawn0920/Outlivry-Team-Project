@@ -10,6 +10,8 @@ import org.example.outlivryteamproject.domain.menu.repository.MenuRepository;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.user.entity.User;
 import org.example.outlivryteamproject.domain.user.repository.UserRepository;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +83,7 @@ public class CartServiceImpl implements CartService{
 
         // 로그인한 유저와 장바구니를 생성한 유저가 같은지 확인
         if (!cart.getUser().equals(findedUser)) {
-            throw new IllegalArgumentException("자신의 장바구니만 삭제할 수 있습니다.");
+            throw new CustomException(ExceptionCode.CART_ACCESS_DENIED);
         }
 
         cartRepository.delete(cart);

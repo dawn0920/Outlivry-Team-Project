@@ -15,6 +15,8 @@ import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.example.outlivryteamproject.domain.user.entity.User;
 import org.example.outlivryteamproject.domain.user.repository.UserRepository;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -40,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         //주문이 완료되지 않았을경우 예외처리
         if (!findedOrder.isDelivery()) {
-            throw new IllegalArgumentException("완료되지 않은 주문입니다");
+            throw new CustomException(ExceptionCode.REVIEW_NOT_ALLOWED_BEFORE_ORDER_COMPLETION);
         }
 
         Review review = new Review(findedUser, findedStore, requestDto);
@@ -83,7 +85,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
 
         if (!findedReview.getUser().equals(findedUser)) {
-            throw new IllegalArgumentException("작성한 사람만 수정할 수 있습니다");
+            throw new CustomException(ExceptionCode.REVIEW_ACCESS_DENIED);
         }
 
         findedReview.update(requestDto);
@@ -101,7 +103,7 @@ public class ReviewServiceImpl implements ReviewService {
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
 
         if (!findedReview.getUser().equals(findedUser)) {
-            throw new IllegalArgumentException("작성한 사람만 삭제할 수 있습니다");
+            throw new CustomException(ExceptionCode.REVIEW_ACCESS_DENIED);
         }
 
         reviewRepository.delete(findedReview);

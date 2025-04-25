@@ -63,10 +63,27 @@ public class OwnerMenuController {
         return new ResponseEntity<>(new ApiResponse<>("수정 완료", menuResponseDto), HttpStatus.OK);
     }
 
+    @PatchMapping("/{storeId}/menus/{menuId}/status")
+    public ResponseEntity<ApiResponse<Void>> changeMenuStatus(
+            @PathVariable("storeId") Long storeId,
+            @PathVariable("menuId") Long menuId,
+            @RequestHeader("Authorization") String authHeader
+    ){
+
+        // 로그인 정보 가져오기
+        Long userId = tokenUserId.getTokenUserId(authHeader);
+
+        // 상태 전환
+        menuService.changeMenuStatus(storeId, userId, menuId);
+
+
+        return new ResponseEntity<>(new ApiResponse<>(""), HttpStatus.OK);
+    }
+
 
     // 메뉴 삭제
     @DeleteMapping("/{storeId}/menus/{menuId}")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> deleteMenu(
+    public ResponseEntity<ApiResponse<Void>> deleteMenu(
             @PathVariable("storeId") Long storeId,
             @PathVariable("menuId") Long menuId,
             @RequestHeader("Authorization") String authHeader

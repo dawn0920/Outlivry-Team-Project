@@ -46,11 +46,11 @@ public class Menu extends BaseEntity {
         this.setDeleted(false);
         this.isDepleted = false;
 
-        if (menuRequestDto.getIsDeleted() != null){
-            this.setDeleted(menuRequestDto.getIsDeleted());
-        }
-        if (menuRequestDto.getIsDepleted() != null){
-            this.setDeleted(menuRequestDto.getIsDepleted());
-        }
+//        if (menuRequestDto.getIsDeleted() != null){
+//            this.setDeleted(menuRequestDto.getIsDeleted());
+//        }
+//        if (menuRequestDto.getIsDepleted() != null){
+//            this.setDeleted(menuRequestDto.getIsDepleted());
+//        }
     }
 }

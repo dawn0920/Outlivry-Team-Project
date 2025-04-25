@@ -70,12 +70,6 @@ public class MenuServiceImpl implements MenuService {
             String imageUrl = s3ImageUploader.uploadImage(menuRequestDto.getImage());
             findMenuById.setImageUrl(imageUrl);
         }
-        if(menuRequestDto.getIsDepleted() != null){
-            findMenuById.setIsDepleted(menuRequestDto.getIsDepleted());
-        }
-        if(menuRequestDto.getIsDeleted() != null){
-            findMenuById.setDeleted(menuRequestDto.getIsDeleted());
-        }
 
         return new MenuResponseDto(findMenuById);
     }
@@ -112,6 +106,20 @@ public class MenuServiceImpl implements MenuService {
         return menus.stream()
                 .map(MenuResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void changeMenuStatus(Long storeId, Long userId, Long menuId) {
+        Store store = matchesOwner(userId, storeId);
+
+        Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
+
+        if(store != findMenuById.getStore()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        findMenuById.setIsDepleted(!findMenuById.getIsDepleted());
+
     }
 
     // 주인인지 확인하는 함수

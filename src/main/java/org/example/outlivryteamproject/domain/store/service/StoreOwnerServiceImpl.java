@@ -60,7 +60,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
         }
 
         // 새로운 값이 있다면 수정, 없다면 기존값 유지
-        String storePictureUrl = s3ImageUploader.uploadImage(requestDto.getStorePicture());
+        String storePictureUrl = s3ImageUploader.uploadImage(requestDto.getNewStorePicture());
         UpdateUtils.updateString(requestDto.getNewStoreName(),store::setStoreName);
         UpdateUtils.updateString(storePictureUrl,store::setStorePictureUrl);
         UpdateUtils.updateString(requestDto.getNewPhone(),store::setPhone);

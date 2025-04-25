@@ -11,12 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Getter
 @Setter
-public class MenuRequestDto {
+public class ModifiedMenuRequestDto {
 
-    @NotBlank
     private String menuName;
 
-    @NotBlank
     private Integer price;
 
     private MultipartFile image;

@@ -77,7 +77,7 @@ public class OwnerMenuController {
         menuService.changeMenuStatus(storeId, userId, menuId);
 
 
-        return new ResponseEntity<>(new ApiResponse<>(""), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("재고 상태 변경"), HttpStatus.OK);
     }
 
 

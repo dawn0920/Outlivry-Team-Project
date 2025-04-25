@@ -21,7 +21,7 @@ public class MenuResponseDto {
 
     private LocalDateTime modifiedDate;
 
-    private boolean isDepleted;
+    private boolean soldOut;
 
     private boolean isDeleted;
 
@@ -33,7 +33,7 @@ public class MenuResponseDto {
         this.imageUrl = menu.getImageUrl();
         this.createdDate = menu.getCreatTime();
         this.modifiedDate = menu.getModifiedTime();
-        this.isDepleted = menu.getIsDepleted();
+        this.soldOut = menu.isSoldOut();
         this.isDeleted = menu.isDeleted();
     }
 }

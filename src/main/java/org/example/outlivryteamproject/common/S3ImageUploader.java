@@ -18,6 +18,10 @@ public class S3ImageUploader {
 
     public String uploadImage(MultipartFile file) {
 
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
+
         if (!isValidImage(file)) {
             throw new RuntimeException("이미지 파일만 업로드할 수 있습니다.");
         }
@@ -45,10 +49,6 @@ public class S3ImageUploader {
     }
 
     private boolean isValidImage(MultipartFile file) {
-        // 파일이 비어 있거나 null일 경우 검증
-        if (file == null || file.isEmpty()) {
-            return false;
-        }
 
         // 이미지 Content-Type 확인
         String contentType = file.getContentType();

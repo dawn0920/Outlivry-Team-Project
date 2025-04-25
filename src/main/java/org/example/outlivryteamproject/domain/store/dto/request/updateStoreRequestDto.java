@@ -17,7 +17,7 @@ public class updateStoreRequestDto {
 
     private String newStoreName; // 가게 이름
 
-    private MultipartFile storePicture; // 가게 사진
+    private MultipartFile newStorePicture; // 가게 사진
 
     private String newPhone; // 가게 번호
 

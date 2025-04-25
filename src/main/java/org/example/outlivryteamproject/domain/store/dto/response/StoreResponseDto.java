@@ -13,7 +13,7 @@ import org.example.outlivryteamproject.domain.user.entity.User;
 public class StoreResponseDto {
 
     private Long storeId;
-    private User user;
+    private Long userId;
     private String storeName;
     private String storePictureUrl;
     private String phone;
@@ -30,7 +30,7 @@ public class StoreResponseDto {
 
     public StoreResponseDto(Store store) {
         this.storeId = store.getStoreId();
-        this.user = store.getUser();
+        this.userId = store.getUser().getId();
         this.storeName = store.getStoreName();
         this.storePictureUrl = store.getStorePictureUrl();
         this.phone = store.getPhone();

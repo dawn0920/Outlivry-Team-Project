@@ -85,9 +85,9 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
             throw new CustomException(ExceptionCode.NOT_EQUALS_OWNER);
         }
 
-        store.softDelete();
+        store.isDelete();
         for(Menu menu : store.getMenuList()) {
-            menu.softDelete();
+            menu.isDelete();
         }
     }
 }

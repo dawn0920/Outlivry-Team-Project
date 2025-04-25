@@ -16,7 +16,7 @@ public class UpdateReviewResponseDto {
 
     private final Integer stars;
 
-    private final LocalDateTime creatTime;
+    private final LocalDateTime createTime;
 
     private final LocalDateTime modifiedTime;
 
@@ -25,7 +25,7 @@ public class UpdateReviewResponseDto {
         this.userNickname = review.getUser().getNickname();
         this.contents = review.getContents();
         this.stars = review.getStars();
-        this.creatTime = review.getCreatTime();
+        this.createTime = review.getCreateTime();
         this.modifiedTime = review.getModifiedTime();
     }
 }

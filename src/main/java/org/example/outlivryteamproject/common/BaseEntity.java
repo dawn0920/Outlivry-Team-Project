@@ -18,7 +18,7 @@ public class BaseEntity extends SoftDelete {
     @CreatedDate // 생성시 자동입력
     @Column(updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime creatTime;
+    private LocalDateTime createTime;
 
     @LastModifiedDate
     @Column

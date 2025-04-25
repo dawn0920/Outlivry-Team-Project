@@ -120,7 +120,7 @@ public class MenuServiceImpl implements MenuService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        findMenuById.setIsDepleted(!findMenuById.getIsDepleted());
+        findMenuById.setSoldOut(!findMenuById.isDeleted());
 
     }
 

@@ -12,6 +12,8 @@ import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.example.outlivryteamproject.domain.user.entity.User;
 import org.example.outlivryteamproject.domain.user.enums.UserRole;
 import org.example.outlivryteamproject.domain.user.repository.UserRepository;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,11 +39,11 @@ public class OrderServiceImpl implements OrderService{
 
         //영업중인지 확인하기
         if (store.getOpenTime().isBefore(now)) {
-            throw new RuntimeException("영업 시간 전입니다.");
+            throw new CustomException(ExceptionCode.STORE_CLOSED);
         }
 
         if (store.getCloseTime().isAfter(now)) {
-            throw new RuntimeException("영업이 종료되었습니다.");
+            throw new CustomException(ExceptionCode.STORE_CLOSED);
         }
 
         User user = userRepository.findByIdOrElseThrow(userId);
@@ -49,7 +51,7 @@ public class OrderServiceImpl implements OrderService{
 
         //장바구니가 비었을 시 예외처리
         if (carts.isEmpty()) {
-            throw new RuntimeException("장바구니가 비어있습니다");
+            throw new CustomException(ExceptionCode.CART_EMPTY);
         }
 
         //총금액 계산
@@ -75,7 +77,7 @@ public class OrderServiceImpl implements OrderService{
 
         //로그인한 유저가 주문한 유저나 해당 가게의 사장이 아닐경우 예외처리
         if (!userId.equals(orderUserId) && !userId.equals(ownerId)) {
-            throw new IllegalArgumentException("접근할 수 없습니다");
+            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         return new OrderResponseDto(findedOrder);
@@ -89,11 +91,11 @@ public class OrderServiceImpl implements OrderService{
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
         if (findedUser.getUserRole().equals(UserRole.USER)) {
-            throw new IllegalArgumentException("권한이 없습니다.");
+            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         if (!findedOrder.getStore().getUser().equals(findedUser)) {
-            throw new IllegalArgumentException("사장님만 변경할 수 있습니다.");
+            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         findedOrder.changeReceived();
@@ -107,11 +109,11 @@ public class OrderServiceImpl implements OrderService{
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
         if (findedUser.getUserRole().equals(UserRole.USER)) {
-            throw new IllegalArgumentException("권한이 없습니다.");
+            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         if (!findedOrder.getStore().getUser().equals(findedUser)) {
-            throw new IllegalArgumentException("사장님만 변경할 수 있습니다.");
+            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         findedOrder.changeDelivery();
@@ -125,7 +127,7 @@ public class OrderServiceImpl implements OrderService{
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
         if (!findedUser.equals(findedOrder.getUser())) {
-            throw new IllegalArgumentException("주문자만 취소할 수 있습니다.");
+            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         orderRepository.delete(findedOrder);

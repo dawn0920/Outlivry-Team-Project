@@ -10,6 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -66,10 +68,10 @@ public class Store extends BaseEntity {
     private Long deliveryTip;
 
     @Column(name = "open_time")
-    private String openTime;
+    private LocalTime openTime;
 
     @Column(name = "close_time")
-    private String closeTime;
+    private LocalTime closeTime;
 
 
     public Store(StoreRequestDto requestDto, User user, String storePictureUrl) {

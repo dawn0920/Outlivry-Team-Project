@@ -108,6 +108,7 @@ public class MenuServiceImpl implements MenuService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public void changeMenuStatus(Long storeId, Long userId, Long menuId) {
         Store store = matchesOwner(userId, storeId);

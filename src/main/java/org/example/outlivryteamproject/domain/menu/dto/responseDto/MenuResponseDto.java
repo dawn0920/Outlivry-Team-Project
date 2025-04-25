@@ -31,7 +31,7 @@ public class MenuResponseDto {
         this.menuName = menu.getMenuName();
         this.price = menu.getPrice();
         this.imageUrl = menu.getImageUrl();
-        this.createdDate = menu.getCreatTime();
+        this.createdDate = menu.getCreateTime();
         this.modifiedDate = menu.getModifiedTime();
         this.soldOut = menu.isSoldOut();
         this.isDeleted = menu.isDeleted();

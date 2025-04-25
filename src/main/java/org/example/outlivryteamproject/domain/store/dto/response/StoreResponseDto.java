@@ -1,6 +1,8 @@
 package org.example.outlivryteamproject.domain.store.dto.response;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.store.entity.Store;
@@ -20,8 +22,8 @@ public class StoreResponseDto {
     private String category;
     private Long minDeliveryPrice;
     private Long deliveryTip;
-    private String openTime;
-    private String closeTime;
+    private LocalTime openTime;
+    private LocalTime closeTime;
     private LocalDateTime creatTime;
     private LocalDateTime modifiedTime;
     private boolean isDeleted;

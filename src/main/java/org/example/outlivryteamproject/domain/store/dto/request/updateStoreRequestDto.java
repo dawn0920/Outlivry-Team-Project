@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,8 +33,8 @@ public class updateStoreRequestDto {
     @Min(0)
     private Long newDeliveryTip; // 가게 배달료
 
-    private String newOpenTime;
+    private LocalTime newOpenTime;
 
-    private String newCloseTime;
+    private LocalTime newCloseTime;
 
 }

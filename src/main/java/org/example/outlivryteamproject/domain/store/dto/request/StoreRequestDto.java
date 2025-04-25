@@ -1,5 +1,6 @@
 package org.example.outlivryteamproject.domain.store.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -38,7 +41,10 @@ public class StoreRequestDto {
     @Min(0)
     private Long deliveryTip; // 가게 배달료
 
-    private String openTime;
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime openTime;
 
-    private String closeTime;
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime closeTime;
+
 }

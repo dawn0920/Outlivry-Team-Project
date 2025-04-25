@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
+import org.example.outlivryteamproject.domain.user.enums.LoginType;
 import org.example.outlivryteamproject.domain.user.enums.UserRole;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -29,7 +30,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     @Column(nullable = false)
@@ -41,7 +42,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String phone;
 
-    @Column(nullable = false)
+
     private String birth;
 
     @Column
@@ -49,6 +50,9 @@ public class User extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
 
 //    // cascade = CascadeType.ALL USER 삭제시 같이 store도 처리 수정
 //    // orphanRemoval = true (user 에서 store를 제거시 DB에서도 삭제)

@@ -45,7 +45,7 @@ public class StoreOwnerController {
      */
     @PatchMapping("/{storeId}")
     public ResponseEntity<StoreResponseDto> updateStore (
-        @PathVariable Long storeId,
+        @PathVariable("storeId") Long storeId,
         @ModelAttribute @Valid updateStoreRequestDto requestDto,
         @RequestHeader("Authorization") String authHeader
     ) {
@@ -62,7 +62,7 @@ public class StoreOwnerController {
      */
     @DeleteMapping("/{storeId}")
     public ResponseEntity<Void> deleteStore (
-        @PathVariable Long storeId,
+        @PathVariable("storeId") Long storeId,
         @RequestHeader("Authorization") String authHeader
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);

@@ -23,6 +23,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     // user DB에 저장된 userId로 조회
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.stores WHERE u.id = :id")
     default User findByIdOrElseThrow(Long userId) {
         return findById(userId).orElseThrow(
             () -> new CustomException(ExceptionCode.USER_NOT_FOUND));

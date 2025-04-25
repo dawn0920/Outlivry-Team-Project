@@ -69,8 +69,8 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
         UpdateUtils.updateString(requestDto.getNewCategory(),store::setCategory);
         UpdateUtils.updateLong(requestDto.getNewMinDeliveryPrice(), store::setMinDeliveryPrice);
         UpdateUtils.updateLong(requestDto.getNewDeliveryTip(), store::setDeliveryTip);
-        UpdateUtils.updateString(requestDto.getNewOpenTime(), store::setOpenTime);
-        UpdateUtils.updateString(requestDto.getNewCloseTime(), store::setCloseTime);
+        UpdateUtils.updateLocalTime(requestDto.getNewOpenTime(), store::setOpenTime);
+        UpdateUtils.updateLocalTime(requestDto.getNewCloseTime(), store::setCloseTime);
 
         return new StoreResponseDto(store);
     }
@@ -85,9 +85,9 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
             throw new CustomException(ExceptionCode.NOT_EQUALS_OWNER);
         }
 
-        store.softDelete();
+        store.isDelete();
         for(Menu menu : store.getMenuList()) {
-            menu.softDelete();
+            menu.isDelete();
         }
     }
 }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.TokenUserId;
 import org.example.outlivryteamproject.common.response.ApiResponse;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
+import org.example.outlivryteamproject.domain.menu.dto.requestDto.ModifiedMenuRequestDto;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 import org.example.outlivryteamproject.domain.menu.service.MenuService;
 import org.springframework.http.HttpStatus;
@@ -48,7 +49,7 @@ public class OwnerMenuController {
     public ResponseEntity<ApiResponse<MenuResponseDto>> modifiedMenu(
             @PathVariable("storeId") Long storeId,
             @PathVariable("menuId") Long menuId,
-            @ModelAttribute MenuRequestDto menuRequestDto,
+            @ModelAttribute ModifiedMenuRequestDto modifiedMenuRequestDto,
             @RequestHeader("Authorization") String authHeader
     ){
 
@@ -57,7 +58,7 @@ public class OwnerMenuController {
 
 
         // createMenu 매서드 실행
-        MenuResponseDto menuResponseDto = menuService.modifiedMenu(storeId, userId, menuRequestDto, menuId);
+        MenuResponseDto menuResponseDto = menuService.modifiedMenu(storeId, userId, modifiedMenuRequestDto, menuId);
 
 
         return new ResponseEntity<>(new ApiResponse<>("수정 완료", menuResponseDto), HttpStatus.OK);

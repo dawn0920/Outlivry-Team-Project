@@ -6,6 +6,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.S3ImageUploader;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
+import org.example.outlivryteamproject.domain.menu.dto.requestDto.ModifiedMenuRequestDto;
 import org.example.outlivryteamproject.domain.menu.dto.responseDto.MenuResponseDto;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.menu.repository.MenuRepository;
@@ -50,7 +51,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public MenuResponseDto modifiedMenu(Long storeId, Long userId, MenuRequestDto menuRequestDto, Long menuId) {
+    public MenuResponseDto modifiedMenu(Long storeId, Long userId, ModifiedMenuRequestDto modifiedMenuRequestDto, Long menuId) {
 
         Store store = matchesOwner(userId, storeId);
 
@@ -60,14 +61,14 @@ public class MenuServiceImpl implements MenuService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        if(menuRequestDto.getMenuName() != null){
-            findMenuById.setMenuName(menuRequestDto.getMenuName());
+        if(modifiedMenuRequestDto.getMenuName() != null){
+            findMenuById.setMenuName(modifiedMenuRequestDto.getMenuName());
         }
-        if(menuRequestDto.getPrice() != null){
-            findMenuById.setPrice(menuRequestDto.getPrice());
+        if(modifiedMenuRequestDto.getPrice() != null){
+            findMenuById.setPrice(modifiedMenuRequestDto.getPrice());
         }
-        if(menuRequestDto.getImage() != null){
-            String imageUrl = s3ImageUploader.uploadImage(menuRequestDto.getImage());
+        if(modifiedMenuRequestDto.getImage() != null){
+            String imageUrl = s3ImageUploader.uploadImage(modifiedMenuRequestDto.getImage());
             findMenuById.setImageUrl(imageUrl);
         }
 

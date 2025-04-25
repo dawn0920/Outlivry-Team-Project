@@ -54,7 +54,7 @@ public class User extends BaseEntity {
 
     // cascade = CascadeType.ALL USER 삭제시 같이 store도 처리 수정
     // orphanRemoval = true (user 에서 store를 제거시 DB에서도 삭제)
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Store> stores = new ArrayList<>();
 
 

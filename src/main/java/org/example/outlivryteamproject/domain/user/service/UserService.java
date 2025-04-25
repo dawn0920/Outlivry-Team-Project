@@ -97,7 +97,7 @@ public class UserService {
             throw new CustomException(ExceptionCode.PASSWORD_MISMATCH);
         }
 
-`        user.isDelete();
+        user.isDelete();
         for (Store store : user.getStores()) {
             store.isDelete();
             for (Menu menu : store.getMenuList()) {

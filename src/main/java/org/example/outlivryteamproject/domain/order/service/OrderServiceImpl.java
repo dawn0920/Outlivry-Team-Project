@@ -17,7 +17,6 @@ import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -38,11 +37,7 @@ public class OrderServiceImpl implements OrderService{
         LocalTime now = LocalTime.now();
 
         //영업중인지 확인하기
-        if (store.getOpenTime().isBefore(now)) {
-            throw new CustomException(ExceptionCode.STORE_CLOSED);
-        }
-
-        if (store.getCloseTime().isAfter(now)) {
+        if (now.isBefore(store.getOpenTime()) || now.isAfter(store.getCloseTime())) {
             throw new CustomException(ExceptionCode.STORE_CLOSED);
         }
 

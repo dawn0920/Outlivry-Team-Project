@@ -97,6 +97,6 @@ public class OwnerMenuController {
         // createMenu 매서드 실행
         menuService.deleteMenu(userId, storeId, menuId);
 
-        return new ResponseEntity<>(new ApiResponse<>("삭제 완료"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ApiResponse<>("삭제 완료"), HttpStatus.OK);
     }
 }

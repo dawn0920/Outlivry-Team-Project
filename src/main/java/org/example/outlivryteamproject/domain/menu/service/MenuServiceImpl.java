@@ -12,6 +12,8 @@ import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.menu.repository.MenuRepository;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -131,7 +133,7 @@ public class MenuServiceImpl implements MenuService {
         Long storeOwnerId = store.getUser().getId();
 
         if(!storeOwnerId.equals(userId)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(ExceptionCode.NOT_EQUALS_OWNER);
         }
 
         return store;

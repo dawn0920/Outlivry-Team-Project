@@ -3,6 +3,7 @@ package org.example.outlivryteamproject.domain.review.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.outlivryteamproject.common.BaseEntity;
+import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
@@ -33,13 +34,18 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "order_id", unique = true)
+    private Order order;
+
     public Review() {
 
     }
 
-    public Review(User user, Store store, CreateReviewRequestDto requestDto) {
+    public Review(User user, Store store, Order order, CreateReviewRequestDto requestDto) {
         this.user = user;
         this.store = store;
+        this.order = order;
         this.contents = requestDto.getContents();
         this.stars = requestDto.getStars();
     }

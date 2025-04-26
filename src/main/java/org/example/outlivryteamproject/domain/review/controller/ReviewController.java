@@ -27,20 +27,21 @@ public class ReviewController {
     /**
      * 리뷰 작성
      *
-     * @param storeId 작성하는 가게
+     * @param storeId    작성하는 가게
      * @param authHeader 로그인 유저 정보
      * @param requestDto 리뷰
      * @return ResponseEntity
      */
-    @PostMapping("/stores/{storeId}")
+    @PostMapping("/stores/{storeId}/orders/{/orderId}")
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
             @PathVariable Long storeId,
+            @PathVariable Long orderId,
             @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody CreateReviewRequestDto requestDto
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
 
-        CreateReviewResponseDto createdReview = reviewService.save(userId, storeId, requestDto);
+        CreateReviewResponseDto createdReview = reviewService.save(userId, storeId, orderId, requestDto);
 
         return new ResponseEntity<>(new ApiResponse<>("리뷰를 작성했습니다.", createdReview), HttpStatus.CREATED);
     }

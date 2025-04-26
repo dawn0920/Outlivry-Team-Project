@@ -53,7 +53,8 @@ public enum ExceptionCode implements ErrorCode{
     REVIEW_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 리뷰에 접근할 권한이 없습니다."),
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 리뷰입니다."),
     INVALID_REVIEW_UPDATE(HttpStatus.BAD_REQUEST, "내용과 별점 중 하나는 수정해야합니다."),
-    EMPTY_CONTENT(HttpStatus.BAD_REQUEST, "내용을 입력해주세요.")
+    EMPTY_CONTENT(HttpStatus.BAD_REQUEST, "내용을 입력해주세요."),
+    EXIST_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성한 주문입니다.")
 
     ;
 

@@ -34,18 +34,23 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public CreateReviewResponseDto save(Long userId, Long storeId, CreateReviewRequestDto requestDto) {
+    public CreateReviewResponseDto save(Long userId, Long storeId, Long orderId, CreateReviewRequestDto requestDto) {
 
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
-        Order findedOrder = orderRepository.findByUserOrElseThrow(findedUser);
+        Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
         //주문이 완료되지 않았을경우 예외처리
         if (!findedOrder.isDelivery()) {
             throw new CustomException(ExceptionCode.REVIEW_NOT_ALLOWED_BEFORE_ORDER_COMPLETION);
         }
 
-        Review review = new Review(findedUser, findedStore, requestDto);
+        //이미 리뷰를 작성한 경우 예외처리
+        if (reviewRepository.findByOrder(findedOrder) != null) {
+            throw new CustomException(ExceptionCode.EXIST_REVIEW);
+        }
+
+        Review review = new Review(findedUser, findedStore, findedOrder, requestDto);
         Review savedReview = reviewRepository.save(review);
 
         return new CreateReviewResponseDto(savedReview);

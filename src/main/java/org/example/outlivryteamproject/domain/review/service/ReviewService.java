@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 
 public interface ReviewService {
 
-    CreateReviewResponseDto save(Long userId, Long storeId, CreateReviewRequestDto requestDto);
+    CreateReviewResponseDto save(Long userId, Long storeId, Long orderId, CreateReviewRequestDto requestDto);
 
     Page<FindReviewResponseDto> findAll(Long storeId, int page);
 

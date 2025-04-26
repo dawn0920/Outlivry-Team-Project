@@ -1,5 +1,6 @@
 package org.example.outlivryteamproject.domain.review.repository;
 
+import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.review.entity.Review;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.exception.CustomException;
@@ -19,4 +20,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     }
 
     Page<Review> findByStore(Store store, Pageable pageable);
+
+    Review findByOrder(Order order);
 }

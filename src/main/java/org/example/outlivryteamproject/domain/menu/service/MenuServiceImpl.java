@@ -1,8 +1,6 @@
 package org.example.outlivryteamproject.domain.menu.service;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.S3ImageUploader;
 import org.example.outlivryteamproject.domain.menu.dto.requestDto.MenuRequestDto;
@@ -17,12 +15,8 @@ import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,6 +47,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public MenuResponseDto modifiedMenu(Long storeId, Long userId, ModifiedMenuRequestDto modifiedMenuRequestDto, Long menuId) {
 
         Store store = matchesOwner(userId, storeId);
@@ -78,6 +73,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    @Transactional
     public void deleteMenu(Long userId, Long storeId, Long menuId) {
 
         Store store = matchesOwner(userId, storeId);

@@ -14,8 +14,11 @@ public class findOneStoreResponseDto extends StoreResponseDto{
 
     private List<MenuResponseDto> menuList;
 
-    public findOneStoreResponseDto(Store store) {
+    private Double stars;
+
+    public findOneStoreResponseDto(Store store, Double stars) {
         super(store);
         this.menuList = store.getMenuList().stream().map(MenuResponseDto::new).collect(Collectors.toList());
+        this.stars = stars;
     }
 }

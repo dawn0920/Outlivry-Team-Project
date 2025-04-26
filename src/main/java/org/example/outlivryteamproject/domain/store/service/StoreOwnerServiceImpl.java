@@ -30,10 +30,15 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
     @Transactional
     public StoreResponseDto saveStore(StoreRequestDto requestDto, Long userId) {
 
+        // 같은 가게 명칭으로 생성 막기
+        if(storeRepository.existsByStoreName(requestDto.getStoreName())) {
+            throw new CustomException(ExceptionCode.STORE_NAME_DUPLICATED);
+        }
+
         // userId로 검색한 store 수가 3개 이상이면 생성 제한-------------------
         long storeCount = storeRepository.countByUserId(userId);
 
-        if(storeCount>3) {
+        if(storeCount>=3) {
             throw new CustomException(ExceptionCode.STORE_LIMIT_EXCEEDED);
         }
         //----------------------------------------------------------------
@@ -76,6 +81,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
     }
 
     @Override
+    @Transactional
     public void deleteStore(Long storeId, Long userId) {
 
         User user = userRepository.findByIdOrElseThrow(userId);

@@ -4,11 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.auth.dto.request.SigninRequest;
 import org.example.outlivryteamproject.domain.auth.dto.request.SignupRequest;
-import org.example.outlivryteamproject.domain.auth.dto.response.NaverUserInfoReponse;
 import org.example.outlivryteamproject.domain.auth.dto.response.SigninResponse;
 import org.example.outlivryteamproject.domain.auth.dto.response.SignupResponse;
 import org.example.outlivryteamproject.domain.auth.service.AuthService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

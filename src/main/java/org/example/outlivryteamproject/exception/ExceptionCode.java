@@ -31,6 +31,7 @@ public enum ExceptionCode implements ErrorCode{
     // cart
     CART_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 장바구니에 접근할 권한이 없습니다."),
     CART_EMPTY(HttpStatus.BAD_REQUEST, "장바구니가 비어있습니다."),
+    SOLD_OUT(HttpStatus.BAD_REQUEST, "재고가 소진되었습니다"),
 
     // order
     STORE_CLOSED(HttpStatus.CONFLICT, "영업시간이 아닙니다."),

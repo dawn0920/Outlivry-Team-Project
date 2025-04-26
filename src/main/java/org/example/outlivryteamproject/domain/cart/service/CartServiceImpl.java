@@ -34,6 +34,11 @@ public class CartServiceImpl implements CartService{
         Menu findedMenu = menuRepository.findMenuByIdOrElseThrow(menuId);
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
+        //메뉴가 sold out 인지 검증
+        if (findedMenu.isSoldOut()) {
+            throw new CustomException(ExceptionCode.SOLD_OUT);
+        }
+
         //유저 아이디의 장바구니를 조회 후 입력받은 메뉴와 가게가 같은지 검증, 다르다면 장바구니 초기화
         if (!carts.isEmpty()) {
             Store cartStore = carts.get(0).getMenu().getStore();

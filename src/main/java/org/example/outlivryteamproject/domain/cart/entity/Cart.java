@@ -6,6 +6,8 @@ import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.user.entity.User;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "cart")
 @Getter
@@ -32,6 +34,9 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "menu_Id")
     private Menu menu;
 
+    @Column(nullable = false)
+    private boolean active;
+
     public Cart() {
 
     }
@@ -41,9 +46,16 @@ public class Cart extends BaseEntity {
         this.price = menu.getPrice();
         this.user = user;
         this.menu = menu;
+        this.active = true;
     }
 
     public void increaseQuantity() {
         this.quantity++;
+    }
+
+    public void changeActive() {
+        if (this.getCreateTime().isBefore(LocalDateTime.now().minusDays(1))) {
+            this.active = false;
+        }
     }
 }

@@ -9,9 +9,9 @@ public interface OrderService {
 
     OrderResponseDto findByOrderId(Long userId, Long orderId);
 
-    void receivedOrder(Long userId, Long orderId);
+    OrderResponseDto receivedOrder(Long userId, Long orderId);
 
-    void deliveryOrder(Long userId, Long orderId);
+    OrderResponseDto deliveryOrder(Long userId, Long orderId);
 
     void deleteOrder(Long userId, Long orderId);
 }

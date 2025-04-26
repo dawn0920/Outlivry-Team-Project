@@ -1,6 +1,7 @@
 package org.example.outlivryteamproject.domain.order.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.config.aop.annotaion.OrderStatusLogger;
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
 import org.example.outlivryteamproject.domain.cart.repository.CartRepository;
 import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestDto;
@@ -31,6 +32,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
+    @OrderStatusLogger
     public OrderResponseDto createOrder(Long storeId, Long userId, OrderRequestDto requestDto) {
 
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
@@ -42,6 +44,12 @@ public class OrderServiceImpl implements OrderService{
         }
 
         User user = userRepository.findByIdOrElseThrow(userId);
+
+        //주소가 없으면 예외처리
+        if (user.getAddress() == null) {
+            throw new CustomException(ExceptionCode.ADDRESS_NOT_FOUND);
+        }
+
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
         //장바구니가 비었을 시 예외처리
@@ -53,6 +61,11 @@ public class OrderServiceImpl implements OrderService{
         Integer totalPrice = carts.stream()
                 .mapToInt(cart -> cart.getPrice() * cart.getQuantity())
                 .sum();
+
+        //최소 주문 금액보다 낮을 시 예외처리
+        if (store.getMinDeliveryPrice() > totalPrice) {
+            throw new CustomException(ExceptionCode.DELIVERY_PRICE_LOW);
+        }
 
         Order order = new Order(user, carts, totalPrice, requestDto);
 
@@ -82,38 +95,38 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public void receivedOrder(Long userId, Long orderId) {
+    @OrderStatusLogger
+    public OrderResponseDto receivedOrder(Long userId, Long orderId) {
 
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
-        if (findedUser.getUserRole().equals(UserRole.USER)) {
-            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
-        }
-
+        //해당 가게의 사장님이 아닐경우 예외처리
         if (!findedOrder.getStore().getUser().equals(findedUser)) {
             throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         findedOrder.changeReceived();
+
+        return new OrderResponseDto(findedOrder);
     }
 
     @Override
     @Transactional
-    public void deliveryOrder(Long userId, Long orderId) {
+    @OrderStatusLogger
+    public OrderResponseDto deliveryOrder(Long userId, Long orderId) {
 
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
-        if (findedUser.getUserRole().equals(UserRole.USER)) {
-            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
-        }
-
+        //해당 가게의 사장님이 아닐경우 예외처리
         if (!findedOrder.getStore().getUser().equals(findedUser)) {
             throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
 
         findedOrder.changeDelivery();
+
+        return new OrderResponseDto(findedOrder);
     }
 
     @Override
@@ -123,6 +136,7 @@ public class OrderServiceImpl implements OrderService{
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
+        //주문한 유저가 아닐 경우 예외처리
         if (!findedUser.equals(findedOrder.getUser())) {
             throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }

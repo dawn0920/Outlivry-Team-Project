@@ -2,6 +2,8 @@ package org.example.outlivryteamproject.domain.cart.repository;
 
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
 import org.example.outlivryteamproject.domain.user.entity.User;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,7 +16,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     default Cart findCartByCartIdOrElseThrow(Long cartId) {
         return findById(cartId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 상품입니다.")
+                new CustomException(ExceptionCode.CART_NOT_FOUND)
         );
     }
 

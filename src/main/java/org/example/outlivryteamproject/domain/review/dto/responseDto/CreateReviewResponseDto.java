@@ -16,13 +16,13 @@ public class CreateReviewResponseDto {
 
     private final Integer stars;
 
-    private final LocalDateTime creatTime;
+    private final LocalDateTime createTime;
 
     public CreateReviewResponseDto(Review review) {
         this.id = review.getReviewId();
         this.userNickname = review.getUser().getNickname();
         this.contents = review.getContents();
         this.stars = review.getStars();
-        this.creatTime = review.getCreatTime();
+        this.createTime = review.getCreateTime();
     }
 }

@@ -49,5 +49,6 @@ public class StoreServiceImpl implements StoreService{
         Store store = storeRepository.findByStoreIdWithMenuListOrElseThrow(storeId);
 
         return new findOneStoreResponseDto(store);
+
     }
 }

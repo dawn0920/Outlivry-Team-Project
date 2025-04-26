@@ -57,7 +57,7 @@ public class ReviewServiceImpl implements ReviewService {
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
 
         int adjustedPage = (page > 0) ? page - 1 : 0;
-        PageRequest pageable = PageRequest.of(adjustedPage, 10, Sort.by("creatTime").descending());
+        PageRequest pageable = PageRequest.of(adjustedPage, 10, Sort.by("createTime").descending());
         Page<Review> reviews = reviewRepository.findByStore(findedStore, pageable);
 
         return reviews.map(FindReviewResponseDto::new);
@@ -69,7 +69,7 @@ public class ReviewServiceImpl implements ReviewService {
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
 
         int adjustPage = (page > 0) ? page - 1 : 0;
-        PageRequest pageable = PageRequest.of(adjustPage, 10, Sort.by("creatTime").descending());
+        PageRequest pageable = PageRequest.of(adjustPage, 10, Sort.by("createTime").descending());
 
         Page<Review> reviews = reviewRepository.findByStoreAndStarsBetween(findedStore, requestDto.getStart(), requestDto.getEnd(), pageable);
 

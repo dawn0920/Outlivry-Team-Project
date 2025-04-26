@@ -1,7 +1,6 @@
 package org.example.outlivryteamproject.domain.store.repository;
 
 
-import java.util.Optional;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.exception.CustomException;
 import org.example.outlivryteamproject.exception.ExceptionCode;
@@ -11,9 +10,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
 
 @Repository
 public interface StoreRepository extends JpaRepository<Store, Long> {
@@ -37,4 +34,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
         return findById(StoreId).orElseThrow(
             () -> new CustomException(ExceptionCode.STORE_NOT_FOUND));
     }
+
+    // 가게 명칭 중복 방지
+    boolean existsByStoreName(String storeName);
 }

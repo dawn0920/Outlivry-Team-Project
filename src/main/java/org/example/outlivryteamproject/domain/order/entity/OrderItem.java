@@ -2,12 +2,13 @@ package org.example.outlivryteamproject.domain.order.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
 
 @Entity
 @Table (name = "orderItem")
 @Getter
-public class OrderItem {
+public class OrderItem extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

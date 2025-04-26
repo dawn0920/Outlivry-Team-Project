@@ -1,6 +1,7 @@
 package org.example.outlivryteamproject.domain.order.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.config.aop.annotaion.OrderStatusLogger;
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
 import org.example.outlivryteamproject.domain.cart.repository.CartRepository;
 import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestDto;
@@ -31,6 +32,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
+    @OrderStatusLogger
     public OrderResponseDto createOrder(Long storeId, Long userId, OrderRequestDto requestDto) {
 
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
@@ -88,7 +90,8 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public void receivedOrder(Long userId, Long orderId) {
+    @OrderStatusLogger
+    public OrderResponseDto receivedOrder(Long userId, Long orderId) {
 
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
@@ -102,11 +105,14 @@ public class OrderServiceImpl implements OrderService{
         }
 
         findedOrder.changeReceived();
+
+        return new OrderResponseDto(findedOrder);
     }
 
     @Override
     @Transactional
-    public void deliveryOrder(Long userId, Long orderId) {
+    @OrderStatusLogger
+    public OrderResponseDto deliveryOrder(Long userId, Long orderId) {
 
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
@@ -120,6 +126,8 @@ public class OrderServiceImpl implements OrderService{
         }
 
         findedOrder.changeDelivery();
+
+        return new OrderResponseDto(findedOrder);
     }
 
     @Override

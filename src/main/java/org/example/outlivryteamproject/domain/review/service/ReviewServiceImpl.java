@@ -84,6 +84,7 @@ public class ReviewServiceImpl implements ReviewService {
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
 
+        //로그인 한 유저와 리뷰를 작성한 유저가 다를 경우 예외처리
         if (!findedReview.getUser().equals(findedUser)) {
             throw new CustomException(ExceptionCode.REVIEW_ACCESS_DENIED);
         }
@@ -102,6 +103,7 @@ public class ReviewServiceImpl implements ReviewService {
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Review findedReview = reviewRepository.findByReviewIdOrElseThrow(reviewId);
 
+        //로그인 한 유저와 리뷰를 작성한 유저가 다를 경우 예외처리
         if (!findedReview.getUser().equals(findedUser)) {
             throw new CustomException(ExceptionCode.REVIEW_ACCESS_DENIED);
         }

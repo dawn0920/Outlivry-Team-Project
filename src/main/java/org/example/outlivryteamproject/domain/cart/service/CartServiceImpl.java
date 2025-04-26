@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +33,11 @@ public class CartServiceImpl implements CartService{
         Menu findedMenu = menuRepository.findMenuByIdOrElseThrow(menuId);
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
+        //메뉴가 sold out 인지 검증
+        if (findedMenu.isSoldOut()) {
+            throw new CustomException(ExceptionCode.SOLD_OUT);
+        }
+
         //유저 아이디의 장바구니를 조회 후 입력받은 메뉴와 가게가 같은지 검증, 다르다면 장바구니 초기화
         if (!carts.isEmpty()) {
             Store cartStore = carts.get(0).getMenu().getStore();
@@ -45,7 +49,7 @@ public class CartServiceImpl implements CartService{
             }
         }
 
-        //장바구니에 같은 품목이 담겨있다면 수량 증가
+        //장바구니에 같은 품목이 담겨있다면 장바구니를 생성하지 않고 수량만 증가
         Optional<Cart> presentCart = carts.stream()
                 .filter(cart -> cart.getMenu().equals(findedMenu))
                 .findFirst();
@@ -66,13 +70,23 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
+    @Transactional
     public List<FindCartResponseDto> findCart(Long userId) {
 
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
-        return carts.stream().
-                map(FindCartResponseDto::new)
-                .collect(Collectors.toList());
+        //장바구니 보관 하루 이상이라면 장바구니 삭제
+        carts.get(carts.size() - 1).changeActive();
+
+        if (!carts.get(carts.size() - 1).isActive()) {
+            cartRepository.deleteAll(carts);
+            throw new CustomException(ExceptionCode.CART_EXPIRED);
+        }
+
+        return carts.stream()
+                .filter(Cart::isActive)
+                .map(FindCartResponseDto::new)
+                .toList();
     }
 
     @Override

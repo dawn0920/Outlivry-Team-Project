@@ -32,15 +32,18 @@ public enum ExceptionCode implements ErrorCode{
     CART_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 장바구니에 접근할 권한이 없습니다."),
     CART_EMPTY(HttpStatus.BAD_REQUEST, "장바구니가 비어있습니다."),
     SOLD_OUT(HttpStatus.BAD_REQUEST, "재고가 소진되었습니다"),
+    CART_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 장바구니가 존재하지 않습니다."),
 
     // order
     STORE_CLOSED(HttpStatus.CONFLICT, "영업시간이 아닙니다."),
     ORDER_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 주문에 접근할 권한이 없습니다."),
     ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "주소를 등록해주새요."),
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 주문입니다."),
 
     //review
     REVIEW_NOT_ALLOWED_BEFORE_ORDER_COMPLETION(HttpStatus.CONFLICT, "주문이 완료된 후 리뷰를 작성해주세요."),
-    REVIEW_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 리뷰에 접근할 권한이 없습니다.")
+    REVIEW_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 리뷰에 접근할 권한이 없습니다."),
+    REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 리뷰입니다.")
 
     ;
 

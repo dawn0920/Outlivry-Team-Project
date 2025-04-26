@@ -16,8 +16,8 @@ public class SignupRequest {
     @Email
     private String email;
 
-    @NotBlank @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
-            message = "비밀번호는 영문과 숫자를 포함한 8자 이상이어야 합니다.")
+    @NotBlank @Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)[A-Za-z\\d]{8,}$",
+            message = "비밀번호는 소영문,대영문자와 숫자를 포함한 8자 이상이어야 합니다.")
     private String password;
 
     @NotBlank

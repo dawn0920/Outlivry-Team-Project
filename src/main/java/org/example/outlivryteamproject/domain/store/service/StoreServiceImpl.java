@@ -1,7 +1,10 @@
 package org.example.outlivryteamproject.domain.store.service;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.domain.review.repository.ReviewRepository;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.dto.response.findOneStoreResponseDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StoreServiceImpl implements StoreService{
 
     private final StoreRepository storeRepository;
+    private final ReviewRepository reviewRepository;
 
     @Override
     @Transactional
@@ -40,6 +44,7 @@ public class StoreServiceImpl implements StoreService{
     }
 
     @Override
+    @Transactional
     public findOneStoreResponseDto findOneStore(Long storeId) {
 
         if(storeId == null) {
@@ -47,8 +52,11 @@ public class StoreServiceImpl implements StoreService{
         }
 
         Store store = storeRepository.findByStoreIdWithMenuListOrElseThrow(storeId);
+        Double stars = reviewRepository.findAverageRatingByStoreId(storeId);
 
-        return new findOneStoreResponseDto(store);
+        BigDecimal newStars = new BigDecimal(stars);
+        Double starsStore = newStars.setScale(1, RoundingMode.HALF_DOWN).doubleValue();
 
+        return new findOneStoreResponseDto(store, starsStore);
     }
 }

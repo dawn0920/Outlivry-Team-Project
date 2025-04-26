@@ -7,6 +7,8 @@ import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReview
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.user.entity.User;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 
 @Entity
 @Getter
@@ -43,15 +45,12 @@ public class Review extends BaseEntity {
     }
 
     public void update(UpdateReviewRequestDto requestDto) {
+
         if (requestDto.getContents() == null && requestDto.getStars() == null) {
-            throw new NullPointerException("내용과 별점 중 최소 하나는 수정해야합니다.");
+            throw new CustomException(ExceptionCode.INVALID_REVIEW_UPDATE);
         }
 
-        if (requestDto.getContents().isBlank()) {
-            throw new IllegalArgumentException("내용을 입력해주세요.");
-        }
-
-        if (requestDto.getContents() != null && !requestDto.getContents().isBlank()) {
+        if (requestDto.getContents() != null) {
             this.contents = requestDto.getContents();
         }
 

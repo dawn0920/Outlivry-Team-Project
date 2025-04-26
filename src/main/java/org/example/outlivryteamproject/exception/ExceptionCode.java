@@ -25,8 +25,14 @@ public enum ExceptionCode implements ErrorCode{
     // store - 조회
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 가게를 찾을 수 없습니다."),
 
-    // 수정 및 삭제 권한
+    // 가게 수정, 삭제 권한 및 메뉴 추가
     NOT_EQUALS_OWNER(HttpStatus.FORBIDDEN,"해당 가게의 사장이 아닙니다."),
+
+    // image - 업로드
+    IMAGE_FILE_REQUIRED(HttpStatus.BAD_REQUEST, "이미지 파일을 첨부해주세요."),
+
+    // menu - 조회
+    MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 메뉴를 찾을 수 없습니다."),
 
     // cart
     CART_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 장바구니에 접근할 권한이 없습니다."),

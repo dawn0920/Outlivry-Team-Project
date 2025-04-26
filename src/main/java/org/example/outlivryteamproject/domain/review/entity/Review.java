@@ -3,10 +3,13 @@ package org.example.outlivryteamproject.domain.review.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.outlivryteamproject.common.BaseEntity;
+import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.user.entity.User;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 
 @Entity
 @Getter
@@ -31,27 +34,29 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "order_id", unique = true)
+    private Order order;
+
     public Review() {
 
     }
 
-    public Review(User user, Store store, CreateReviewRequestDto requestDto) {
+    public Review(User user, Store store, Order order, CreateReviewRequestDto requestDto) {
         this.user = user;
         this.store = store;
+        this.order = order;
         this.contents = requestDto.getContents();
         this.stars = requestDto.getStars();
     }
 
     public void update(UpdateReviewRequestDto requestDto) {
+
         if (requestDto.getContents() == null && requestDto.getStars() == null) {
-            throw new NullPointerException("내용과 별점 중 최소 하나는 수정해야합니다.");
+            throw new CustomException(ExceptionCode.INVALID_REVIEW_UPDATE);
         }
 
-        if (requestDto.getContents().isBlank()) {
-            throw new IllegalArgumentException("내용을 입력해주세요.");
-        }
-
-        if (requestDto.getContents() != null && !requestDto.getContents().isBlank()) {
+        if (requestDto.getContents() != null) {
             this.contents = requestDto.getContents();
         }
 

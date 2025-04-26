@@ -9,6 +9,8 @@ import java.util.List;
 @Getter
 public class OrderResponseDto {
 
+    private final Long storeId;
+
     private final Long orderId;
 
     private final Integer totalPrice;
@@ -20,6 +22,7 @@ public class OrderResponseDto {
     private final boolean delivery;
 
     public OrderResponseDto(Order order) {
+        this.storeId = order.getStore().getStoreId();
         this.orderId = order.getOrderId();
         this.totalPrice = order.getTotalPrice();
         this.orderItems = order.getOrderItems().stream()

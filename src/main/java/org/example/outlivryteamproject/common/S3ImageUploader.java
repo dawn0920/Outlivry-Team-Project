@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.exception.CustomException;
+import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,7 +46,7 @@ public class S3ImageUploader {
             return amazonS3Client.getUrl(bucketName, fileName).toString();
 
         } catch (IOException e) {
-            throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.", e);
+            throw new CustomException(ExceptionCode.IMAGE_FILE_REQUIRED);
         }
     }
 

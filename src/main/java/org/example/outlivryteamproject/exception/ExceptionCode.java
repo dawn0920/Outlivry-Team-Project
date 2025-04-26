@@ -33,6 +33,7 @@ public enum ExceptionCode implements ErrorCode{
     CART_EMPTY(HttpStatus.BAD_REQUEST, "장바구니가 비어있습니다."),
     SOLD_OUT(HttpStatus.BAD_REQUEST, "재고가 소진되었습니다"),
     CART_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 장바구니가 존재하지 않습니다."),
+    CART_EXPIRED(HttpStatus.CONFLICT, "장바구니가 만료되었습니다"),
 
     // order
     STORE_CLOSED(HttpStatus.CONFLICT, "영업시간이 아닙니다."),

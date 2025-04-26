@@ -75,8 +75,13 @@ public class CartServiceImpl implements CartService{
 
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
-        //장바구니 보관 하루 이상 된 물건 삭제
-        carts.forEach(Cart::changeActive);
+        //장바구니 보관 하루 이상이라면 장바구니 삭제
+        carts.get(carts.size() - 1).changeActive();
+
+        if (!carts.get(carts.size() - 1).isActive()) {
+            cartRepository.deleteAll(carts);
+            throw new CustomException(ExceptionCode.CART_EXPIRED);
+        }
 
         return carts.stream()
                 .filter(Cart::isActive)

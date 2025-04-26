@@ -1,7 +1,7 @@
 package org.example.outlivryteamproject.domain.order.dto.responseDto;
 
 import lombok.Getter;
-import org.example.outlivryteamproject.domain.order.dto.CartItemDto;
+import org.example.outlivryteamproject.domain.order.dto.OrderItemConverter;
 import org.example.outlivryteamproject.domain.order.entity.Order;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class OrderResponseDto {
 
     private final Integer totalPrice;
 
-    private final List<CartItemDto> cartItems;
+    private final List<OrderItemConverter> orderItems;
 
     private final boolean received;
 
@@ -22,8 +22,8 @@ public class OrderResponseDto {
     public OrderResponseDto(Order order) {
         this.orderId = order.getOrderId();
         this.totalPrice = order.getTotalPrice();
-        this.cartItems = order.getCarts().stream()
-                .map(CartItemDto::new)
+        this.orderItems = order.getOrderItems().stream()
+                .map(OrderItemConverter::new)
                 .toList();
         this.received = order.isReceived();
         this.delivery = order.isDelivery();

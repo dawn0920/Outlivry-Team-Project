@@ -22,7 +22,7 @@ public class Order extends BaseEntity {
     private Long orderId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Cart> carts;
+    private List<OrderItem> orderItems;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -52,7 +52,9 @@ public class Order extends BaseEntity {
 
     public Order(User user, List<Cart> carts, Integer totalPrice, OrderRequestDto requestDto) {
         this.user = user;
-        this.carts = carts;
+        this.orderItems = carts.stream()
+                .map(cart -> new OrderItem(cart, this))
+                .toList();
         this.store = carts.get(0).getMenu().getStore();
         this.totalPrice = totalPrice;
         this.address = user.getAddress();

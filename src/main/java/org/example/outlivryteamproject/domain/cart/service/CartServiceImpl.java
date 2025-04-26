@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -71,13 +70,17 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
+    @Transactional
     public List<FindCartResponseDto> findCart(Long userId) {
 
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
-        return carts.stream().
-                map(FindCartResponseDto::new)
-                .collect(Collectors.toList());
+        carts.forEach(Cart::changeActive);
+
+        return carts.stream()
+                .filter(Cart::isActive)
+                .map(FindCartResponseDto::new)
+                .toList();
     }
 
     @Override

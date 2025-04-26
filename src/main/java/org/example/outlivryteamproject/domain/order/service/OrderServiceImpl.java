@@ -43,6 +43,7 @@ public class OrderServiceImpl implements OrderService{
 
         User user = userRepository.findByIdOrElseThrow(userId);
 
+        //주소가 없으면 예외처리
         if (user.getAddress() == null) {
             throw new CustomException(ExceptionCode.ADDRESS_NOT_FOUND);
         }

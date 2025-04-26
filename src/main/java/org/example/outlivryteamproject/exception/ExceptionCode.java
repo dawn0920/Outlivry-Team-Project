@@ -36,6 +36,7 @@ public enum ExceptionCode implements ErrorCode{
     // order
     STORE_CLOSED(HttpStatus.CONFLICT, "영업시간이 아닙니다."),
     ORDER_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 주문에 접근할 권한이 없습니다."),
+    ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "주소를 등록해주새요."),
 
     //review
     REVIEW_NOT_ALLOWED_BEFORE_ORDER_COMPLETION(HttpStatus.CONFLICT, "주문이 완료된 후 리뷰를 작성해주세요."),

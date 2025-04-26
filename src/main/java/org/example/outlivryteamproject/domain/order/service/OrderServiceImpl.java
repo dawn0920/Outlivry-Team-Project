@@ -42,6 +42,11 @@ public class OrderServiceImpl implements OrderService{
         }
 
         User user = userRepository.findByIdOrElseThrow(userId);
+
+        if (user.getAddress() == null) {
+            throw new CustomException(ExceptionCode.ADDRESS_NOT_FOUND);
+        }
+
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
         //장바구니가 비었을 시 예외처리

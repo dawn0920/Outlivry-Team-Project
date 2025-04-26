@@ -62,6 +62,11 @@ public class OrderServiceImpl implements OrderService{
                 .mapToInt(cart -> cart.getPrice() * cart.getQuantity())
                 .sum();
 
+        //최소 주문 금액보다 낮을 시 예외처리
+        if (store.getMinDeliveryPrice() > totalPrice) {
+            throw new CustomException(ExceptionCode.DELIVERY_PRICE_LOW);
+        }
+
         Order order = new Order(user, carts, totalPrice, requestDto);
 
         Order savedOrder = orderRepository.save(order);
@@ -96,10 +101,7 @@ public class OrderServiceImpl implements OrderService{
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
-        if (findedUser.getUserRole().equals(UserRole.USER)) {
-            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
-        }
-
+        //해당 가게의 사장님이 아닐경우 예외처리
         if (!findedOrder.getStore().getUser().equals(findedUser)) {
             throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
@@ -117,10 +119,7 @@ public class OrderServiceImpl implements OrderService{
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
-        if (findedUser.getUserRole().equals(UserRole.USER)) {
-            throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
-        }
-
+        //해당 가게의 사장님이 아닐경우 예외처리
         if (!findedOrder.getStore().getUser().equals(findedUser)) {
             throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }
@@ -137,6 +136,7 @@ public class OrderServiceImpl implements OrderService{
         User findedUser = userRepository.findByIdOrElseThrow(userId);
         Order findedOrder = orderRepository.findByOrderIdOrElseThrow(orderId);
 
+        //주문한 유저가 아닐 경우 예외처리
         if (!findedUser.equals(findedOrder.getUser())) {
             throw new CustomException(ExceptionCode.ORDER_ACCESS_DENIED);
         }

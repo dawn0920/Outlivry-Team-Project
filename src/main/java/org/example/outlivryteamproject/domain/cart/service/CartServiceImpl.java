@@ -49,7 +49,7 @@ public class CartServiceImpl implements CartService{
             }
         }
 
-        //장바구니에 같은 품목이 담겨있다면 수량 증가
+        //장바구니에 같은 품목이 담겨있다면 장바구니를 생성하지 않고 수량만 증가
         Optional<Cart> presentCart = carts.stream()
                 .filter(cart -> cart.getMenu().equals(findedMenu))
                 .findFirst();
@@ -75,6 +75,7 @@ public class CartServiceImpl implements CartService{
 
         List<Cart> carts = cartRepository.findCartByUserId(userId);
 
+        //장바구니 보관 하루 이상 된 물건 삭제
         carts.forEach(Cart::changeActive);
 
         return carts.stream()

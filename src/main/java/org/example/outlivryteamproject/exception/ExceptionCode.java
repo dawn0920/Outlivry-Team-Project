@@ -39,6 +39,7 @@ public enum ExceptionCode implements ErrorCode{
     ORDER_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 주문에 접근할 권한이 없습니다."),
     ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "주소를 등록해주새요."),
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 주문입니다."),
+    DELIVERY_PRICE_LOW(HttpStatus.BAD_REQUEST, "최소 주문 금액을 맞춰주세요."),
 
     //review
     REVIEW_NOT_ALLOWED_BEFORE_ORDER_COMPLETION(HttpStatus.CONFLICT, "주문이 완료된 후 리뷰를 작성해주세요."),

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class OrderStatusLoggingAspect {
+public class OrderLogAspect {
 
     @AfterReturning(
             pointcut = "@annotation(org.example.outlivryteamproject.config.aop.annotaion.OrderStatusLogger)",

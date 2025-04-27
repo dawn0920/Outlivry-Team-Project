@@ -7,10 +7,12 @@ import org.example.outlivryteamproject.exception.CustomException;
 import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    @EntityGraph(attributePaths = {"store"})
     Page<Review> findByStoreAndStarsBetween(Store store,Integer starsAfter, Integer starsBefore, Pageable pageable);
 
     default Review findByReviewIdOrElseThrow(Long id) {
@@ -19,6 +21,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
         );
     }
 
+    @EntityGraph(attributePaths = {"store"})
     Page<Review> findByStore(Store store, Pageable pageable);
 
     Review findByOrder(Order order);

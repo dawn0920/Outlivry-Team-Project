@@ -5,11 +5,13 @@ import org.example.outlivryteamproject.domain.user.entity.User;
 import org.example.outlivryteamproject.exception.CustomException;
 import org.example.outlivryteamproject.exception.ExceptionCode;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
+    @Query("SELECT c FROM Cart c JOIN FETCH c.user WHERE c.user.id = :userId")
     List<Cart> findCartByUserId(Long userId);
 
     Long user(User user);

@@ -32,7 +32,7 @@ public class ReviewController {
      * @param requestDto 리뷰
      * @return ResponseEntity
      */
-    @PostMapping("/stores/{storeId}/orders/{/orderId}")
+    @PostMapping("/stores/{storeId}/orders/{orderId}")
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
             @PathVariable Long storeId,
             @PathVariable Long orderId,

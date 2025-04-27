@@ -11,7 +11,6 @@ import org.example.outlivryteamproject.domain.order.repository.OrderRepository;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.example.outlivryteamproject.domain.user.entity.User;
-import org.example.outlivryteamproject.domain.user.enums.UserRole;
 import org.example.outlivryteamproject.domain.user.repository.UserRepository;
 import org.example.outlivryteamproject.exception.CustomException;
 import org.example.outlivryteamproject.exception.ExceptionCode;

@@ -3,6 +3,7 @@ package org.example.outlivryteamproject.domain.order.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.cart.entity.Cart;
 import org.example.outlivryteamproject.domain.order.dto.requestDto.OrderRequestDto;
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter
+@Setter
 public class Order extends BaseEntity {
 
     @Id

@@ -95,5 +95,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
         for(Menu menu : store.getMenuList()) {
             menu.isDelete();
         }
+
+        storeRepository.save(store);
     }
 }

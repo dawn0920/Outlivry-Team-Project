@@ -1,7 +1,6 @@
 package org.example.outlivryteamproject.domain.menu.controller;
 
 
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.TokenUserId;
 import org.example.outlivryteamproject.common.response.ApiResponse;

@@ -46,6 +46,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    testImplementation 'org.assertj:assertj-core:3.23.0'
 }
 
 tasks.named('test') {

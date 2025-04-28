@@ -22,14 +22,14 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    // 메뉴 단건 조회
-    @GetMapping("/menus/{menuId}")
-    public ResponseEntity<ApiResponse<MenuResponseDto>> findMenuById(@PathVariable("menuId") Long menuId){
-
-        MenuResponseDto findMenuById = menuService.findMenuById(menuId);
-
-        return new ResponseEntity<>( new ApiResponse<>("조회 성공", findMenuById), HttpStatus.OK);
-    }
+//    // 메뉴 단건 조회
+//    @GetMapping("/menus/{menuId}")
+//    public ResponseEntity<ApiResponse<MenuResponseDto>> findMenuById(@PathVariable("menuId") Long menuId){
+//
+//        MenuResponseDto findMenuById = menuService.findMenuById(menuId);
+//
+//        return new ResponseEntity<>( new ApiResponse<>("조회 성공", findMenuById), HttpStatus.OK);
+//    }
 
     // 메뉴 가게별 조회
     @GetMapping("/{storeId}/menus")

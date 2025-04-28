@@ -137,28 +137,28 @@ class StoreOwnerServiceImplTest {
     }
 
     @Test
-    @DisplayName("해당 가게의 사장님이 아닙니다.")
+    @DisplayName("해당 가게 사장이 아니면 수정을 할 수 없다.")
     void updateStore_equals_owner() {
         // Given
         UpdateStoreRequestDto requestDto = new UpdateStoreRequestDto();
 
         Long storeId = 1L;
         Long userId = 1L;
-        Long otherUserId = 1L;
+        Long otherUserId = 2L;
 
-        User otherUser = new User();
-        otherUser.setId(otherUserId);
+        User User = new User();
+        User.setId(userId);
 
         Store store = new Store();
         store.setStoreId(storeId);
-        store.setUser(otherUser);
+        store.setUser(User);
 
         given(storeRepository.findByStoreIdOrElseThrow(storeId)).willReturn(store);
 
         // When
         CustomException exception = assertThrows(
             CustomException.class,
-            () -> storeOwnerService.updateStore(storeId, requestDto, userId)
+            () -> storeOwnerService.updateStore(storeId, requestDto, otherUserId)
         );
 
         // Then
@@ -190,5 +190,31 @@ class StoreOwnerServiceImplTest {
         assertTrue(store.isDeleted()); // soft delete 확인
         verify(storeRepository, times(1)).save(store); // 저장 여부 확인
         verify(storeRepository, never()).delete(any()); // 진짜 삭제는 x
+    }
+    @Test
+    @DisplayName("해당 가게 사장이 아니면 삭제를 할 수 없다.")
+    void deleteStore_equals_owner() {
+        // Given
+        Long storeId = 1L;
+        Long userId = 1L;
+        Long otherUserId = 2L;
+
+        User user = new User();
+        user.setId(userId);
+
+        Store store = new Store();
+        store.setStoreId(storeId);
+        store.setUser(user);
+
+        given(storeRepository.findByStoreIdOrElseThrow(storeId)).willReturn(store);
+
+        // When
+        CustomException exception = assertThrows(
+            CustomException.class,
+            () -> storeOwnerService.deleteStore(storeId, otherUserId)
+        );
+
+        // Then
+        assertEquals("해당 가게의 사장이 아닙니다.",exception.getMessage());
     }
 }

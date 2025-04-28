@@ -60,7 +60,7 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         if(store != findMenuById.getStore()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(ExceptionCode.MENU_STORE_MISMATCH);
         }
 
         if(modifiedMenuRequestDto.getMenuName() != null){
@@ -85,7 +85,7 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         if(store != findMenuById.getStore()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(ExceptionCode.MENU_STORE_MISMATCH);
         }
 
         menuRepository.delete(findMenuById);
@@ -119,7 +119,7 @@ public class MenuServiceImpl implements MenuService {
         Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
 
         if(store != findMenuById.getStore()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+            throw new CustomException(ExceptionCode.MENU_STORE_MISMATCH);
         }
 
         findMenuById.setSoldOut(!findMenuById.isDeleted());

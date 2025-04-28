@@ -34,6 +34,8 @@ public enum ExceptionCode implements ErrorCode{
     // menu - 조회
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 메뉴를 찾을 수 없습니다."),
 
+    MENU_STORE_MISMATCH(HttpStatus.BAD_REQUEST, "가게에는 해당 메뉴가 없습니다."),
+
     // cart
     CART_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 장바구니에 접근할 권한이 없습니다."),
     CART_EMPTY(HttpStatus.BAD_REQUEST, "장바구니가 비어있습니다."),

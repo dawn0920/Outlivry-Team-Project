@@ -21,8 +21,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -108,36 +110,44 @@ public class AuthService {
     // 네이버 로그인
     @Transactional
     public SignupResponse naverLogin(String code) {
-        // 1. 네이버로 부터 Access Token 받기
-        String accessToken = naverOAuthClient.getAccessToken(code);
+        try {// 1. 네이버로 부터 Access Token 받기
+            String accessToken = naverOAuthClient.getAccessToken(code);
 
-        // 2. 네이버 사용자 정보 가져오기
-        NaverUserInfoReponse userInfo = naverOAuthClient.getUserInfo(accessToken);
-        String email = userInfo.getEmail();
-        String name = userInfo.getName();
-        String nickname = userInfo.getNickname();
-        String birth = userInfo.getBirth();
-        String phone = userInfo.getPhone();
+            // 2. 네이버 사용자 정보 가져오기
+            NaverUserInfoReponse userInfo = naverOAuthClient.getUserInfo(accessToken);
 
-        // DB에 사용자가 있는지 확인
-        User user = userRepository.findByEmail(email)
-                .orElseGet(() -> {
-                    // 없으면 새로 생성
-                    User newUser = new User();
-                    newUser.setEmail(email);
-                    newUser.setName(name);
-                    newUser.setNickname(nickname);  // 수정: 'name'이 아닌 'nickname'으로 설정
-                    newUser.setBirth(birth);  // 수정: 'birth' 설정
-                    newUser.setPhone(phone);  // 수정: 'phone' 설정
-                    newUser.setUserRole(UserRole.USER);
-                    newUser.setLoginType(LoginType.NAVER);  // 수정: 'NANER' 오타 수정
-                    return userRepository.save(newUser);
-                });
+            String email = userInfo.getEmail();
+            String name = userInfo.getName();
+            String nickname = userInfo.getNickname();
+            String birth = userInfo.getBirth();
+            String phone = userInfo.getPhone();
 
-        // 4. JWT 토큰 발급
-        String token = jwtUtil.createToken(user.getId(), user.getUserRole());
+            // DB에 사용자가 있는지 확인
+            User user = userRepository.findByEmail(email)
+                    .orElseGet(() -> {
+                        // 없으면 새로 생성
+                        User newUser = new User();
+                        newUser.setEmail(email);
+                        newUser.setName(name);
+                        newUser.setNickname(nickname);  // 수정: 'name'이 아닌 'nickname'으로 설정
+                        newUser.setBirth(birth);  // 수정: 'birth' 설정
+                        newUser.setPhone(phone);  // 수정: 'phone' 설정
+                        newUser.setUserRole(UserRole.USER);
+                        newUser.setLoginType(LoginType.NAVER);  // 수정: 'NANER' 오타 수정
+                        return userRepository.save(newUser);
+                    });
 
-        return new SignupResponse(token);
+            // 4. JWT 토큰 발급
+            String token = jwtUtil.createToken(user.getId(), user.getUserRole());
+
+            return new SignupResponse(token);
+        } catch (RestClientException e) {
+            // 네이버 API 통신 실패 처리
+            throw new CustomException(ExceptionCode.NAVER_API_ERROR, e.getMessage());
+        } catch (Exception e) {
+            // 기타 예기치 못한 오류 처리
+            throw new CustomException(ExceptionCode.UNKNOWN_ERROR, e.getMessage());
+        }
     }
 
     private static final String NAVER_API_URL = "https://openapi.naver.com/v1/nid/me";

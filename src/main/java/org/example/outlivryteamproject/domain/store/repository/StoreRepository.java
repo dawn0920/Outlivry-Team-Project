@@ -22,6 +22,14 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @EntityGraph(attributePaths = "menuList")
     Page<Store> findByStoreNameContaining(String storeName, Pageable pageable);
 
+    default Page<Store> findByStoreNameContainingOrElseThrow(String storeName, Pageable pageable) {
+        Page<Store> stores = findByStoreNameContaining(storeName, pageable);
+        if(stores.isEmpty()) {
+            throw new CustomException(ExceptionCode.STORE_NOT_FOUND);
+        }
+        return stores;
+    }
+
     // 가게 조회 - 메뉴 리스트 포함 x
     @Query("SELECT s FROM Store s LEFT JOIN FETCH s.menuList WHERE s.storeId = :id")
     default Store findByStoreIdOrElseThrow(@Param("id") Long StoreId) {
@@ -32,7 +40,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     // 가게 단건 조회시 메뉴 리스트도 포함
     default Store findByStoreIdWithMenuListOrElseThrow(Long StoreId) {
         return findById(StoreId).orElseThrow(
-            () -> new CustomException(ExceptionCode.STORE_NOT_FOUND));
+            () -> new CustomException(ExceptionCode.STORE_AND_MENU_LIST_NOT_FOUND));
     }
 
     // 가게 명칭 중복 방지

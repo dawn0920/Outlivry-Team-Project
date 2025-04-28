@@ -35,7 +35,7 @@ public class StoreServiceImpl implements StoreService{
 
         Page<Store> storePage;
         if(storeName != null && !storeName.isEmpty()) {
-            storePage = storeRepository.findByStoreNameContaining(storeName, pageable);
+            storePage = storeRepository.findByStoreNameContainingOrElseThrow(storeName, pageable);
         } else {
             storePage = storeRepository.findAll(pageable);
         }

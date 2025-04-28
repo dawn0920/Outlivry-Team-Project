@@ -1,6 +1,7 @@
 package org.example.outlivryteamproject.domain.store.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.common.response.ApiResponse;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.dto.response.FindOneStoreResponseDto;
 import org.example.outlivryteamproject.domain.store.service.StoreService;
@@ -29,12 +30,13 @@ public class StoreController {
      * @return  여러 가게를 페이지와 사이즈에 따라 표시
      */
     @GetMapping
-    public ResponseEntity<Page<StoreResponseDto>> findStoreList (
+    public ResponseEntity<ApiResponse<Page<StoreResponseDto>>> findStoreList (
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "5") int size,
         @RequestParam(required = false) String storeName
     ) {
-        return new ResponseEntity<>(storeService.findStoreList(page,size,storeName),HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>(
+            "목록 성공", storeService.findStoreList(page,size,storeName)),HttpStatus.OK);
     }
 
     /**
@@ -44,7 +46,8 @@ public class StoreController {
      * @return  가게의 정보와 메뉴리스트를 표시
      */
     @GetMapping("/{storeId}")
-    public ResponseEntity<FindOneStoreResponseDto> findOneStore(@PathVariable Long storeId) {
-        return new ResponseEntity<>(storeService.findOneStore(storeId),HttpStatus.OK);
+    public ResponseEntity<ApiResponse<FindOneStoreResponseDto>> findOneStore(@PathVariable Long storeId) {
+        return new ResponseEntity<>(new ApiResponse<>(
+            "조회 성공", storeService.findOneStore(storeId)),HttpStatus.OK);
     }
 }

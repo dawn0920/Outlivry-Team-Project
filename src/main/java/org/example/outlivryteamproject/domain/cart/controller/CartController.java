@@ -70,7 +70,7 @@ public class CartController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         cartService.removeCartItem(userId, cartId);
 
-        return new ResponseEntity<>(new ApiResponse<>("해당 물건을 삭제했습니다"), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ApiResponse<>("삭제 완료"), HttpStatus.OK);
     }
 
     /**
@@ -85,6 +85,6 @@ public class CartController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         cartService.removeCart(userId);
 
-        return new ResponseEntity<>(new ApiResponse<>("장바구니를 비웠습니다."), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ApiResponse<>("장바구니를 비웠습니다."), HttpStatus.OK);
     }
 }

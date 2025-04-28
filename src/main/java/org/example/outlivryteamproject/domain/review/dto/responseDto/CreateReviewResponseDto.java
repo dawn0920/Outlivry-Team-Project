@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 public class CreateReviewResponseDto {
 
-    private Long id;
+    private Long reviewId;
 
     private String userNickname;
 
@@ -19,7 +19,7 @@ public class CreateReviewResponseDto {
     private LocalDateTime createTime;
 
     public CreateReviewResponseDto(Review review) {
-        this.id = review.getReviewId();
+        this.reviewId = review.getReviewId();
         this.userNickname = review.getUser().getNickname();
         this.contents = review.getContents();
         this.stars = review.getStars();

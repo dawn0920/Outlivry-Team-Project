@@ -8,17 +8,21 @@ import java.time.LocalDateTime;
 @Getter
 public class UpdateReviewResponseDto {
 
-    private final Long id;
+    private Long id;
 
-    private final String userNickname;
+    private String userNickname;
 
-    private final String contents;
+    private String contents;
 
-    private final Integer stars;
+    private Integer stars;
 
-    private final LocalDateTime createTime;
+    private LocalDateTime createTime;
 
-    private final LocalDateTime modifiedTime;
+    private LocalDateTime modifiedTime;
+
+    public UpdateReviewResponseDto() {
+
+    }
 
     public UpdateReviewResponseDto(Review review) {
         this.id = review.getReviewId();

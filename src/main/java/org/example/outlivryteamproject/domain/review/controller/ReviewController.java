@@ -42,7 +42,7 @@ public class ReviewController {
 
         CreateReviewResponseDto createdReview = reviewService.save(userId, storeId, orderId, requestDto);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 작성했습니다.", createdReview), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 작성", createdReview), HttpStatus.CREATED);
     }
 
     /**
@@ -59,7 +59,7 @@ public class ReviewController {
     ) {
         Page<FindReviewResponseDto> reviews = reviewService.findAll(storeId, page);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 조회합니다.",reviews), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 조회",reviews), HttpStatus.OK);
     }
 
     /**
@@ -78,7 +78,7 @@ public class ReviewController {
     ) {
         Page<FindReviewResponseDto> reviews = reviewService.findByStars(storeId, page, start, end);
 
-        return new ResponseEntity<>(new ApiResponse<>("별점으로 리뷰를 조회합니다.",reviews), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("별점으로 리뷰 조회",reviews), HttpStatus.OK);
     }
 
     /**
@@ -98,7 +98,7 @@ public class ReviewController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         UpdateReviewResponseDto updatedReview = reviewService.update(userId, reviewId, requestDto);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 수정했습니다.",updatedReview), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 수정",updatedReview), HttpStatus.OK);
     }
 
     /**
@@ -116,7 +116,7 @@ public class ReviewController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         reviewService.delete(userId, reviewId);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 삭제했습니다."),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 삭제"),HttpStatus.OK);
     }
 
 }

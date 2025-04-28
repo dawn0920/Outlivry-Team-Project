@@ -6,7 +6,7 @@ import org.example.outlivryteamproject.common.S3ImageUploader;
 import org.example.outlivryteamproject.common.UpdateUtils;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
-import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
+import org.example.outlivryteamproject.domain.store.dto.request.UpdateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
@@ -55,7 +55,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
 
     @Override
     @Transactional
-    public StoreResponseDto updateStore(Long storeId, updateStoreRequestDto requestDto, Long userId) {
+    public StoreResponseDto updateStore(Long storeId, UpdateStoreRequestDto requestDto, Long userId) {
 
         User user = userRepository.findByIdOrElseThrow(userId);
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);

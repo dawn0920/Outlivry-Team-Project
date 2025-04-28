@@ -10,13 +10,13 @@ import org.example.outlivryteamproject.domain.store.entity.Store;
 
 @Getter
 @RequiredArgsConstructor
-public class findOneStoreResponseDto extends StoreResponseDto{
+public class FindOneStoreResponseDto extends StoreResponseDto{
 
     private List<MenuResponseDto> menuList;
 
     private Double stars;
 
-    public findOneStoreResponseDto(Store store, Double stars) {
+    public FindOneStoreResponseDto(Store store, Double stars) {
         super(store);
         this.menuList = store.getMenuList().stream().map(MenuResponseDto::new).collect(Collectors.toList());
         this.stars = stars;

@@ -4,7 +4,7 @@ package org.example.outlivryteamproject.domain.store.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
-import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
+import org.example.outlivryteamproject.domain.store.dto.request.UpdateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.service.StoreOwnerService;
 import org.springframework.http.HttpStatus;
@@ -46,7 +46,7 @@ public class StoreOwnerController {
     @PatchMapping("/{storeId}")
     public ResponseEntity<StoreResponseDto> updateStore (
         @PathVariable("storeId") Long storeId,
-        @ModelAttribute @Valid updateStoreRequestDto requestDto,
+        @ModelAttribute @Valid UpdateStoreRequestDto requestDto,
         @RequestHeader("Authorization") String authHeader
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);

@@ -22,6 +22,7 @@ public enum ExceptionCode implements ErrorCode{
     // store
     STORE_LIMIT_EXCEEDED(HttpStatus.FORBIDDEN, "가게는 3개까지 생성 가능 합니다."),
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 가게를 찾을 수 없습니다."),
+    STORE_AND_MENU_LIST_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 가게와 메뉴리스트를 찾을 수 없습니다."),
     STORE_NAME_DUPLICATED(HttpStatus.BAD_REQUEST, "이미 존재하는 가게 이름입니다."),
 
     // 가게 수정, 삭제 권한 및 메뉴 추가

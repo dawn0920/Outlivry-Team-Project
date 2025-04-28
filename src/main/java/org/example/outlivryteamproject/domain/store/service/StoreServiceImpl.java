@@ -6,7 +6,7 @@ import java.math.RoundingMode;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.review.repository.ReviewRepository;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
-import org.example.outlivryteamproject.domain.store.dto.response.findOneStoreResponseDto;
+import org.example.outlivryteamproject.domain.store.dto.response.FindOneStoreResponseDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.example.outlivryteamproject.exception.CustomException;
@@ -35,7 +35,7 @@ public class StoreServiceImpl implements StoreService{
 
         Page<Store> storePage;
         if(storeName != null && !storeName.isEmpty()) {
-            storePage = storeRepository.findByStoreNameContaining(storeName, pageable);
+            storePage = storeRepository.findByStoreNameContainingOrElseThrow(storeName, pageable);
         } else {
             storePage = storeRepository.findAll(pageable);
         }
@@ -45,7 +45,7 @@ public class StoreServiceImpl implements StoreService{
 
     @Override
     @Transactional
-    public findOneStoreResponseDto findOneStore(Long storeId) {
+    public FindOneStoreResponseDto findOneStore(Long storeId) {
 
         if(storeId == null) {
             throw new CustomException(ExceptionCode.STORE_NOT_FOUND);
@@ -57,6 +57,6 @@ public class StoreServiceImpl implements StoreService{
         BigDecimal newStars = new BigDecimal(stars);
         Double starsStore = newStars.setScale(1, RoundingMode.HALF_DOWN).doubleValue();
 
-        return new findOneStoreResponseDto(store, starsStore);
+        return new FindOneStoreResponseDto(store, starsStore);
     }
 }

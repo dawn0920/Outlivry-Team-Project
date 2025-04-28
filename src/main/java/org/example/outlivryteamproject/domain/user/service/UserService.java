@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.SoftDelete;
 import org.example.outlivryteamproject.config.PasswordEncoder;
+import org.example.outlivryteamproject.domain.menu.entity.Menu;
+import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.user.dto.request.UserDeleteRequest;
 import org.example.outlivryteamproject.domain.user.dto.request.UserPasswordRequest;
 import org.example.outlivryteamproject.domain.user.dto.request.UserRequest;

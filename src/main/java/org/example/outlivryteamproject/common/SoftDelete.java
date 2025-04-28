@@ -19,7 +19,7 @@ public abstract class SoftDelete {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    public void isdelete() {
+    public void isDelete() {
         if(this.isDeleted) {
             throw new CustomException(ExceptionCode.ALREADY_DELETE);
         } this.isDeleted = true;

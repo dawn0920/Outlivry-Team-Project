@@ -34,7 +34,7 @@ public class OrderController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         OrderResponseDto createOrder = orderService.createOrder(storeId, userId, requestDto);
 
-        return new ResponseEntity<>(new ApiResponse<>("주문에 성공하였습니다.", createOrder), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse<>("주문 완료", createOrder), HttpStatus.CREATED);
     }
 
     /**
@@ -52,7 +52,7 @@ public class OrderController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         OrderResponseDto findedOrder = orderService.findByOrderId(userId, orderId);
 
-        return new ResponseEntity<>(new ApiResponse<>("주문을 조회합니다.", findedOrder), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("주문 조회", findedOrder), HttpStatus.OK);
     }
 
     /**
@@ -71,7 +71,7 @@ public class OrderController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         orderService.receivedOrder(userId, orderId);
 
-        return new ResponseEntity<>(new ApiResponse<>("주문을 수락했습니다."), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("주문 수락 완료"), HttpStatus.OK);
     }
 
     /**
@@ -89,7 +89,7 @@ public class OrderController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         orderService.deliveryOrder(userId, orderId);
 
-        return new ResponseEntity<>(new ApiResponse<>("배달이 완료되었습니다."), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("배달 완료"), HttpStatus.OK);
     }
 
     /**
@@ -107,6 +107,6 @@ public class OrderController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         orderService.deleteOrder(userId, orderId);
 
-        return new ResponseEntity<>(new ApiResponse<>("주문을 취소했습니다."), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ApiResponse<>("주문 취소"), HttpStatus.OK);
     }
 }

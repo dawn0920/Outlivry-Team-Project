@@ -1,7 +1,6 @@
 package org.example.outlivryteamproject.domain.review.service;
 
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
-import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.CreateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.FindReviewResponseDto;
@@ -14,7 +13,7 @@ public interface ReviewService {
 
     Page<FindReviewResponseDto> findAll(Long storeId, int page);
 
-    Page<FindReviewResponseDto> findByStars(Long storeId, int page, FindByStarsRequestDto requestDto);
+    Page<FindReviewResponseDto> findByStars(Long storeId, int page, int start, int end);
 
     UpdateReviewResponseDto update(Long userId, Long reviewId, UpdateReviewRequestDto requestDto);
 

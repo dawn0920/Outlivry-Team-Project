@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.common.TokenUserId;
 import org.example.outlivryteamproject.common.response.ApiResponse;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
-import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.CreateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.FindReviewResponseDto;
@@ -34,8 +33,8 @@ public class ReviewController {
      */
     @PostMapping("/stores/{storeId}/orders/{orderId}")
     public ResponseEntity<ApiResponse<CreateReviewResponseDto>> createReview(
-            @PathVariable Long storeId,
-            @PathVariable Long orderId,
+            @PathVariable("storeId") Long storeId,
+            @PathVariable("orderId") Long orderId,
             @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody CreateReviewRequestDto requestDto
     ) {
@@ -43,7 +42,7 @@ public class ReviewController {
 
         CreateReviewResponseDto createdReview = reviewService.save(userId, storeId, orderId, requestDto);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 작성했습니다.", createdReview), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 작성", createdReview), HttpStatus.CREATED);
     }
 
     /**
@@ -55,12 +54,12 @@ public class ReviewController {
      */
     @GetMapping("/stores/{storeId}")
     public ResponseEntity<ApiResponse<Page<FindReviewResponseDto>>> findAll(
-            @PathVariable Long storeId,
-            @RequestParam(defaultValue = "1") int page
+            @PathVariable("storeId") Long storeId,
+            @RequestParam(name = "page", defaultValue = "1") int page
     ) {
         Page<FindReviewResponseDto> reviews = reviewService.findAll(storeId, page);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 조회합니다.",reviews), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 조회",reviews), HttpStatus.OK);
     }
 
     /**
@@ -68,18 +67,18 @@ public class ReviewController {
      *
      * @param storeId 특정 가게 정보
      * @param page 페이지
-     * @param requestDto 시작별점, 끝별점
      * @return ResponseEntity
      */
     @GetMapping("/stores/{storeId}/stars")
     public ResponseEntity<ApiResponse<Page<FindReviewResponseDto>>> findByStars(
-            @PathVariable Long storeId,
-            @RequestParam(defaultValue = "1") int page,
-            @Valid @RequestBody FindByStarsRequestDto requestDto
+            @PathVariable("storeId") Long storeId,
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "start") int start,
+            @RequestParam(name = "end") int end
     ) {
-        Page<FindReviewResponseDto> reviews = reviewService.findByStars(storeId, page, requestDto);
+        Page<FindReviewResponseDto> reviews = reviewService.findByStars(storeId, page, start, end);
 
-        return new ResponseEntity<>(new ApiResponse<>("별점으로 리뷰를 조회합니다.",reviews), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("별점으로 리뷰 조회",reviews), HttpStatus.OK);
     }
 
     /**
@@ -92,14 +91,14 @@ public class ReviewController {
      */
     @PatchMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<UpdateReviewResponseDto>> updateReview(
-            @PathVariable Long reviewId,
+            @PathVariable("reviewId") Long reviewId,
             @RequestHeader("Authorization") String authHeader,
             @Valid @RequestBody UpdateReviewRequestDto requestDto
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         UpdateReviewResponseDto updatedReview = reviewService.update(userId, reviewId, requestDto);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 수정했습니다.",updatedReview), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 수정",updatedReview), HttpStatus.OK);
     }
 
     /**
@@ -112,12 +111,12 @@ public class ReviewController {
     @DeleteMapping("/{reviewId}")
     public ResponseEntity<ApiResponse<Void>> deleteReview(
             @RequestHeader("Authorization") String authHeader,
-            @PathVariable Long reviewId
+            @PathVariable("reviewId") Long reviewId
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         reviewService.delete(userId, reviewId);
 
-        return new ResponseEntity<>(new ApiResponse<>("리뷰를 삭제했습니다."),HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ApiResponse<>("리뷰 삭제"),HttpStatus.OK);
     }
 
 }

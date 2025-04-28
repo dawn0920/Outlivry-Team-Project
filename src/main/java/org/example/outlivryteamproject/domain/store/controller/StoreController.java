@@ -36,7 +36,7 @@ public class StoreController {
         @RequestParam(required = false) String storeName
     ) {
         return new ResponseEntity<>(new ApiResponse<>(
-            "목록 성공", storeService.findStoreList(page,size,storeName)),HttpStatus.OK);
+            "가게 목록 조회 성공", storeService.findStoreList(page,size,storeName)),HttpStatus.OK);
     }
 
     /**
@@ -48,6 +48,6 @@ public class StoreController {
     @GetMapping("/{storeId}")
     public ResponseEntity<ApiResponse<FindOneStoreResponseDto>> findOneStore(@PathVariable Long storeId) {
         return new ResponseEntity<>(new ApiResponse<>(
-            "조회 성공", storeService.findOneStore(storeId)),HttpStatus.OK);
+            "가게 단건 조회 성공", storeService.findOneStore(storeId)),HttpStatus.OK);
     }
 }

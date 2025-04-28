@@ -35,7 +35,7 @@ public class StoreOwnerController {
         Long userId = tokenUserId.getTokenUserId(authHeader);
 
         return new ResponseEntity<>(new ApiResponse<>(
-            "조회 성공", storeOwnerService.saveStore(requestDto,userId)), HttpStatus.CREATED);
+            "가게 생성 성공", storeOwnerService.saveStore(requestDto,userId)), HttpStatus.CREATED);
     }
 
     /**  추후 사장님 본인만 가능하도록 수정 필요 + 비밀번호 요구
@@ -53,7 +53,7 @@ public class StoreOwnerController {
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
 
-        return new ResponseEntity<>(new ApiResponse<>("조회 성공", storeOwnerService.updateStore(storeId, requestDto,userId)),HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("가게 수정 성공", storeOwnerService.updateStore(storeId, requestDto,userId)),HttpStatus.OK);
     }
 
     /** 사장님 본인만 삭제 가능하도록 수정 필요 + 비밀번호 요구
@@ -71,6 +71,6 @@ public class StoreOwnerController {
 
         storeOwnerService.deleteStore(storeId, userId);
 
-        return new ResponseEntity<>(new ApiResponse<>("삭제 완료"), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("가게 삭제 완료"), HttpStatus.OK);
     }
 }

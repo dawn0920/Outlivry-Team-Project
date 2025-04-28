@@ -11,7 +11,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import org.example.outlivryteamproject.common.S3ImageUploader;
+import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.request.UpdateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
@@ -175,10 +177,16 @@ class StoreOwnerServiceImplTest {
         User user = new User();
         user.setId(userId);
 
+        Menu menu1 = mock(Menu.class);
+        menu1.setMenuName("첫번째 메뉴");
+        Menu menu2 = mock(Menu.class);
+        menu2.setMenuName("두번째 메뉴");
+
         Store store = new Store();
         store.setStoreId(storeId);
         store.setUser(user);
         store.setDeleted(false);
+        store.setMenuList(Arrays.asList(menu1, menu2));
 
         given(userRepository.findByIdOrElseThrow(userId)).willReturn(user);
         given(storeRepository.findByStoreIdOrElseThrow(storeId)).willReturn(store);
@@ -190,7 +198,11 @@ class StoreOwnerServiceImplTest {
         assertTrue(store.isDeleted()); // soft delete 확인
         verify(storeRepository, times(1)).save(store); // 저장 여부 확인
         verify(storeRepository, never()).delete(any()); // 진짜 삭제는 x
+
+        verify(menu1, times(1)).isDelete();
+        verify(menu2, times(1)).isDelete();
     }
+
     @Test
     @DisplayName("해당 가게 사장이 아니면 삭제를 할 수 없다.")
     void deleteStore_equals_owner() {

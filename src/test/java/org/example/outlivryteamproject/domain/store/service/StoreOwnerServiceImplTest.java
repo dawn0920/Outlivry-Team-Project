@@ -5,11 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
 
 import java.util.Arrays;
 import org.example.outlivryteamproject.common.S3ImageUploader;
@@ -69,7 +66,7 @@ class StoreOwnerServiceImplTest {
     }
 
     @Test
-    @DisplayName("중복된 가게 이름은 사용 할 수 없다.")
+    @DisplayName("가게 생성시 중복된 이름 사용 불가")
     void saveStore_dont_create_same_storeName() {
         // Given
         StoreRequestDto requestDto = new StoreRequestDto();
@@ -90,7 +87,7 @@ class StoreOwnerServiceImplTest {
     }
 
     @Test
-    @DisplayName("한명의 사장님은 최대 3개의 가게를 생성 가능하다")
+    @DisplayName("가게 생성시 사장 한명당 최대 3개의 가게를 가짐")
     void saveStore_oneOwner_limit_threeStore() {
         // Given
         StoreRequestDto requestDto = new StoreRequestDto();
@@ -139,7 +136,7 @@ class StoreOwnerServiceImplTest {
     }
 
     @Test
-    @DisplayName("해당 가게 사장이 아니면 수정을 할 수 없다.")
+    @DisplayName("가게 수정시 해당 가게 사장이 아니면 불가능")
     void updateStore_equals_owner() {
         // Given
         UpdateStoreRequestDto requestDto = new UpdateStoreRequestDto();
@@ -168,7 +165,7 @@ class StoreOwnerServiceImplTest {
     }
 
     @Test
-    @DisplayName("가게 삭제를 확인합니다.")
+    @DisplayName("가게 삭제를 확인")
     void deleteStore_success() {
         // Given
         Long storeId = 1L;
@@ -204,7 +201,7 @@ class StoreOwnerServiceImplTest {
     }
 
     @Test
-    @DisplayName("해당 가게 사장이 아니면 삭제를 할 수 없다.")
+    @DisplayName("가게 삭제시 해당 사장이 아니면 불가능")
     void deleteStore_equals_owner() {
         // Given
         Long storeId = 1L;

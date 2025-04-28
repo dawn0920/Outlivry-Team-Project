@@ -46,6 +46,6 @@ public class AuthController {
         return authService.naverLogin(code);
     }
 
-    // https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=oWjzWkfgNEUAX2nl9Yy1&redirect_uri=http://localhost:8080/auth/naver/callback
-    // https://nid.naver.com/oauth2.0/token?response_type=code&client_id=oWjzWkfgNEUAX2nl9Yy1&redirect_uri=http://localhost:8080/auth/naver/callback
+    // http://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=oWjzWkfgNEUAX2nl9Yy1&redirect_uri=http://localhost:8080/auth/naver/callback
+
 }

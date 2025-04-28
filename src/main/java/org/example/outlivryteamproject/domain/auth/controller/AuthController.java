@@ -24,6 +24,7 @@ public class AuthController {
     @PostMapping("/user/signup")
     public ResponseEntity<ApiResponse<SignupResponse>> usersignup(
             @Valid @RequestBody SignupRequest request) {
+        authService.usersignup(request);
         return new ResponseEntity<>(new ApiResponse<>("유저 회원 가입 완료"), HttpStatus.CREATED);
     }
 
@@ -31,6 +32,7 @@ public class AuthController {
     @PostMapping("/owner/signup")
     public ResponseEntity<ApiResponse<SignupResponse>> ownersignup(
             @Valid @RequestBody SignupRequest request) {
+        authService.ownersignup(request);
         return new ResponseEntity<>(new ApiResponse<>("사장님 회원 가입 완료"), HttpStatus.CREATED);
     }
 

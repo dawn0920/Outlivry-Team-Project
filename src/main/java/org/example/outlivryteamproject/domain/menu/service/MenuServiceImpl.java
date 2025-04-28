@@ -91,13 +91,13 @@ public class MenuServiceImpl implements MenuService {
         menuRepository.delete(findMenuById);
     }
 
-    @Override
-    public MenuResponseDto findMenuById(Long menuId) {
-
-        Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
-
-        return new MenuResponseDto(findMenuById);
-    }
+//    @Override
+//    public MenuResponseDto findMenuById(Long menuId) {
+//
+//        Menu findMenuById = menuRepository.findMenuByIdOrElseThrow(menuId);
+//
+//        return new MenuResponseDto(findMenuById);
+//    }
 
     @Override
     public List<MenuResponseDto> findAllMenusByStore(Long storeId) {

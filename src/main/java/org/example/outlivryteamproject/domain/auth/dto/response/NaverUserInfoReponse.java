@@ -1,9 +1,11 @@
 package org.example.outlivryteamproject.domain.auth.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class NaverUserInfoReponse {
     private String email;

@@ -19,11 +19,11 @@ public enum ExceptionCode implements ErrorCode{
     DUPLICATE_PASSWORD(HttpStatus.BAD_REQUEST, "새 비밀번호는 기존 비밀번호와 같을 수 없습니다."),
     ALREADY_DELETE(HttpStatus.CONFLICT, "삭제된 유저입니다."),
 
-    // store - 생성
+    // store
     STORE_LIMIT_EXCEEDED(HttpStatus.FORBIDDEN, "가게는 3개까지 생성 가능 합니다."),
-
-    // store - 조회
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 가게를 찾을 수 없습니다."),
+    STORE_AND_MENU_LIST_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 가게와 메뉴리스트를 찾을 수 없습니다."),
+    STORE_NAME_DUPLICATED(HttpStatus.BAD_REQUEST, "이미 존재하는 가게 이름입니다."),
 
     // 가게 수정, 삭제 권한 및 메뉴 추가
     NOT_EQUALS_OWNER(HttpStatus.FORBIDDEN,"해당 가게의 사장이 아닙니다."),
@@ -55,7 +55,8 @@ public enum ExceptionCode implements ErrorCode{
     REVIEW_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 리뷰에 접근할 권한이 없습니다."),
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 리뷰입니다."),
     INVALID_REVIEW_UPDATE(HttpStatus.BAD_REQUEST, "내용과 별점 중 하나는 수정해야합니다."),
-    EMPTY_CONTENT(HttpStatus.BAD_REQUEST, "내용을 입력해주세요.")
+    EMPTY_CONTENT(HttpStatus.BAD_REQUEST, "내용을 입력해주세요."),
+    EXIST_REVIEW(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성한 주문입니다.")
 
     ;
 

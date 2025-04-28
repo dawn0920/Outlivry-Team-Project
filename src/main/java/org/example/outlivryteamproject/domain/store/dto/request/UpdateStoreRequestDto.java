@@ -4,7 +4,6 @@ package org.example.outlivryteamproject.domain.store.dto.request;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +12,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class updateStoreRequestDto {
+public class UpdateStoreRequestDto {
 
     private String newStoreName; // 가게 이름
 

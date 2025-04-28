@@ -6,7 +6,7 @@ import org.example.outlivryteamproject.common.S3ImageUploader;
 import org.example.outlivryteamproject.common.UpdateUtils;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
-import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
+import org.example.outlivryteamproject.domain.store.dto.request.UpdateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
@@ -30,10 +30,15 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
     @Transactional
     public StoreResponseDto saveStore(StoreRequestDto requestDto, Long userId) {
 
+        // 같은 가게 명칭으로 생성 막기
+        if(storeRepository.existsByStoreName(requestDto.getStoreName())) {
+            throw new CustomException(ExceptionCode.STORE_NAME_DUPLICATED);
+        }
+
         // userId로 검색한 store 수가 3개 이상이면 생성 제한-------------------
         long storeCount = storeRepository.countByUserId(userId);
 
-        if(storeCount>3) {
+        if(storeCount>=3) {
             throw new CustomException(ExceptionCode.STORE_LIMIT_EXCEEDED);
         }
         //----------------------------------------------------------------
@@ -50,7 +55,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
 
     @Override
     @Transactional
-    public StoreResponseDto updateStore(Long storeId, updateStoreRequestDto requestDto, Long userId) {
+    public StoreResponseDto updateStore(Long storeId, UpdateStoreRequestDto requestDto, Long userId) {
 
         User user = userRepository.findByIdOrElseThrow(userId);
         Store store = storeRepository.findByStoreIdOrElseThrow(storeId);
@@ -76,6 +81,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
     }
 
     @Override
+    @Transactional
     public void deleteStore(Long storeId, Long userId) {
 
         User user = userRepository.findByIdOrElseThrow(userId);
@@ -89,5 +95,7 @@ public class StoreOwnerServiceImpl implements StoreOwnerService{
         for(Menu menu : store.getMenuList()) {
             menu.isDelete();
         }
+
+        storeRepository.save(store);
     }
 }

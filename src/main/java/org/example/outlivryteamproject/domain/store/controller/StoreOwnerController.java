@@ -3,8 +3,9 @@ package org.example.outlivryteamproject.domain.store.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.outlivryteamproject.common.response.ApiResponse;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
-import org.example.outlivryteamproject.domain.store.dto.request.updateStoreRequestDto;
+import org.example.outlivryteamproject.domain.store.dto.request.UpdateStoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.response.StoreResponseDto;
 import org.example.outlivryteamproject.domain.store.service.StoreOwnerService;
 import org.springframework.http.HttpStatus;
@@ -27,13 +28,14 @@ public class StoreOwnerController {
      * @return 생성된 가게 정보가 담겨 있는 StoreResponseDto 객체
      */
     @PostMapping
-    public ResponseEntity<StoreResponseDto> saveStore (
+    public ResponseEntity<ApiResponse<StoreResponseDto>> saveStore (
         @ModelAttribute @Valid StoreRequestDto requestDto,
         @RequestHeader("Authorization") String authHeader
     ){
         Long userId = tokenUserId.getTokenUserId(authHeader);
 
-        return new ResponseEntity<>(storeOwnerService.saveStore(requestDto,userId), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ApiResponse<>(
+            "가게 생성 성공", storeOwnerService.saveStore(requestDto,userId)), HttpStatus.CREATED);
     }
 
     /**  추후 사장님 본인만 가능하도록 수정 필요 + 비밀번호 요구
@@ -44,14 +46,14 @@ public class StoreOwnerController {
      * @return 바뀐 가게 정보가 담겨 있는 StoreResponseDto 객체 - null 값으로 들어온 정보는 수정 x
      */
     @PatchMapping("/{storeId}")
-    public ResponseEntity<StoreResponseDto> updateStore (
+    public ResponseEntity<ApiResponse<StoreResponseDto>> updateStore (
         @PathVariable("storeId") Long storeId,
-        @ModelAttribute @Valid updateStoreRequestDto requestDto,
+        @ModelAttribute @Valid UpdateStoreRequestDto requestDto,
         @RequestHeader("Authorization") String authHeader
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
 
-        return new ResponseEntity<>(storeOwnerService.updateStore(storeId, requestDto,userId),HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("가게 수정 성공", storeOwnerService.updateStore(storeId, requestDto,userId)),HttpStatus.OK);
     }
 
     /** 사장님 본인만 삭제 가능하도록 수정 필요 + 비밀번호 요구
@@ -61,7 +63,7 @@ public class StoreOwnerController {
      * @return 없음 - 상태만 표시
      */
     @DeleteMapping("/{storeId}")
-    public ResponseEntity<Void> deleteStore (
+    public ResponseEntity<ApiResponse<Void>> deleteStore (
         @PathVariable("storeId") Long storeId,
         @RequestHeader("Authorization") String authHeader
     ) {
@@ -69,6 +71,6 @@ public class StoreOwnerController {
 
         storeOwnerService.deleteStore(storeId, userId);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ApiResponse<>("가게 삭제 완료"), HttpStatus.OK);
     }
 }

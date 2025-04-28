@@ -30,7 +30,7 @@ public class CartController {
     @PostMapping("/menus/{menuId}")
     public ResponseEntity<ApiResponse<SaveCartResponseDto>> saveCart(
             @RequestHeader("Authorization") String authHeader,
-            @PathVariable Long menuId
+            @PathVariable("menuId") Long menuId
     ) {
         Long userId = tokenUserId.getTokenUserId(authHeader);
         SaveCartResponseDto savedCart = cartService.save(userId, menuId);

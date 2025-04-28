@@ -6,6 +6,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.example.outlivryteamproject.common.S3ImageUploader;
@@ -139,7 +142,7 @@ class StoreOwnerServiceImplTest {
         // Given
         UpdateStoreRequestDto requestDto = new UpdateStoreRequestDto();
 
-        Long stroeId = 1L;
+        Long storeId = 1L;
         Long userId = 1L;
         Long otherUserId = 1L;
 
@@ -147,22 +150,45 @@ class StoreOwnerServiceImplTest {
         otherUser.setId(otherUserId);
 
         Store store = new Store();
-        store.setStoreId(stroeId);
+        store.setStoreId(storeId);
         store.setUser(otherUser);
 
-        given(storeRepository.findByStoreIdOrElseThrow(stroeId)).willReturn(store);
+        given(storeRepository.findByStoreIdOrElseThrow(storeId)).willReturn(store);
 
         // When
         CustomException exception = assertThrows(
             CustomException.class,
-            () -> storeOwnerService.updateStore(stroeId, requestDto, userId)
+            () -> storeOwnerService.updateStore(storeId, requestDto, userId)
         );
 
         // Then
         assertEquals("해당 가게의 사장이 아닙니다.",exception.getMessage());
     }
 
-//    @Test
-//    void deleteStore() {
-//    }
+    @Test
+    @DisplayName("가게 삭제를 확인합니다.")
+    void deleteStore_success() {
+        // Given
+        Long storeId = 1L;
+        Long userId = 1L;
+
+        User user = new User();
+        user.setId(userId);
+
+        Store store = new Store();
+        store.setStoreId(storeId);
+        store.setUser(user);
+        store.setDeleted(false);
+
+        given(userRepository.findByIdOrElseThrow(userId)).willReturn(user);
+        given(storeRepository.findByStoreIdOrElseThrow(storeId)).willReturn(store);
+
+        // When
+        storeOwnerService.deleteStore(storeId,userId);
+
+        // Then
+        assertTrue(store.isDeleted()); // soft delete 확인
+        verify(storeRepository, times(1)).save(store); // 저장 여부 확인
+        verify(storeRepository, never()).delete(any()); // 진짜 삭제는 x
+    }
 }

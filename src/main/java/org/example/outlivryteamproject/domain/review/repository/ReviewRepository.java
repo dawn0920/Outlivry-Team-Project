@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
@@ -25,4 +27,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByStore(Store store, Pageable pageable);
 
     Review findByOrder(Order order);
+
+    @Query("SELECT AVG(r.stars) FROM Review r WHERE r.store.storeId = :storeId")
+    Double findAverageRatingByStoreId(@Param("storeId") Long storeId);
 }

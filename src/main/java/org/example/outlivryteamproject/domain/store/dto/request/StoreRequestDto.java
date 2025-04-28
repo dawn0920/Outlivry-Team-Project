@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,10 +40,11 @@ public class StoreRequestDto {
     @Min(0)
     private Long deliveryTip; // 가게 배달료
 
+    @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime openTime;
 
+    @NotNull
     @JsonFormat(pattern = "HH:mm")
     private LocalTime closeTime;
-
 }

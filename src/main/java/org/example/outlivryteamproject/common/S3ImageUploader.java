@@ -25,7 +25,7 @@ public class S3ImageUploader {
         }
 
         if (!isValidImage(file)) {
-            throw new RuntimeException("이미지 파일만 업로드할 수 있습니다.");
+            throw new CustomException(ExceptionCode.IMAGE_FILE_REQUIRED);
         }
 
         try {

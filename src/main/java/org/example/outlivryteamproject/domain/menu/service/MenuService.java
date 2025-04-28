@@ -13,7 +13,7 @@ public interface MenuService {
 
     void deleteMenu(Long userId, Long storeId, Long menuId);
 
-    MenuResponseDto findMenuById(Long menuId);
+//    MenuResponseDto findMenuById(Long menuId);
 
     List<MenuResponseDto> findAllMenusByStore(Long storeId);
 

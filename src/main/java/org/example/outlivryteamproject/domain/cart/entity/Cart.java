@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.example.outlivryteamproject.common.BaseEntity;
 import org.example.outlivryteamproject.domain.menu.entity.Menu;
 import org.example.outlivryteamproject.domain.user.entity.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -49,6 +50,7 @@ public class Cart extends BaseEntity {
         this.active = true;
     }
 
+    @Transactional
     public void increaseQuantity() {
         this.quantity++;
     }

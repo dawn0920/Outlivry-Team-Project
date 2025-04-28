@@ -2,7 +2,6 @@ package org.example.outlivryteamproject.config.aop;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.example.outlivryteamproject.domain.order.dto.responseDto.OrderResponseDto;
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class OrderStatusLoggingAspect {
+public class OrderLogAspect {
 
     @AfterReturning(
             pointcut = "@annotation(org.example.outlivryteamproject.config.aop.annotaion.OrderStatusLogger)",

@@ -8,18 +8,18 @@ import java.time.LocalDateTime;
 @Getter
 public class CreateReviewResponseDto {
 
-    private final Long id;
+    private Long reviewId;
 
-    private final String userNickname;
+    private String userNickname;
 
-    private final String contents;
+    private String contents;
 
-    private final Integer stars;
+    private Integer stars;
 
-    private final LocalDateTime createTime;
+    private LocalDateTime createTime;
 
     public CreateReviewResponseDto(Review review) {
-        this.id = review.getReviewId();
+        this.reviewId = review.getReviewId();
         this.userNickname = review.getUser().getNickname();
         this.contents = review.getContents();
         this.stars = review.getStars();

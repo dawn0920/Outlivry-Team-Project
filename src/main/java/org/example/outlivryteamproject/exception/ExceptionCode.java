@@ -3,16 +3,22 @@ package org.example.outlivryteamproject.exception;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.client.support.HttpAccessor;
 
 @Getter
 @RequiredArgsConstructor
 public enum ExceptionCode implements ErrorCode{
     // auth - 회원가입
     EMAIL_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 존재하는 이메일입니다."),
+    USER_INFO_NOT_FOUND(HttpStatus.NOT_FOUND, "유저 정보를 찾을 수 없습니다."),
+    NAVER_API_ERROR(HttpStatus.BAD_GATEWAY , "NAVER API 통신 오류"),
+    UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR ,"알 수 없는 에러 발생"),
 
     // auth - 로그인
     ACCOUNT_NOT_FOUND(HttpStatus.UNAUTHORIZED, "가입되지 않은 유저입니다."),
     PASSWORD_MISMATCH(HttpStatus.UNAUTHORIZED, "잘봇된 비밀번호입니다."),
+
+
 
     // user - 조회
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다."),
@@ -33,6 +39,8 @@ public enum ExceptionCode implements ErrorCode{
 
     // menu - 조회
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 메뉴를 찾을 수 없습니다."),
+
+    MENU_STORE_MISMATCH(HttpStatus.BAD_REQUEST, "가게에는 해당 메뉴가 없습니다."),
 
     // cart
     CART_ACCESS_DENIED(HttpStatus.FORBIDDEN, "해당 장바구니에 접근할 권한이 없습니다."),

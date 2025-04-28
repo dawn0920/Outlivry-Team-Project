@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.example.outlivryteamproject.domain.order.entity.Order;
 import org.example.outlivryteamproject.domain.order.repository.OrderRepository;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.CreateReviewRequestDto;
-import org.example.outlivryteamproject.domain.review.dto.requestDto.FindByStarsRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.requestDto.UpdateReviewRequestDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.CreateReviewResponseDto;
 import org.example.outlivryteamproject.domain.review.dto.responseDto.FindReviewResponseDto;
@@ -69,14 +68,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Page<FindReviewResponseDto> findByStars(Long storeId, int page, FindByStarsRequestDto requestDto) {
+    public Page<FindReviewResponseDto> findByStars(Long storeId, int page, int start, int end) {
 
         Store findedStore = storeRepository.findByStoreIdOrElseThrow(storeId);
 
         int adjustPage = (page > 0) ? page - 1 : 0;
         PageRequest pageable = PageRequest.of(adjustPage, 10, Sort.by("createTime").descending());
 
-        Page<Review> reviews = reviewRepository.findByStoreAndStarsBetween(findedStore, requestDto.getStart(), requestDto.getEnd(), pageable);
+        Page<Review> reviews = reviewRepository.findByStoreAndStarsBetween(findedStore, start, end, pageable);
 
         return reviews.map(FindReviewResponseDto::new);
 

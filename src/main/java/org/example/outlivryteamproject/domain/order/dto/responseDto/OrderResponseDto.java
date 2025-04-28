@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.example.outlivryteamproject.domain.order.dto.OrderItemConverter;
 import org.example.outlivryteamproject.domain.order.entity.Order;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,9 +18,11 @@ public class OrderResponseDto {
 
     private final List<OrderItemConverter> orderItems;
 
-    private final boolean received;
+    private final boolean isReceived;
 
-    private final boolean delivery;
+    private final boolean isDelivery;
+
+    private final LocalDateTime creatTime;
 
     public OrderResponseDto(Order order) {
         this.storeId = order.getStore().getStoreId();
@@ -28,7 +31,8 @@ public class OrderResponseDto {
         this.orderItems = order.getOrderItems().stream()
                 .map(OrderItemConverter::new)
                 .toList();
-        this.received = order.isReceived();
-        this.delivery = order.isDelivery();
+        this.isReceived = order.isReceived();
+        this.isDelivery = order.isDelivery();
+        this.creatTime = order.getCreateTime();
     }
 }

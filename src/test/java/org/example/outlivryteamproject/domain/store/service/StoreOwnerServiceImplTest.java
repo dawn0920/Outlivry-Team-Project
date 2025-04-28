@@ -1,12 +1,13 @@
 package org.example.outlivryteamproject.domain.store.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 import org.example.outlivryteamproject.common.S3ImageUploader;
 import org.example.outlivryteamproject.domain.store.dto.request.StoreRequestDto;
 import org.example.outlivryteamproject.domain.store.dto.request.UpdateStoreRequestDto;
@@ -15,6 +16,7 @@ import org.example.outlivryteamproject.domain.store.entity.Store;
 import org.example.outlivryteamproject.domain.store.repository.StoreRepository;
 import org.example.outlivryteamproject.domain.user.entity.User;
 import org.example.outlivryteamproject.domain.user.repository.UserRepository;
+import org.example.outlivryteamproject.exception.CustomException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,7 +45,7 @@ class StoreOwnerServiceImplTest {
     void saveStore_success() {
         // Given
         StoreRequestDto requestDto = new StoreRequestDto();
-        requestDto.setStoreName("상호명1");
+        requestDto.setStoreName("테스트 가게");
         requestDto.setStorePicture(mock(MultipartFile.class));
 
         User user = new User();
@@ -58,7 +60,49 @@ class StoreOwnerServiceImplTest {
 
         // Then
         assertThat(storeResponseDto).isNotNull();
-        assertThat(storeResponseDto.getStoreName()).isEqualTo("상호명1");
+        assertThat(storeResponseDto.getStoreName()).isEqualTo("테스트 가게");
+    }
+
+    @Test
+    @DisplayName("중복된 가게 이름은 사용 할 수 없다.")
+    void saveStore_dont_create_same_storeName() {
+        // Given
+        StoreRequestDto requestDto = new StoreRequestDto();
+        requestDto.setStoreName("테스트 가게");
+
+        Long userId = 1L;
+
+        given(storeRepository.existsByStoreName("테스트 가게")).willReturn(true);
+
+        // When
+        CustomException exception = assertThrows(
+            CustomException.class,
+            () -> storeOwnerService.saveStore(requestDto, userId)
+        );
+
+        // Then
+        assertEquals("이미 존재하는 가게 이름입니다.", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("한명의 사장님은 최대 3개의 가게를 생성 가능하다")
+    void saveStore_oneOwner_limit_threeStore() {
+        // Given
+        StoreRequestDto requestDto = new StoreRequestDto();
+        requestDto.setStoreName("4번째 가게");
+
+        Long userId = 1L;
+
+        given(storeRepository.countByUserId(userId)).willReturn(3L);
+
+        // When
+        CustomException exception = assertThrows(
+            CustomException.class,
+            () -> storeOwnerService.saveStore(requestDto, userId)
+        );
+
+        // Then
+        assertEquals("가게는 3개까지 생성 가능 합니다.",exception.getMessage());
     }
 
     @Test
@@ -85,9 +129,37 @@ class StoreOwnerServiceImplTest {
         StoreResponseDto storeResponseDto = storeOwnerService.updateStore(storeId, requestDto,
             user.getId());
         // Then
-
         assertThat(storeResponseDto).isNotNull();
         assertThat(storeResponseDto.getStoreName()).isEqualTo(requestDto.getNewStoreName());
+    }
+
+    @Test
+    @DisplayName("해당 가게의 사장님이 아닙니다.")
+    void updateStore_equals_owner() {
+        // Given
+        UpdateStoreRequestDto requestDto = new UpdateStoreRequestDto();
+
+        Long stroeId = 1L;
+        Long userId = 1L;
+        Long otherUserId = 1L;
+
+        User otherUser = new User();
+        otherUser.setId(otherUserId);
+
+        Store store = new Store();
+        store.setStoreId(stroeId);
+        store.setUser(otherUser);
+
+        given(storeRepository.findByStoreIdOrElseThrow(stroeId)).willReturn(store);
+
+        // When
+        CustomException exception = assertThrows(
+            CustomException.class,
+            () -> storeOwnerService.updateStore(stroeId, requestDto, userId)
+        );
+
+        // Then
+        assertEquals("해당 가게의 사장이 아닙니다.",exception.getMessage());
     }
 
 //    @Test

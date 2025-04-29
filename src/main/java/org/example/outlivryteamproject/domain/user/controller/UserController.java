@@ -27,7 +27,7 @@ public class UserController {
     public ResponseEntity<ApiResponse<UserReponse>> getInfo(
             HttpServletRequest request) {
         UserReponse userReponse = userService.getUser(request);
-        return new ResponseEntity<>(new ApiResponse<>("유저 정보 수정 완료", userReponse), HttpStatus.OK);
+        return new ResponseEntity<>(new ApiResponse<>("유저 정보 조회 완료", userReponse), HttpStatus.OK);
     }
 
     // 유저 정보 수정

@@ -16,8 +16,8 @@ class ReviewRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
-    void 리뷰_아이디로_찾기() {
-
-    }
+//    @Test
+//    void 리뷰_아이디로_찾기() {
+//
+//    }
 }

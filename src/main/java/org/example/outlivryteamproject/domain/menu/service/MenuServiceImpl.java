@@ -44,6 +44,7 @@ public class MenuServiceImpl implements MenuService {
         return new MenuResponseDto(saveMenu);
     }
 
+    @Transactional
     @Override
     @Transactional
     public MenuResponseDto modifiedMenu(Long storeId, Long userId, ModifiedMenuRequestDto modifiedMenuRequestDto, Long menuId) {
@@ -70,6 +71,7 @@ public class MenuServiceImpl implements MenuService {
         return new MenuResponseDto(findMenuById);
     }
 
+    @Transactional
     @Override
     @Transactional
     public void deleteMenu(Long userId, Long storeId, Long menuId) {
@@ -93,6 +95,7 @@ public class MenuServiceImpl implements MenuService {
 //        return new MenuResponseDto(findMenuById);
 //    }
 
+    @Transactional
     @Override
     public List<MenuResponseDto> findAllMenusByStore(Long storeId) {
 

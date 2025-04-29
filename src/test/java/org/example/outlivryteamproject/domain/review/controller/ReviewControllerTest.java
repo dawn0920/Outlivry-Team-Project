@@ -41,10 +41,10 @@ class ReviewControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    ReviewServiceImpl reviewService;
+    private TokenUserId tokenUserId;
 
     @MockitoBean
-    private TokenUserId tokenUserId;
+    ReviewServiceImpl reviewService;
 
     @Test
     void 리뷰_생성_성공_테스트() throws Exception {
@@ -158,19 +158,20 @@ class ReviewControllerTest {
 //        Store store = Mockito.mock(Store.class);
 //        Order order = Mockito.mock(Order.class);
 //
-//        given(user.getId()).willReturn(1L);
-//        given(user.getNickname()).willReturn("nickname");
-//        given(store.getStoreId()).willReturn(1L);
-//
 //        given(review.getReviewId()).willReturn(1L);
 //        given(review.getContents()).willReturn("리뷰 내용");
 //        given(review.getStars()).willReturn(5);
+//        given(store.getStoreId()).willReturn(1L);
 //        given(review.getStore()).willReturn(store);
 //        given(review.getUser()).willReturn(user);
 //        given(review.getOrder()).willReturn(order);
 //
+//        given(user.getNickname()).willReturn("nickname");
+//        given(store.getStoreId()).willReturn(1L);
+//
 //        UpdateReviewRequestDto requestDto = new UpdateReviewRequestDto("수정", 1);
 //        UpdateReviewResponseDto responseDto = new UpdateReviewResponseDto(review);
+//
 //
 //        given(reviewService.update(user.getId(), review.getReviewId(), requestDto))
 //                .willReturn(responseDto);

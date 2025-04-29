@@ -46,6 +46,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Transactional
     @Override
+    @Transactional
     public MenuResponseDto modifiedMenu(Long storeId, Long userId, ModifiedMenuRequestDto modifiedMenuRequestDto, Long menuId) {
 
         Store store = matchesOwner(userId, storeId);
@@ -72,6 +73,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Transactional
     @Override
+    @Transactional
     public void deleteMenu(Long userId, Long storeId, Long menuId) {
 
         Store store = matchesOwner(userId, storeId);

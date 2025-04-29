@@ -74,6 +74,9 @@ public class CartServiceImpl implements CartService{
     public List<FindCartResponseDto> findCart(Long userId) {
 
         List<Cart> carts = cartRepository.findCartByUserId(userId);
+        if(carts == null || carts.isEmpty()){
+            throw new CustomException(ExceptionCode.CART_EMPTY);
+        }
 
         //장바구니 보관 하루 이상이라면 장바구니 삭제
         carts.get(carts.size() - 1).changeActive();

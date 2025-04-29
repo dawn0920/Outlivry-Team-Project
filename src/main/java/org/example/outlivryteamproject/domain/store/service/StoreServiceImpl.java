@@ -54,6 +54,10 @@ public class StoreServiceImpl implements StoreService{
         Store store = storeRepository.findByStoreIdWithMenuListOrElseThrow(storeId);
         Double stars = reviewRepository.findAverageRatingByStoreId(storeId);
 
+        if(stars == null) {
+            stars = 0.0d;
+        }
+
         BigDecimal newStars = new BigDecimal(stars);
         Double starsStore = newStars.setScale(1, RoundingMode.HALF_DOWN).doubleValue();
 
